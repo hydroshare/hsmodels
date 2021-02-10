@@ -1,2 +1,2 @@
-# hschemas
+# hsmodels
 pydantic models for hydroshare metadata

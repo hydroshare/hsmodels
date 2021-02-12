@@ -7,6 +7,7 @@ from hsmodels.schemas.rdf.fields import (
     BandInformationInRDF,
     CellInformationInRDF,
     CoverageInRDF,
+    DescriptionInRDF,
     ExtendedMetadataInRDF,
     FieldInformationInRDF,
     GeometryInformationInRDF,
@@ -15,14 +16,15 @@ from hsmodels.schemas.rdf.fields import (
     RightsInRDF,
     SpatialReferenceInRDF,
     TimeSeriesResultInRDF,
-    VariableInRDF, DescriptionInRDF,
+    VariableInRDF,
 )
 from hsmodels.schemas.rdf.root_validators import (
     parse_coverages,
     parse_rdf_extended_metadata,
     parse_rdf_multidimensional_spatial_reference,
     parse_rdf_spatial_reference,
-    rdf_parse_rdf_subject, rdf_parse_description,
+    rdf_parse_description,
+    rdf_parse_rdf_subject,
 )
 
 

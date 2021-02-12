@@ -1,0 +1,4 @@
+rdflib
+pydantic
+email-validator
+jsonschema2md

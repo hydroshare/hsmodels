@@ -14,5 +14,6 @@ setup(
     license='',
     author='Scott Black',
     author_email='scott.black@usu.edu',
-    description='Pydantic models for HydroShare metadata'
+    description='Pydantic models for HydroShare metadata',
+    python_requires='>=3.6',
 )

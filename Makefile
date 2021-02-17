@@ -13,6 +13,14 @@ install:
 
 .PHONY: docs
 docs:
-	flake8 --max-line-length=80 docs/examples/
-	python docs/build/main.py
+	python docs/generate_model_markdown.py
 	mkdocs build
+
+.PHONY: docs-serve
+docs-serve:
+	python docs/generate_model_markdown.py
+	mkdocs serve
+
+.PHONY: publish-docs
+publish-docs:
+	zip -r site.zip site

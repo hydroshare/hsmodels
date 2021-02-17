@@ -1,90 +1,88 @@
-# Resource Metadata
+# TODO Jeff (title of class)
 
-*A class used to represent the metadata for a resource*
+*TODO Jeff (description of class)*
 
 ## Properties
 
-- **`type`** *(string)*: An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace.
-- **`url`** *(string)*: An object containing the URL for a resource.
-- **`identifier`** *(string)*: An object containing the URL-encoded unique identifier for a resource.
-- **`title`** *(string)*: A string containing the name given to a resource.
-- **`abstract`** *(string)*: A string containing a summary of a resource.
-- **`language`** *(string)*: A 3-character string for the language in which the metadata and content of a resource are expressed.
-- **`subjects`** *(array)*: A list of keyword strings expressing the topic of a resource. Default: `[]`.
+- **`type`** *(string)*: TODO Jeff.
+- **`url`** *(string)*: TODO Jeff.
+- **`identifier`** *(string)*: TODO Jeff.
+- **`title`** *(string)*: TODO Jeff.
+- **`abstract`** *(string)*: TODO Jeff.
+- **`language`** *(string)*: TODO Jeff.
+- **`subjects`** *(array)*: TODO Jeff. Default: `[]`.
     - **Items** *(string)*
-- **`creators`** *(array)*: A list of Creator objects indicating the entities responsible for creating a resource. Default: `[]`.
+- **`creators`** *(array)*: TODO Jeff. Default: `[]`.
     - **Items**: Refer to *#/definitions/Creator*.
-- **`contributors`** *(array)*: A list of Contributor objects indicating the entities that contributed to a resource. Default: `[]`.
+- **`contributors`** *(array)*: TODO Jeff. Default: `[]`.
     - **Items**: Refer to *#/definitions/Contributor*.
-- **`sources`** *(array)*: A list of strings containing references to related resources from which a described resource was derived. Default: `[]`.
+- **`sources`** *(array)*: TODO Jeff. Default: `[]`.
     - **Items** *(string)*
-- **`relations`** *(array)*: A list of Relation objects representing resources related to a described resource. Default: `[]`.
+- **`relations`** *(array)*: TODO Jeff. Default: `[]`.
     - **Items**: Refer to *#/definitions/Relation*.
-- **`additional_metadata`** *(object)*: A dictionary containing key-value pair metadata associated with a resource. Can contain additional properties. Default: `{}`.
-- **`rights`**: An object congaining information about rights held in an over a resource.
-- **`created`** *(string)*: A datetime object containing the instant associated with when a resource was created.
-- **`modified`** *(string)*: A datetime object containing the instant associated with when a resource was last modified.
-- **`published`** *(string)*: A datetime object containing the instant associated with when a resource was published.
-- **`awards`** *(array)*: A list of objects containing information about the funding agencies and awards associated with a resource. Default: `[]`.
+- **`additional_metadata`** *(object)*: TODO Jeff. Can contain additional properties. Default: `{}`.
+- **`rights`**: TODO Jeff.
+- **`created`** *(string)*: TODO Jeff.
+- **`modified`** *(string)*: TODO Jeff.
+- **`published`** *(string)*: TODO Jeff.
+- **`awards`** *(array)*: TODO Jeff. Default: `[]`.
     - **Items**: Refer to *#/definitions/AwardInfo*.
-- **`spatial_coverage`**: An object containing information about the spatial topic of a resource, the spatial applicability of a resource, or jurisdiction under with a resource is relevant.
-- **`period_coverage`**: An object containing information about the temporal topic or applicability of a resource.
-- **`publisher`**: An object containing information about the publisher of a resource.
-- **`citation`** *(string)*: A string containing the biblilographic citation for a resource.
+- **`spatial_coverage`**: TODO Jeff.
+- **`period_coverage`**: TODO Jeff.
+- **`publisher`**: TODO Jeff.
+- **`citation`** *(string)*: TODO Jeff.
 ## Definitions
 
-- **`Creator`** *(object)*: A class used to represent the metadata associated with a creator of a resource.
-    - **`name`** *(string)*: A string containing the name of the creator.
-    - **`phone`** *(string)*: A string containing a phone number for the creator.
-    - **`address`** *(string)*: A string containing an address for the creator.
-    - **`organization`** *(string)*: A string containing the name of the organization with which the creator is affiliated.
-    - **`email`** *(string)*: A string containing an email address for the creator.
-    - **`homepage`** *(string)*: An object containing the URL for website associated with the creator.
-    - **`description`** *(string)*: A string containing a description of the creator.
-    - **`identifiers`** *(object)*: A dictionary containing identifier types and URL links to alternative identiers for the creator. Can contain additional properties. Default: `{}`.
-- **`Contributor`** *(object)*: A class used to represent the metadata associated with a contributor to a resource.
-    - **`name`** *(string)*: A string containing the name of the contributor.
-    - **`phone`** *(string)*: A string containing a phone number for the contributor.
-    - **`address`** *(string)*: A string containing an address for the contributor.
-    - **`organization`** *(string)*: A string containing the name of the organization with which the contributor is affiliated.
-    - **`email`** *(string)*: A string containing an email address for the contributor.
-    - **`homepage`** *(string)*: An object containing the URL for website associated with the contributor.
-    - **`description`** *(string)*: A string containing a description of the contributor.
-    - **`identifiers`** *(object)*: A dictionary containing identifier types and URL links to alternative identiers for the contributor. Can contain additional properties. Default: `{}`.
+- **`Creator`** *(object)*: TODO Jeff (description of class).
+    - **`name`** *(string)*: TODO Jeff.
+    - **`phone`** *(string)*: TODO Jeff.
+    - **`address`** *(string)*: TODO Jeff.
+    - **`organization`** *(string)*: TODO Jeff.
+    - **`email`** *(string)*: TODO Jeff.
+    - **`homepage`** *(string)*: TODO Jeff.
+    - **`description`** *(string)*: TODO Jeff.
+    - **`identifiers`** *(object)*: TODO Jeff. Can contain additional properties. Default: `{}`.
+- **`Contributor`** *(object)*: TODO Jeff (description of class).
+    - **`name`** *(string)*: TODO Jeff.
+    - **`phone`** *(string)*: TODO Jeff.
+    - **`address`** *(string)*: TODO Jeff.
+    - **`organization`** *(string)*: TODO Jeff.
+    - **`email`** *(string)*: TODO Jeff.
+    - **`homepage`** *(string)*: TODO Jeff.
+    - **`description`** *(string)*: TODO Jeff.
+    - **`identifiers`** *(object)*: TODO Jeff. Can contain additional properties. Default: `{}`.
 - **`RelationType`** *(string)*: An enumeration. Must be one of: `['The content of this resource was copied from', 'The content of this resource is part of', 'Has Part', 'The content of this resource can be executed by', 'The content of this resource was created by', 'Version Of', 'Replaced By', 'The content of this resource serves as the data for', 'This resource cites', 'This resource is described by']`.
-- **`Relation`** *(object)*: A class used to represent the metadata associated with a resource related to the resource being described.
-    - **`type`**: The type of relationship with the related resource.
-    - **`value`** *(string)*: String expressing the Full text citation, URL link for, or description of the related resource.
-- **`Rights`** *(object)*: A class used to represent the rights statement metadata associated with a resource.
-    - **`statement`** *(string)*: A string containing the text of the license or rights statement.
-    - **`url`** *(string)*: An object containing the URL pointing to a description of the license or rights statement.
-- **`AwardInfo`** *(object)*: A class used to represent the metadata associated with funding agency credits for a resource.
-    - **`funding_agency_name`** *(string)*: A string containing the name of the funding agency or organization.
-    - **`title`** *(string)*: A string containing the title of the project or award.
-    - **`number`** *(string)*: A string containing the award number or other identifier.
-    - **`funding_agency_url`** *(string)*: An object containing a URL pointing to a website describing the funding award.
-- **`PointCoverage`** *(object)*: A class used to represent geographic coverage metadata for a resource or aggregation expressed as a
-point location.
-    - **`type`** *(string)*: A string containing the type of geographic coverage.
-    - **`name`** *(string)*: A string containing a name for the place associated with the geographic coverage.
-    - **`east`** *(number)*: The coordinate of the point location measured in the east direction.
-    - **`north`** *(number)*: The coordinate of the point location measured in the north direction.
-    - **`units`** *(string)*: The units applying to the unlabelled numeric values of north and east.
-    - **`projection`** *(string)*: The name of the projection used with any parameters required, such as ellipsoid parameters, datum, standard parallels and meridians, zone, etc.
-- **`BoxCoverage`** *(object)*: A class used to represent geographic coverage metadata for a resource or aggregation expressed as a
-latitude-longitude bounding box.
-    - **`type`** *(string)*: A string containing the type of geographic coverage.
-    - **`name`** *(string)*: A string containing a name for the place associated with the geographic coverage.
-    - **`northlimit`** *(number)*: A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box.
-    - **`eastlimit`** *(number)*: A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box.
-    - **`southlimit`** *(number)*: A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box.
-    - **`westlimit`** *(number)*: A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box.
-    - **`units`** *(string)*: A string containing the units applying to the unlabelled numeric values of northlimit, eastlimit, southlimit, and westlimit.
-    - **`projection`** *(string)*: A string containing the name of the projection used with any parameters required, such as ellipsoid parameters, datum, standard parallels and meridians, zone, etc.
-- **`PeriodCoverage`** *(object)*: A class used to represent temporal coverage metadata for a resource or aggregation.
-    - **`name`** *(string)*: A string containing a name for the time interval.
-    - **`start`** *(string)*: A datetime object containing the instant corresponding to the commencement of the time interval.
-    - **`end`** *(string)*: A datetime object containing the instant corresponding to the termination of the time interval.
-- **`Publisher`** *(object)*: A class used to represent the metadata associated with the publisher of a resource.
-    - **`name`** *(string)*: A string containing the name of the publisher.
-    - **`url`** *(string)*: An object containing a URL that points to the publisher website.
+- **`Relation`** *(object)*: TODO Jeff (description of class).
+    - **`type`**: TODO Jeff.
+    - **`value`** *(string)*: TODO Jeff.
+- **`Rights`** *(object)*: TODO Jeff (description of class).
+    - **`statement`** *(string)*: TODO Jeff.
+    - **`url`** *(string)*: TODO Jeff.
+- **`AwardInfo`** *(object)*: TODO Jeff (description of class).
+    - **`funding_agency_name`** *(string)*: TODO Jeff.
+    - **`title`** *(string)*: TODO Jeff.
+    - **`number`** *(string)*: TODO Jeff.
+    - **`funding_agency_url`** *(string)*: TODO Jeff.
+- **`PointCoverage`** *(object)*: TODO Jeff (description of class).
+    - **`type`** *(string)*: TODO Jeff.
+    - **`name`** *(string)*: TODO Jeff.
+    - **`east`** *(number)*: TODO Jeff.
+    - **`north`** *(number)*: TODO Jeff.
+    - **`units`** *(string)*: TODO Jeff.
+    - **`projection`** *(string)*: TODO Jeff.
+- **`BoxCoverage`** *(object)*: TODO Jeff (description of class).
+    - **`type`** *(string)*: TODO Jeff.
+    - **`name`** *(string)*: TODO Jeff.
+    - **`northlimit`** *(number)*: TODO Jeff.
+    - **`eastlimit`** *(number)*: TODO Jeff.
+    - **`southlimit`** *(number)*: TODO Jeff.
+    - **`westlimit`** *(number)*: TODO Jeff.
+    - **`units`** *(string)*: TODO Jeff.
+    - **`projection`** *(string)*: TODO Jeff.
+- **`PeriodCoverage`** *(object)*: TODO Jeff (description of class).
+    - **`name`** *(string)*: TODO Jeff.
+    - **`start`** *(string)*: TODO Jeff.
+    - **`end`** *(string)*: TODO Jeff.
+- **`Publisher`** *(object)*: TODO Jeff (description of class).
+    - **`name`** *(string)*: TODO Jeff.
+    - **`url`** *(string)*: TODO Jeff.

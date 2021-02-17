@@ -1,3 +1,4 @@
+import os
 import jsonschema2md
 import json
 
@@ -12,7 +13,8 @@ def write_md(model):
     parser.tab_size = 4
     md_lines = parser.parse_schema(json.loads(sj_rm))
 
-    with open(f"{model.__name__}.md", "w") as f:
+    filename = model.__name__ + ".md"
+    with open(os.path.join("docs", filename), "w") as f:
         f.writelines(md_lines)
 
 

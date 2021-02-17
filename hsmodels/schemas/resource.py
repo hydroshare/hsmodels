@@ -83,7 +83,7 @@ class ResourceMetadata(BaseMetadata):
         description="A dictionary containing key-value pair metadata associated with a resource",
     )
     rights: Rights = Field(
-        title="Rights", description="An object congaining information about rights held in an over a resource"
+        title="Rights", description="An object containing information about rights held in an over a resource"
     )
     created: datetime = Field(
         default_factory=datetime.now,

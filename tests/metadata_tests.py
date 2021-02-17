@@ -53,6 +53,8 @@ metadata_files = [
     'geographicfeature_meta.xml',
     'timeseries_meta.xml',
 ]
+
+
 @pytest.mark.parametrize("metadata_file", metadata_files)
 def test_resource_serialization(metadata_file):
     metadata_file = os.path.join('data', 'metadata', metadata_file)

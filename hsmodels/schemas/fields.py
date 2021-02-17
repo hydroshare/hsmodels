@@ -5,7 +5,6 @@ from pydantic import AnyUrl, BaseModel, EmailStr, Field, HttpUrl, root_validator
 
 from hsmodels.schemas import base_models
 from hsmodels.schemas.enums import RelationType, UserIdentifierType, VariableType
-from hsmodels.schemas.json_models import User
 from hsmodels.schemas.root_validators import group_user_identifiers, parse_relation
 from hsmodels.schemas.validators import validate_user_url
 
@@ -168,7 +167,7 @@ class Creator(BaseModel):
     _split_identifiers = root_validator(pre=True, allow_reuse=True)(group_user_identifiers)
 
     @classmethod
-    def from_user(cls, user: User):
+    def from_user(cls, user):
         user_dict = user.dict()
         user_dict["description"] = user.url.path
         if user.website:
@@ -232,7 +231,7 @@ class Contributor(BaseModel):
     _split_identifiers = root_validator(pre=True, allow_reuse=True)(group_user_identifiers)
 
     @classmethod
-    def from_user(cls, user: User):
+    def from_user(cls, user):
         """
         Constructs a Contributor from a User object
         :param user: a User

@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 
 import pytest
@@ -10,8 +11,15 @@ from hsmodels.schemas.fields import BoxCoverage, Creator, PeriodCoverage, Rights
 from hsmodels.schemas.rdf.fields import DateInRDF, ExtendedMetadataInRDF
 
 
+@pytest.fixture(scope="function")
+def change_test_dir(request):
+    os.chdir(request.fspath.dirname)
+    yield
+    os.chdir(request.config.invocation_dir)
+
+
 @pytest.fixture()
-def res_md():
+def res_md(change_test_dir):
     with open("data/metadata/resourcemetadata.xml", 'r') as f:
         return load_rdf(f.read())
 

@@ -24,3 +24,7 @@ docs-serve:
 .PHONY: publish-docs
 publish-docs:
 	zip -r site.zip site
+
+.PHONY: test
+test:
+	pytest tests

@@ -1,7 +1,7 @@
 import pathlib
 from setuptools import setup, find_packages
 
-README = (pathlib.Path(__file__).parent / "README.md").read_text()
+README = 'blah'# (pathlib.Path(__file__).parent / "README.md").read_text()
 
 setup(
     name='hsmodels',
@@ -20,7 +20,8 @@ setup(
     description='Pydantic models for HydroShare metadata',
     python_requires='>=3.6',
     long_description=README,
-    long_description_content_type="text/markdown",classifiers=[
+    long_description_content_type="text/markdown",
+    classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",

@@ -185,6 +185,46 @@ def test_contributor_readonly():
         assert '"description" has allow_mutation set to False and cannot be assigned' in str(e)
 
 
+def test_resource_created_readonly(res_md):
+    try:
+        res_md.created = datetime.now()
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"created" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_resource_modified_readonly(res_md):
+    try:
+        res_md.modified = datetime.now()
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"modified" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_resource_published_readonly(res_md):
+    try:
+        res_md.published = datetime.now()
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"published" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_resource_type_readonly(res_md):
+    try:
+        res_md.type = "http://www.hydroshare.org/"
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"type" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_resource_identifier_readonly(res_md):
+    try:
+        res_md.identifier = "identifier"
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"identifier" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
 metadata_files = [
     'geographicraster_meta.xml',
     'fileset_meta.xml',

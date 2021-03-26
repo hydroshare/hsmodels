@@ -39,12 +39,14 @@ class ResourceMetadata(BaseMetadata):
         default="CompositeResource",
         title="Resource Type",
         description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
+        allow_mutation=False
     )
 
-    url: AnyUrl = Field(title="URL", description="An object containing the URL for a resource")
+    url: AnyUrl = Field(title="URL", description="An object containing the URL for a resource", allow_mutation=False)
 
     identifier: AnyUrl = Field(
-        title="Identifier", description="An object containing the URL-encoded unique identifier for a resource"
+        title="Identifier", description="An object containing the URL-encoded unique identifier for a resource",
+        allow_mutation=False
     )
     title: str = Field(
         max_length=300, default=None, title="Title", description="A string containing the name given to a resource"
@@ -89,16 +91,19 @@ class ResourceMetadata(BaseMetadata):
         default_factory=datetime.now,
         title="Creation date",
         description="A datetime object containing the instant associated with when a resource was created",
+        allow_mutation=False
     )
     modified: datetime = Field(
         default_factory=datetime.now,
         title="Modified date",
         description="A datetime object containing the instant associated with when a resource was last modified",
+        allow_mutation=False
     )
     published: datetime = Field(
         default=None,
         title="Published date",
         description="A datetime object containing the instant associated with when a resource was published",
+        allow_mutation=False
     )
     awards: List[AwardInfo] = Field(
         default=[],

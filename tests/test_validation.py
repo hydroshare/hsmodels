@@ -7,7 +7,7 @@ from pydantic.error_wrappers import ValidationError
 from hsmodels.namespaces import DCTERMS
 from hsmodels.schemas import load_rdf
 from hsmodels.schemas.enums import DateType, VariableType, AggregationType
-from hsmodels.schemas.fields import BoxCoverage, Creator, PeriodCoverage, Rights, Variable
+from hsmodels.schemas.fields import BoxCoverage, Creator, PeriodCoverage, Rights, Variable, Contributor
 from hsmodels.schemas.rdf.fields import DateInRDF, ExtendedMetadataInRDF
 
 
@@ -171,6 +171,15 @@ def test_creator_readonly():
     creator = Creator(description="/user/5/")
     try:
         creator.description = "/user/6/"
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"description" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_contributor_readonly():
+    contributor = Contributor(description="/user/5/")
+    try:
+        contributor.description = "/user/6/"
         assert False, "Should have thrown error"
     except TypeError as e:
         assert '"description" has allow_mutation set to False and cannot be assigned' in str(e)

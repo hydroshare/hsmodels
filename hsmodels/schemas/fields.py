@@ -178,15 +178,6 @@ class Creator(BaseMetadata):
         return Creator(**user_dict)
 
 
-class Author(Creator):
-    """
-    A class used to represent the metadata associated with an author of a resource
-    """
-
-    class Config:
-        title = 'Author Metadata'
-
-
 class Contributor(BaseMetadata):
     """
     A class used to represent the metadata associated with a contributor to a resource

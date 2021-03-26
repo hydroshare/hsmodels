@@ -155,8 +155,11 @@ class Creator(BaseMetadata):
     )
     # TODO: Is there such a thing as a "description" property for Creator?
     description: str = Field(
-        max_length=50, default=None, title="Description",
-        description="A string containing the path to the hydroshare profile", allow_mutation=False
+        max_length=50,
+        default=None,
+        title="Description",
+        description="A string containing the path to the hydroshare profile",
+        allow_mutation=False,
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
@@ -211,7 +214,7 @@ class Contributor(BaseMetadata):
         default=None,
         title="Description",
         description="A string containing the path to the hydroshare profile",
-        allow_mutation=False
+        allow_mutation=False,
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
@@ -683,7 +686,7 @@ class BoxCoverage(base_models.BaseCoverage):
         const=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
-        allow_mutation=False
+        allow_mutation=False,
     )
     name: str = Field(
         default=None,
@@ -746,7 +749,7 @@ class BoxSpatialReference(base_models.BaseCoverage):
         const=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
-        allow_mutation=False
+        allow_mutation=False,
     )
     name: str = Field(
         default=None,

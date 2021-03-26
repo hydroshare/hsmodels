@@ -6,8 +6,8 @@ from pydantic.error_wrappers import ValidationError
 
 from hsmodels.namespaces import DCTERMS
 from hsmodels.schemas import load_rdf
-from hsmodels.schemas.enums import DateType, VariableType, AggregationType
-from hsmodels.schemas.fields import BoxCoverage, Creator, PeriodCoverage, Rights, Variable, Contributor
+from hsmodels.schemas.enums import AggregationType, DateType, VariableType
+from hsmodels.schemas.fields import BoxCoverage, Contributor, Creator, PeriodCoverage, Rights, Variable
 from hsmodels.schemas.rdf.fields import DateInRDF, ExtendedMetadataInRDF
 
 

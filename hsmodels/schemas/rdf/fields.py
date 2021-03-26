@@ -23,7 +23,7 @@ from hsmodels.schemas.fields import (
     UTCOffSet,
     Variable,
 )
-from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, split_user_identifiers, rdf_parse_utc_offset
+from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, rdf_parse_utc_offset, split_user_identifiers
 
 
 class RDFBaseModel(BaseModel):

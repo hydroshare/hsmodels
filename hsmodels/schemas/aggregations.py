@@ -26,7 +26,7 @@ from hsmodels.schemas.validators import parse_multidimensional_spatial_reference
 
 
 class BaseAggregationMetadata(BaseMetadata):
-    url: AnyUrl = Field(title="Resource URL", description="An object containing the URL of the resource")
+    url: AnyUrl = Field(title="Resource URL", description="An object containing the URL of the resource", allow_mutation=False)
     title: str = Field(title="Resource title", description="A string containing a descriptive title for the resource")
     subjects: List[str] = Field(
         default=[],
@@ -82,6 +82,7 @@ class GeographicRasterMetadata(BaseAggregationMetadata):
         default=AggregationType.GeographicRasterAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False
     )
 
     band_information: BandInformation = Field(
@@ -117,6 +118,7 @@ class GeographicFeatureMetadata(BaseAggregationMetadata):
         default=AggregationType.GeographicFeatureAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False
     )
 
     field_information: List[FieldInformation] = Field(
@@ -153,6 +155,7 @@ class MultidimensionalMetadata(BaseAggregationMetadata):
         default=AggregationType.MultidimensionalAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False
     )
 
     variables: List[Variable] = Field(
@@ -187,6 +190,7 @@ class ReferencedTimeSeriesMetadata(BaseAggregationMetadata):
         default=AggregationType.ReferencedTimeSeriesAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False
     )
 
 
@@ -207,6 +211,7 @@ class FileSetMetadata(BaseAggregationMetadata):
         default=AggregationType.FileSetAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False
     )
 
 
@@ -226,6 +231,7 @@ class SingleFileMetadata(BaseAggregationMetadata):
         default=AggregationType.SingleFileAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False
     )
 
 
@@ -248,6 +254,7 @@ class TimeSeriesMetadata(BaseAggregationMetadata):
         default=AggregationType.TimeSeriesAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False
     )
 
     time_series_results: List[TimeSeriesResult] = Field(

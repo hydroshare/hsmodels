@@ -5,12 +5,12 @@ README = 'blah'# (pathlib.Path(__file__).parent / "README.md").read_text()
 
 setup(
     name='hsmodels',
-    version='0.1.1',
+    version='0.1.2',
     packages=find_packages(include=['hsmodels', 'hsmodels.*', 'hsmodels.schemas.*', 'hsmodels.schemas.rdf.*'],
                            exclude=("tests",)),
     install_requires=[
         'rdflib',
-        'pydantic',
+        'pydantic==1.8.1',
         'email-validator'
     ],
     url='https://github.com/hydroshare/hsmodels',

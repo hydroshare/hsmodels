@@ -28,3 +28,7 @@ publish-docs:
 .PHONY: test
 test:
 	pytest tests
+
+.PHONY: test-cov
+test-cov:
+	pytest --cov=hsmodels --cov-report html

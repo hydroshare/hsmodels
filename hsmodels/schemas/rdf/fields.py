@@ -23,7 +23,7 @@ from hsmodels.schemas.fields import (
     UTCOffSet,
     Variable,
 )
-from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, split_user_identifiers
+from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, rdf_parse_utc_offset, split_user_identifiers
 
 
 class RDFBaseModel(BaseModel):
@@ -300,6 +300,8 @@ class TimeSeriesResultInRDF(TimeSeriesResult, RDFBaseModel):
             'status': {"rdf_predicate": HSTERMS.Status},
             'sample_medium': {"rdf_predicate": HSTERMS.SampleMedium},
             'value_count': {"rdf_predicate": HSTERMS.ValueCount},
-            'aggregation_statistics': {"rdf_predicate": HSTERMS.AggregationStatistic},
+            'aggregation_statistic': {"rdf_predicate": HSTERMS.AggregationStatistic},
             'series_label': {"rdf_predicate": HSTERMS.SeriesLabel},
         }
+
+    _parse_utc_offset = root_validator(pre=True)(rdf_parse_utc_offset)

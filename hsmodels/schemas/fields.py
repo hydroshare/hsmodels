@@ -1,15 +1,16 @@
 from datetime import datetime
 from typing import Dict
 
-from pydantic import AnyUrl, BaseModel, EmailStr, Field, HttpUrl, root_validator, validator
+from pydantic import AnyUrl, EmailStr, Field, HttpUrl, root_validator, validator
 
 from hsmodels.schemas import base_models
+from hsmodels.schemas.base_models import BaseMetadata
 from hsmodels.schemas.enums import RelationType, UserIdentifierType, VariableType
-from hsmodels.schemas.root_validators import group_user_identifiers, parse_relation
+from hsmodels.schemas.root_validators import group_user_identifiers, parse_relation, parse_utc_offset_value
 from hsmodels.schemas.validators import validate_user_url
 
 
-class Relation(BaseModel):
+class Relation(BaseMetadata):
     """
     A class used to represent the metadata associated with a resource related to the resource being described
     """
@@ -27,7 +28,7 @@ class Relation(BaseModel):
     _parse_relation = root_validator(pre=True)(parse_relation)
 
 
-class CellInformation(BaseModel):
+class CellInformation(BaseMetadata):
     """
     A class used to represent the metadata associated with raster grid cells in geographic raster aggregations
     """
@@ -56,7 +57,7 @@ class CellInformation(BaseModel):
     )
 
 
-class Rights(BaseModel):
+class Rights(BaseMetadata):
     """
     A class used to represent the rights statement metadata associated with a resource
     """
@@ -121,7 +122,7 @@ class Rights(BaseModel):
         return Rights(statement=statement, url=url)
 
 
-class Creator(BaseModel):
+class Creator(BaseMetadata):
     """
     A class used to represent the metadata associated with a creator of a resource
     """
@@ -154,12 +155,16 @@ class Creator(BaseModel):
     )
     # TODO: Is there such a thing as a "description" property for Creator?
     description: str = Field(
-        max_length=50, default=None, title="Description", description="A string containing a description of the creator"
+        max_length=50,
+        default=None,
+        title="Description",
+        description="A string containing the path to the hydroshare profile",
+        allow_mutation=False,
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
         title="Creator identifiers",
-        description="A dictionary containing identifier types and URL links to alternative identiers for the creator",
+        description="A dictionary containing identifier types and URL links to alternative identifiers for the creator",
     )
 
     _description_validator = validator("description", pre=True)(validate_user_url)
@@ -176,18 +181,7 @@ class Creator(BaseModel):
         return Creator(**user_dict)
 
 
-class Author(Creator):
-    """
-    A class used to represent the metadata associated with an author of a resource
-    """
-
-    class Config:
-        title = 'Author Metadata'
-
-    pass
-
-
-class Contributor(BaseModel):
+class Contributor(BaseMetadata):
     """
     A class used to represent the metadata associated with a contributor to a resource
     """
@@ -215,12 +209,12 @@ class Contributor(BaseModel):
         title="Homepage",
         description="An object containing the URL for website associated with the contributor",
     )
-    # TODO: is there such a thing as a "description" property for contributor?
     description: str = Field(
         max_length=50,
         default=None,
         title="Description",
-        description="A string containing a description of the contributor",
+        description="A string containing the path to the hydroshare profile",
+        allow_mutation=False,
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
@@ -245,7 +239,7 @@ class Contributor(BaseModel):
         return Contributor(**user_dict)
 
 
-class AwardInfo(BaseModel):
+class AwardInfo(BaseMetadata):
     """
     A class used to represent the metadata associated with funding agency credits for a resource
     """
@@ -269,7 +263,7 @@ class AwardInfo(BaseModel):
     )
 
 
-class BandInformation(BaseModel):
+class BandInformation(BaseMetadata):
     """
     A class used to represent the metadata associated with the raster bands of a geographic raster aggregation
     """
@@ -315,7 +309,7 @@ class BandInformation(BaseModel):
     )
 
 
-class FieldInformation(BaseModel):
+class FieldInformation(BaseMetadata):
     """
     A class used to represent the metadata associated with a field in the attribute table for a geographic
     feature aggregation
@@ -348,7 +342,7 @@ class FieldInformation(BaseModel):
     )
 
 
-class GeometryInformation(BaseModel):
+class GeometryInformation(BaseMetadata):
     """
     A class used to represent the metadata associated with the geometry of a geographic feature aggregation
     """
@@ -368,7 +362,7 @@ class GeometryInformation(BaseModel):
     )
 
 
-class Variable(BaseModel):
+class Variable(BaseMetadata):
     """
     A class used to represent the metadata associated with a variable contained within a multidimensional aggregation
     """
@@ -409,7 +403,7 @@ class Variable(BaseModel):
     )
 
 
-class Publisher(BaseModel):
+class Publisher(BaseMetadata):
     """
     A class used to represent the metadata associated with the publisher of a resource
     """
@@ -425,7 +419,7 @@ class Publisher(BaseModel):
     )
 
 
-class TimeSeriesVariable(BaseModel):
+class TimeSeriesVariable(BaseMetadata):
     """
     A class used to represent the metadata associated with a variable contained within a time series aggregation
     """
@@ -448,6 +442,7 @@ class TimeSeriesVariable(BaseModel):
     )
     # TODO: The NoData value for a variable in an ODM2 database is not always an integer.
     #  It could be a floating point value. We might want to change this to a string or a floating point value
+    #  It is an integer in the HydroShare database, so will have to be updated there as well if changed
     no_data_value: int = Field(title="NoData value", description="The NoData value for the variable")
     variable_definition: str = Field(
         default=None,
@@ -463,7 +458,7 @@ class TimeSeriesVariable(BaseModel):
     )
 
 
-class TimeSeriesSite(BaseModel):
+class TimeSeriesSite(BaseMetadata):
     """
     A class used to represent the metadata associated with a site contained within a time series aggregation
     """
@@ -508,7 +503,7 @@ class TimeSeriesSite(BaseModel):
     )
 
 
-class TimeSeriesMethod(BaseModel):
+class TimeSeriesMethod(BaseMetadata):
     """
     A class used to represent the metadata associated with a method contained within a time series aggregation
     """
@@ -539,7 +534,7 @@ class TimeSeriesMethod(BaseModel):
     )
 
 
-class ProcessingLevel(BaseModel):
+class ProcessingLevel(BaseMetadata):
     """
     A class used to represent the metadata associated with a processing level contained within a time series
     aggregation
@@ -566,7 +561,7 @@ class ProcessingLevel(BaseModel):
     )
 
 
-class Unit(BaseModel):
+class Unit(BaseMetadata):
     """
     A class used to represent the metadata associated with a dimensional unit within a time series aggregation
     """
@@ -591,7 +586,7 @@ class Unit(BaseModel):
     )
 
 
-class UTCOffSet(BaseModel):
+class UTCOffSet(BaseMetadata):
     """
     A class used to represent the metadata associated with a UTC time offset within a time series aggregation)
     """
@@ -606,7 +601,7 @@ class UTCOffSet(BaseModel):
     )
 
 
-class TimeSeriesResult(BaseModel):
+class TimeSeriesResult(BaseMetadata):
     """
     A class used to represent the metadata associated with a time series result within a time series aggregation
     """
@@ -639,13 +634,14 @@ class TimeSeriesResult(BaseModel):
         title="Value count",
         description="An integer value containing the number of data values contained within the time series result",
     )
-    # TODO: "aggregation_statistic" should be singular
-    aggregation_statistics: str = Field(
+    aggregation_statistic: str = Field(
         max_length=255,
         title="Aggregation statistic",
         description="A string containing the aggregation statistic associated with the values of the time series result chosen from the ODM2 Aggregation Statistic controlled vocabulary",
     )
     # TODO: Not sure what "series_label" is. It's not an ODM2 thing
+    # in HydroShare it is generated with this format
+    # label = "{site_code}:{site_name}, {variable_code}:{variable_name}, {units_name}, {pro_level_code}, {method_name}"
     series_label: str = Field(
         default=None,
         max_length=255,
@@ -668,12 +664,12 @@ class TimeSeriesResult(BaseModel):
         title="Processing level",
         description="An object containing metadata about the processing level or level of quality control to which the time series result values have been subjected",
     )
-    # TODO: Does "UTCOffset" really need to be an object given that it's just a floating point value?
-    utc_offset: UTCOffSet = Field(
+    utc_offset: float = Field(
         default=None,
         title="UTC Offset",
-        description="An object containing a floating point value that represents the time offset from UTC time in hours associated with the time series result value timestamps",
+        description="A floating point value that represents the time offset from UTC time in hours associated with the time series result value timestamps",
     )
+    _parse_utc_offset = root_validator(pre=True, allow_reuse=True)(parse_utc_offset_value)
 
 
 class BoxCoverage(base_models.BaseCoverage):
@@ -690,6 +686,7 @@ class BoxCoverage(base_models.BaseCoverage):
         const=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
+        allow_mutation=False,
     )
     name: str = Field(
         default=None,
@@ -752,6 +749,7 @@ class BoxSpatialReference(base_models.BaseCoverage):
         const=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
+        allow_mutation=False,
     )
     name: str = Field(
         default=None,

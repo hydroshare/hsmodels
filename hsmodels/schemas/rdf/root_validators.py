@@ -57,6 +57,13 @@ def rdf_parse_description(cls, values):
     return values
 
 
+def rdf_parse_utc_offset(cls, values):
+    if "value" in values:
+        values["utc_offset"] = {"value": values["value"]}
+        del values["value"]
+    return values
+
+
 def rdf_parse_rdf_subject(cls, values):
     if "url" in values:
         values["rdf_subject"] = URIRef(values["url"])

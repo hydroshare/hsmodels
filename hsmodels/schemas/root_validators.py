@@ -59,6 +59,15 @@ def parse_abstract(cls, values):
     return values
 
 
+def parse_utc_offset_value(cls, values):
+    if "utc_offset" in values:
+        value = values["utc_offset"]
+        if isinstance(value, dict) and "value" in value:
+            values["value"] = value["value"]
+            del values["utc_offset"]
+    return values
+
+
 def parse_url(cls, values):
     if "rdf_subject" in values:
         value = values["rdf_subject"]

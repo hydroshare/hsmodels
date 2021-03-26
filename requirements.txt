@@ -1,6 +1,8 @@
 rdflib
-pydantic
+pydantic==1.8.1
 email-validator
 jsonschema2md
 black
 isort
+pytest-xdist
+pytest-cov

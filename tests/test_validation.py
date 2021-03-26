@@ -6,8 +6,8 @@ from pydantic.error_wrappers import ValidationError
 
 from hsmodels.namespaces import DCTERMS
 from hsmodels.schemas import load_rdf
-from hsmodels.schemas.enums import DateType, VariableType
-from hsmodels.schemas.fields import BoxCoverage, Creator, PeriodCoverage, Rights, Variable
+from hsmodels.schemas.enums import AggregationType, DateType, VariableType
+from hsmodels.schemas.fields import BoxCoverage, Contributor, Creator, PeriodCoverage, Rights, Variable
 from hsmodels.schemas.rdf.fields import DateInRDF, ExtendedMetadataInRDF
 
 
@@ -165,3 +165,94 @@ def test_invalid_email():
         assert False, "Should have thrown error"
     except ValueError as e:
         assert "value is not a valid email address" in str(e)
+
+
+def test_creator_readonly():
+    creator = Creator(description="/user/5/")
+    try:
+        creator.description = "/user/6/"
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"description" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_contributor_readonly():
+    contributor = Contributor(description="/user/5/")
+    try:
+        contributor.description = "/user/6/"
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"description" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_resource_created_readonly(res_md):
+    try:
+        res_md.created = datetime.now()
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"created" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_resource_modified_readonly(res_md):
+    try:
+        res_md.modified = datetime.now()
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"modified" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_resource_published_readonly(res_md):
+    try:
+        res_md.published = datetime.now()
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"published" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_resource_type_readonly(res_md):
+    try:
+        res_md.type = "http://www.hydroshare.org/"
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"type" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+def test_resource_identifier_readonly(res_md):
+    try:
+        res_md.identifier = "identifier"
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"identifier" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+metadata_files = [
+    'geographicraster_meta.xml',
+    'fileset_meta.xml',
+    'referencedtimeseries.refts_meta.xml',
+    'multidimensional_meta.xml',
+    'singlefile_meta.xml',
+    'geographicfeature_meta.xml',
+    'timeseries_meta.xml',
+]
+
+
+@pytest.mark.parametrize("metadata_file", metadata_files)
+def test_aggregation_url_readonly(change_test_dir, metadata_file):
+    with open(f"data/metadata/{metadata_file}", 'r') as f:
+        md = load_rdf(f.read())
+    try:
+        md.url = "changed"
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"url" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
+@pytest.mark.parametrize("metadata_file", metadata_files)
+def test_aggregation_type_readonly(change_test_dir, metadata_file):
+    with open(f"data/metadata/{metadata_file}", 'r') as f:
+        md = load_rdf(f.read())
+    try:
+        md.type = AggregationType.TimeSeriesAggregation
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"type" has allow_mutation set to False and cannot be assigned' in str(e)

@@ -4,3 +4,5 @@ email-validator
 jsonschema2md
 black
 isort
+pytest-xdist
+pytest-cov

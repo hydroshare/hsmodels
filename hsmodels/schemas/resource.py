@@ -34,9 +34,9 @@ class ResourceMetadata(BaseMetadata):
     class Config:
         title = 'Resource Metadata'
 
-    type: AnyUrl = Field(
+    type: str = Field(
         const=True,
-        default="https://www.hydroshare.org/terms/CompositeResource/",
+        default="CompositeResource",
         title="Resource Type",
         description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
         allow_mutation=False,

@@ -118,7 +118,7 @@ class Rights(BaseMetadata):
         )
 
     @classmethod
-    def Other(cls, statement: str, url: EmailStr):
+    def Other(cls, statement: str, url: AnyUrl):
         return Rights(statement=statement, url=url)
 
 

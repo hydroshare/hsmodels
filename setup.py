@@ -5,7 +5,7 @@ README = 'blah'# (pathlib.Path(__file__).parent / "README.md").read_text()
 
 setup(
     name='hsmodels',
-    version='0.1.2',
+    version='0.1.3',
     packages=find_packages(include=['hsmodels', 'hsmodels.*', 'hsmodels.schemas.*', 'hsmodels.schemas.rdf.*'],
                            exclude=("tests",)),
     install_requires=[

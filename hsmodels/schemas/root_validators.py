@@ -3,38 +3,30 @@ from hsmodels.utils import to_coverage_dict
 
 
 def split_dates(cls, values):
-    if "created" in values:
-        return values
-
-    assert "dates" in values
-
-    for date in values['dates']:
-        if date['type'] == DateType.created:
-            values["created"] = date['value']
-        elif date['type'] == DateType.modified:
-            values["modified"] = date['value']
-        elif date['type'] == DateType.published:
-            values["published"] = date['value']
-    del values["dates"]
+    if "dates" in values:
+        for date in values['dates']:
+            if date['type'] == DateType.created:
+                values["created"] = date['value']
+            elif date['type'] == DateType.modified:
+                values["modified"] = date['value']
+            elif date['type'] == DateType.published:
+                values["published"] = date['value']
+        del values["dates"]
     return values
 
 
 def split_coverages(cls, values):
     from hsmodels.schemas.fields import BoxCoverage, PeriodCoverage, PointCoverage
 
-    if "spatial_coverage" in values or "period_coverage" in values:
-        return values
-
-    assert "coverages" in values
-
-    for coverage in values['coverages']:
-        if coverage['type'] == CoverageType.period:
-            values["period_coverage"] = PeriodCoverage(**to_coverage_dict(coverage['value']))
-        elif coverage['type'] == CoverageType.box:
-            values["spatial_coverage"] = BoxCoverage(**to_coverage_dict(coverage['value']))
-        elif coverage['type'] == CoverageType.point:
-            values["spatial_coverage"] = PointCoverage(**to_coverage_dict(coverage['value']))
-    del values["coverages"]
+    if "coverages" in values:
+        for coverage in values['coverages']:
+            if coverage['type'] == CoverageType.period:
+                values["period_coverage"] = PeriodCoverage(**to_coverage_dict(coverage['value']))
+            elif coverage['type'] == CoverageType.box:
+                values["spatial_coverage"] = BoxCoverage(**to_coverage_dict(coverage['value']))
+            elif coverage['type'] == CoverageType.point:
+                values["spatial_coverage"] = PointCoverage(**to_coverage_dict(coverage['value']))
+        del values["coverages"]
     return values
 
 

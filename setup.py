@@ -4,18 +4,18 @@ README = 'TODO'# (pathlib.Path(__file__).parent / "README.md").read_text()
 
 setup(
     name='hsmodels',
-    version='0.1.5',
+    version='0.1.6',
     packages=find_packages(include=['hsmodels', 'hsmodels.*', 'hsmodels.schemas.*', 'hsmodels.schemas.rdf.*'],
                            exclude=("tests",)),
     install_requires=[
-        'rdflib',
+        'rdflib<6.0.0',
         'pydantic==1.8.1',
         'email-validator'
     ],
     url='https://github.com/hydroshare/hsmodels',
     license='MIT',
     author='Scott Black',
-    author_email='scott.black@usu.edu',
+    author_email='sblack@cuahsi.org',
     description='Pydantic models for HydroShare metadata',
     python_requires='>=3.6',
     long_description=README,

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Any, Dict, Type
 
 from pydantic import BaseModel
 
@@ -6,6 +7,20 @@ from pydantic import BaseModel
 class BaseMetadata(BaseModel):
     class Config:
         validate_assignment = True
+
+        @staticmethod
+        def schema_extra(schema: Dict[str, Any], model) -> None:
+            if hasattr(model.Config, "schema_config"):
+                schema_config = model.Config.schema_config
+                if "read_only" in schema_config:
+                    # set readOnly in json schema
+                    for field in schema_config["read_only"]:
+                        schema['properties'][field]['readOnly'] = True
+
+                if "exclude" in schema_config:
+                    # remove excluded fields from schema
+                    for field in schema_config["exclude"]:
+                        schema["properties"].pop(field, None)
 
 
 class BaseCoverage(BaseMetadata):

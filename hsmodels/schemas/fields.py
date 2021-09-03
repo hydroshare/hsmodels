@@ -130,6 +130,8 @@ class Creator(BaseMetadata):
     class Config:
         title = 'Creator Metadata'
 
+        schema_config = {'read_only': ['description']}
+
     name: str = Field(
         default=None, max_length=100, title="Name", description="A string containing the name of the creator"
     )
@@ -188,6 +190,8 @@ class Contributor(BaseMetadata):
 
     class Config:
         title = 'Contributor Metadata'
+
+        schema_config = {'read_only': ['description']}
 
     name: str = Field(default=None, title="Name", description="A string containing the name of the contributor")
     phone: str = Field(
@@ -681,6 +685,8 @@ class BoxCoverage(base_models.BaseCoverage):
     class Config:
         title = 'Box Coverage Metadata'
 
+        schema_config = {'read_only': ['type']}
+
     type: str = Field(
         default="box",
         const=True,
@@ -743,6 +749,8 @@ class BoxSpatialReference(base_models.BaseCoverage):
 
     class Config:
         title = 'Box Spatial Reference Metadata'
+
+        schema_config = {'read_only': ['type']}
 
     type: str = Field(
         default="box",
@@ -820,11 +828,14 @@ class PointCoverage(base_models.BaseCoverage):
     class Config:
         title = 'Point Coverage Metadata'
 
+        schema_config = {'read_only': ['type']}
+
     type: str = Field(
         default="point",
         const=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
+        allow_mutation=False,
     )
     name: str = Field(
         default=None,
@@ -855,11 +866,14 @@ class PointSpatialReference(base_models.BaseCoverage):
     class Config:
         title = 'Point Spatial Reference Metadata'
 
+        schema_config = {'read_only': ['type']}
+
     type: str = Field(
         default="point",
         const=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
+        allow_mutation=False,
     )
     name: str = Field(
         default=None,

@@ -2,7 +2,6 @@ import os
 from datetime import datetime, timedelta
 
 import pytest
-from hsmodels.schemas.resource import ResourceMetadata
 from pydantic.error_wrappers import ValidationError
 
 from hsmodels.namespaces import DCTERMS
@@ -10,6 +9,7 @@ from hsmodels.schemas import load_rdf
 from hsmodels.schemas.enums import AggregationType, DateType, VariableType
 from hsmodels.schemas.fields import BoxCoverage, Contributor, Creator, PeriodCoverage, Rights, Variable
 from hsmodels.schemas.rdf.fields import DateInRDF, ExtendedMetadataInRDF
+from hsmodels.schemas.resource import ResourceMetadata
 
 
 @pytest.fixture(scope="function")
@@ -258,6 +258,7 @@ def test_aggregation_type_readonly(change_test_dir, metadata_file):
     except TypeError as e:
         assert '"type" has allow_mutation set to False and cannot be assigned' in str(e)
 
+
 def test_resource_metadata_from_form():
     """Tests excluded, non-required fields that have validators (split_dates, split_coverages)"""
     md = {
@@ -266,34 +267,27 @@ def test_resource_metadata_from_form():
         "identifier": "http://www.hydroshare.org/resource/5885512838ab4faabbbdafcea0f9dbd1",
         "title": "asdf",
         "language": "eng",
-        "subjects": [
-            "asdf"
-        ],
+        "subjects": ["asdf"],
         "creators": [
             {
                 "name": "Black, Scott Steven",
                 "organization": "USU",
                 "email": "scott.black@usu.edu",
-                "description": "/user/2351/"
+                "description": "/user/2351/",
             }
         ],
         "contributors": [],
         "sources": [],
         "relations": [],
-        "spatial_coverage": {
-            "east": 90,
-            "north": 89,
-            "units": "test units",
-            "projection": "test projections"
-        },
+        "spatial_coverage": {"east": 90, "north": 89, "units": "test units", "projection": "test projections"},
         "rights": {
             "statement": "This resource is shared under the Creative Commons Attribution CC BY.",
-            "url": "http://creativecommons.org/licenses/by/4.0/"
+            "url": "http://creativecommons.org/licenses/by/4.0/",
         },
         "created": "2021-04-01T17:38:03.968981+00:00",
         "modified": "2021-04-01T17:38:24.993846+00:00",
         "awards": [],
-        "citation": "Black, S. S. (2021). asdf, HydroShare, http://www.hydroshare.org/resource/5885512838ab4faabbbdafcea0f9dbd1"
+        "citation": "Black, S. S. (2021). asdf, HydroShare, http://www.hydroshare.org/resource/5885512838ab4faabbbdafcea0f9dbd1",
     }
     res = ResourceMetadata(**md)
     assert res.title == "asdf"

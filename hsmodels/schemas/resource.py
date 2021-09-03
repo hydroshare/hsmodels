@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, List, Union
+from typing import Any, Dict, List, Type, Union
 
 from pydantic import AnyUrl, Field, root_validator, validator
 
@@ -33,6 +33,8 @@ class ResourceMetadata(BaseMetadata):
 
     class Config:
         title = 'Resource Metadata'
+
+        schema_config = {'read_only': ['type', 'identifier', 'created', 'modified', 'published'], 'exclude': ['url']}
 
     type: str = Field(
         const=True,

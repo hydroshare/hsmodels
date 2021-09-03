@@ -835,7 +835,7 @@ class PointCoverage(base_models.BaseCoverage):
         const=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
-        allow_mutation=False
+        allow_mutation=False,
     )
     name: str = Field(
         default=None,
@@ -873,7 +873,7 @@ class PointSpatialReference(base_models.BaseCoverage):
         const=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
-        allow_mutation=False
+        allow_mutation=False,
     )
     name: str = Field(
         default=None,

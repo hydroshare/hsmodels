@@ -1,7 +1,7 @@
 from datetime import datetime
+from typing import Any, Dict, Type
 
 from pydantic import BaseModel
-from typing import Dict, Any, Type
 
 
 class BaseMetadata(BaseModel):

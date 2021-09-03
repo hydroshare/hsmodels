@@ -26,6 +26,7 @@ from hsmodels.schemas.validators import parse_multidimensional_spatial_reference
 
 
 class BaseAggregationMetadata(BaseMetadata):
+
     url: AnyUrl = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
     )
@@ -79,6 +80,9 @@ class GeographicRasterMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Geographic Raster Aggregation Metadata'
 
+        schema_config = {'read_only': ['type'],
+                         'exclude': ['url']}
+
     type: AggregationType = Field(
         const=True,
         default=AggregationType.GeographicRasterAggregation,
@@ -114,6 +118,9 @@ class GeographicFeatureMetadata(BaseAggregationMetadata):
 
     class Config:
         title = 'Geographic Feature Aggregation Metadata'
+
+        schema_config = {'read_only': ['type'],
+                         'exclude': ['url']}
 
     type: AggregationType = Field(
         const=True,
@@ -152,6 +159,9 @@ class MultidimensionalMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Multidimensional Aggregation Metadata'
 
+        schema_config = {'read_only': ['type'],
+                         'exclude': ['url']}
+
     type: AggregationType = Field(
         const=True,
         default=AggregationType.MultidimensionalAggregation,
@@ -187,6 +197,9 @@ class ReferencedTimeSeriesMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Referenced Time Series Aggregation Metadata'
 
+        schema_config = {'read_only': ['type'],
+                         'exclude': ['url']}
+
     type: AggregationType = Field(
         const=True,
         default=AggregationType.ReferencedTimeSeriesAggregation,
@@ -208,6 +221,9 @@ class FileSetMetadata(BaseAggregationMetadata):
     class Config:
         title = 'File Set Aggregation Metadata'
 
+        schema_config = {'read_only': ['type'],
+                         'exclude': ['url']}
+
     type: AggregationType = Field(
         const=True,
         default=AggregationType.FileSetAggregation,
@@ -227,6 +243,9 @@ class SingleFileMetadata(BaseAggregationMetadata):
 
     class Config:
         title = 'Single File Aggregation Metadata'
+
+        schema_config = {'read_only': ['type'],
+                         'exclude': ['url']}
 
     type: AggregationType = Field(
         const=True,
@@ -250,6 +269,9 @@ class TimeSeriesMetadata(BaseAggregationMetadata):
 
     class Config:
         title = 'Time Series Aggregation Metadata'
+
+        schema_config = {'read_only': ['type'],
+                         'exclude': ['url']}
 
     type: AggregationType = Field(
         const=True,

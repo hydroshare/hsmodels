@@ -280,6 +280,12 @@ def test_resource_metadata_from_form():
         "contributors": [],
         "sources": [],
         "relations": [],
+        "spatial_coverage": {
+            "east": 90,
+            "north": 89,
+            "units": "test units",
+            "projection": "test projections"
+        },
         "rights": {
             "statement": "This resource is shared under the Creative Commons Attribution CC BY.",
             "url": "http://creativecommons.org/licenses/by/4.0/"

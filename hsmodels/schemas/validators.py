@@ -34,6 +34,17 @@ def parse_sources(cls, value):
     return value
 
 
+def parse_spatial_coverage(cls, value):
+    # This is a workaround for form submissions that do not include type
+    if isinstance(value, dict) and "type" not in value:
+        if "north" in value or "east" in value:
+            # it's a type point
+            value["type"] = "point"
+        else:
+            value["type"] = "box"
+    return value
+
+
 def list_not_empty(cls, l):
     if len(l) == 0:
         raise ValueError("list must contain at least one entry")

@@ -27,13 +27,13 @@ from hsmodels.schemas.validators import parse_multidimensional_spatial_reference
 
 class BaseAggregationMetadata(BaseMetadata):
     url: AnyUrl = Field(
-        title="Resource URL", description="An object containing the URL of the resource", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
     )
-    title: str = Field(title="Resource title", description="A string containing a descriptive title for the resource")
+    title: str = Field(title="Aggregation title", description="A string containing a descriptive title for the aggregation")
     subjects: List[str] = Field(
         default=[],
         title="Subject keywords",
-        description="A list of keyword strings expressing the topic of the resource",
+        description="A list of keyword strings expressing the topic of the aggregation",
     )
     language: str = Field(
         default="eng",
@@ -48,17 +48,17 @@ class BaseAggregationMetadata(BaseMetadata):
     spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
         default=None,
         title="Spatial coverage",
-        description="An object containing the geospatial coverage for the resource expressed as either a bounding box or point",
+        description="An object containing the geospatial coverage for the aggregation expressed as either a bounding box or point",
     )
     period_coverage: PeriodCoverage = Field(
         default=None,
         title="Temporal coverage",
-        description="An object containing the temporal coverage for a resource expressed as a date range",
+        description="An object containing the temporal coverage for a aggregation expressed as a date range",
     )
     rights: Rights = Field(
         default=None,
         title="Rights statement",
-        description="An object containing information about the rights held in and over the resource and the license under which a resource is shared",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
     )
 
     _parse_additional_metadata = root_validator(pre=True, allow_reuse=True)(parse_additional_metadata)
@@ -264,6 +264,6 @@ class TimeSeriesMetadata(BaseAggregationMetadata):
         description="A list of time series results contained within the time series aggregation",
     )
 
-    abstract: str = Field(default=None, title="Abstract", description="A string containing a summary of a resource")
+    abstract: str = Field(default=None, title="Abstract", description="A string containing a summary of a aggregation")
 
     _parse_abstract = root_validator(pre=True, allow_reuse=True)(parse_abstract)

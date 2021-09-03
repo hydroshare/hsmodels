@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from pydantic.schema import schema
 
@@ -19,6 +21,14 @@ from hsmodels.schemas.fields import (
     PointCoverage,
     PointSpatialReference,
 )
+
+
+@pytest.fixture(scope="function")
+def change_test_dir(request):
+    os.chdir(request.fspath.dirname)
+    yield
+    os.chdir(request.config.invocation_dir)
+
 
 read_only_fields = [
     (ResourceMetadata, ['type', 'identifier', 'created', 'modified', 'published']),

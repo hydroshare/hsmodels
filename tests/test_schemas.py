@@ -2,6 +2,8 @@ import pytest
 
 from hsmodels.schemas import ResourceMetadata, GeographicRasterMetadata, GeographicFeatureMetadata, \
     MultidimensionalMetadata, ReferencedTimeSeriesMetadata, FileSetMetadata, SingleFileMetadata, TimeSeriesMetadata
+from hsmodels.schemas.fields import Creator, Contributor, BoxCoverage, BoxSpatialReference, PointSpatialReference, \
+    PointCoverage
 from pydantic.schema import schema
 
 
@@ -14,6 +16,12 @@ read_only_fields = [
     (FileSetMetadata, ['type']),
     (SingleFileMetadata, ['type']),
     (TimeSeriesMetadata, ['type']),
+    (Creator, ['description']),
+    (Contributor, ['description']),
+    (BoxCoverage, ['type']),
+    (BoxSpatialReference, ['type']),
+    (PointSpatialReference, ['type']),
+    (PointCoverage, ['type']),
 ]
 
 

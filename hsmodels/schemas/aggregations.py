@@ -82,7 +82,7 @@ class GeographicRasterMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Geographic Raster Aggregation Metadata'
 
-        schema_config = {'read_only': ['type'], 'exclude': ['url']}
+        schema_config = {'read_only': ['type', 'url']}
 
     type: AggregationType = Field(
         const=True,
@@ -120,7 +120,7 @@ class GeographicFeatureMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Geographic Feature Aggregation Metadata'
 
-        schema_config = {'read_only': ['type'], 'exclude': ['url']}
+        schema_config = {'read_only': ['type', 'url']}
 
     type: AggregationType = Field(
         const=True,
@@ -159,7 +159,7 @@ class MultidimensionalMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Multidimensional Aggregation Metadata'
 
-        schema_config = {'read_only': ['type'], 'exclude': ['url']}
+        schema_config = {'read_only': ['type', 'url']}
 
     type: AggregationType = Field(
         const=True,
@@ -196,7 +196,7 @@ class ReferencedTimeSeriesMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Referenced Time Series Aggregation Metadata'
 
-        schema_config = {'read_only': ['type'], 'exclude': ['url']}
+        schema_config = {'read_only': ['type', 'url']}
 
     type: AggregationType = Field(
         const=True,
@@ -219,7 +219,7 @@ class FileSetMetadata(BaseAggregationMetadata):
     class Config:
         title = 'File Set Aggregation Metadata'
 
-        schema_config = {'read_only': ['type'], 'exclude': ['url']}
+        schema_config = {'read_only': ['type', 'url']}
 
     type: AggregationType = Field(
         const=True,
@@ -241,7 +241,7 @@ class SingleFileMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Single File Aggregation Metadata'
 
-        schema_config = {'read_only': ['type'], 'exclude': ['url']}
+        schema_config = {'read_only': ['type', 'url']}
 
     type: AggregationType = Field(
         const=True,
@@ -266,7 +266,7 @@ class TimeSeriesMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Time Series Aggregation Metadata'
 
-        schema_config = {'read_only': ['type'], 'exclude': ['url']}
+        schema_config = {'read_only': ['type', 'url']}
 
     type: AggregationType = Field(
         const=True,

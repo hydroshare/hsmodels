@@ -34,7 +34,7 @@ class ResourceMetadata(BaseMetadata):
     class Config:
         title = 'Resource Metadata'
 
-        schema_config = {'read_only': ['type', 'identifier', 'created', 'modified', 'published'], 'exclude': ['url']}
+        schema_config = {'read_only': ['type', 'identifier', 'created', 'modified', 'published', 'url']}
 
     type: str = Field(
         const=True,

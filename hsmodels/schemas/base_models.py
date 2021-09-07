@@ -17,11 +17,6 @@ class BaseMetadata(BaseModel):
                     for field in schema_config["read_only"]:
                         schema['properties'][field]['readOnly'] = True
 
-                if "exclude" in schema_config:
-                    # remove excluded fields from schema
-                    for field in schema_config["exclude"]:
-                        schema["properties"].pop(field, None)
-
 
 class BaseCoverage(BaseMetadata):
     def __str__(self):

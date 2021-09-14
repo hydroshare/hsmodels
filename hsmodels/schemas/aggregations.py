@@ -22,7 +22,11 @@ from hsmodels.schemas.fields import (
 )
 from hsmodels.schemas.rdf.validators import language_constraint
 from hsmodels.schemas.root_validators import parse_abstract, parse_additional_metadata, parse_url, split_coverages
-from hsmodels.schemas.validators import parse_multidimensional_spatial_reference, parse_spatial_reference
+from hsmodels.schemas.validators import (
+    parse_multidimensional_spatial_reference,
+    parse_spatial_coverage,
+    parse_spatial_reference,
+)
 
 
 class BaseAggregationMetadata(BaseMetadata):
@@ -67,7 +71,9 @@ class BaseAggregationMetadata(BaseMetadata):
     _parse_additional_metadata = root_validator(pre=True, allow_reuse=True)(parse_additional_metadata)
     _parse_coverages = root_validator(pre=True, allow_reuse=True)(split_coverages)
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
     _language_constraint = validator('language', allow_reuse=True)(language_constraint)
+    _parse_spatial_coverage = validator("spatial_coverage", allow_reuse=True, pre=True)(parse_spatial_coverage)
 
 
 class GeographicRasterMetadata(BaseAggregationMetadata):

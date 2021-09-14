@@ -140,7 +140,7 @@ class ResourceMetadata(BaseMetadata):
 
     _parse_identifier = validator("identifier", pre=True)(parse_identifier)
     _parse_sources = validator("sources", pre=True)(parse_sources)
-    _parse_spatial_coverage = validator("spatial_coverage", pre=True)(parse_spatial_coverage)
+    _parse_spatial_coverage = validator("spatial_coverage", allow_reuse=True, pre=True)(parse_spatial_coverage)
 
     _language_constraint = validator('language', allow_reuse=True)(language_constraint)
     _creators_constraint = validator('creators')(list_not_empty)

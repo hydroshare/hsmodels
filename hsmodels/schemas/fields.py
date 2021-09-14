@@ -935,8 +935,16 @@ class PeriodCoverage(base_models.BaseCoverage):
 
     @root_validator
     def start_before_end(cls, values):
-        if "start" in values and "end" in values:
-            start, end = values["start"], values["end"]
+        start, end = None, None
+        if "start" in values:
+            start = values["start"]
+        if "end" in values:
+            end = values["end"]
+        if start and end:
             if start > end:
                 raise ValueError(f"start date [{start}] is after end date [{end}]")
+        elif start and not end:
+            raise ValueError(f"An end date was not included with start date [{start}]")
+        elif end and not start:
+            raise ValueError(f"A start date was not included with end date [{end}]")
         return values

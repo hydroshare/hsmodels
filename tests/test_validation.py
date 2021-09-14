@@ -5,7 +5,7 @@ import pytest
 from pydantic.error_wrappers import ValidationError
 
 from hsmodels.namespaces import DCTERMS
-from hsmodels.schemas import load_rdf
+from hsmodels.schemas import GeographicRasterMetadata, load_rdf
 from hsmodels.schemas.enums import AggregationType, DateType, VariableType
 from hsmodels.schemas.fields import BoxCoverage, Contributor, Creator, PeriodCoverage, Rights, Variable
 from hsmodels.schemas.rdf.fields import DateInRDF, ExtendedMetadataInRDF
@@ -291,3 +291,51 @@ def test_resource_metadata_from_form():
     }
     res = ResourceMetadata(**md)
     assert res.title == "asdf"
+    assert res.spatial_coverage.type == "point"
+
+
+def test_aggregation_metadata_from_form():
+    """Tests excluded, non-required fields that have validators (split_dates, split_coverages)"""
+    md = {
+        "url": "http://www.hydroshare.org/resource/1248abc1afc6454199e65c8f642b99a0/data/contents/logan_resmap.xml#aggregation",
+        "title": "asdf",
+        "subjects": ["Small", "Logan", "VRT"],
+        "language": "eng",
+        "additional_metadata": {"key": "value", "another_key": "another_value"},
+        "spatial_coverage": {
+            "name": "12232",
+            "northlimit": 30.214583003567654,
+            "eastlimit": -97.92170777387547,
+            "southlimit": 30.127513332692264,
+            "westlimit": -98.01556648306897,
+            "units": "Decimal degrees",
+            "projection": "WGS 84 EPSG:4326",
+        },
+        "period_coverage": None,
+        "rights": {
+            "statement": "This resource is shared under the Creative Commons Attribution CC BY.",
+            "url": "http://creativecommons.org/licenses/by/4.0/",
+        },
+        "type": "GeoRaster",
+        "band_information": {
+            "name": "Band_1",
+            "variable_name": None,
+            "variable_unit": None,
+            "no_data_value": "-3.40282346639e+38",
+            "maximum_value": "2880.00708008",
+            "comment": None,
+            "method": None,
+            "minimum_value": "2274.95898438",
+        },
+        "spatial_reference": None,
+        "cell_information": {
+            "name": "logan.vrt",
+            "rows": 230,
+            "columns": 220,
+            "cell_size_x_value": 30,
+            "cell_data_type": "Float32",
+            "cell_size_y_value": 30,
+        },
+    }
+    agg = GeographicRasterMetadata(**md)
+    assert agg.spatial_coverage.type == "box"

@@ -45,6 +45,17 @@ def parse_spatial_coverage(cls, value):
     return value
 
 
+def normalize_additional_metadata(cls, value):
+    if isinstance(value, list):
+        as_dict = {}
+        for val in value:
+            if val["key"] in as_dict:
+                raise ValueError(f"Found a duplicate key {val['key']}")
+            as_dict[val["key"]] = val["value"]
+        return as_dict
+    return value
+
+
 def list_not_empty(cls, l):
     if len(l) == 0:
         raise ValueError("list must contain at least one entry")

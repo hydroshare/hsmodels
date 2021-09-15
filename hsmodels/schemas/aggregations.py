@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Union
 
 from pydantic import AnyUrl, Field, root_validator, validator
@@ -26,6 +27,7 @@ from hsmodels.schemas.validators import (
     parse_multidimensional_spatial_reference,
     parse_spatial_coverage,
     parse_spatial_reference,
+    normalize_additional_metadata,
 )
 
 
@@ -74,6 +76,7 @@ class BaseAggregationMetadata(BaseMetadata):
 
     _language_constraint = validator('language', allow_reuse=True)(language_constraint)
     _parse_spatial_coverage = validator("spatial_coverage", allow_reuse=True, pre=True)(parse_spatial_coverage)
+    _normalize_additional_metadata = validator("additional_metadata", allow_reuse=True, pre=True)(normalize_additional_metadata)
 
 
 class GeographicRasterMetadata(BaseAggregationMetadata):
@@ -88,7 +91,8 @@ class GeographicRasterMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Geographic Raster Aggregation Metadata'
 
-        schema_config = {'read_only': ['type', 'url']}
+        schema_config = {'read_only': ['type', 'url'],
+                         'dictionary_field': ['additional_metadata']}
 
     type: AggregationType = Field(
         const=True,
@@ -126,7 +130,8 @@ class GeographicFeatureMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Geographic Feature Aggregation Metadata'
 
-        schema_config = {'read_only': ['type', 'url']}
+        schema_config = {'read_only': ['type', 'url'],
+                         'dictionary_field': ['additional_metadata']}
 
     type: AggregationType = Field(
         const=True,
@@ -165,7 +170,8 @@ class MultidimensionalMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Multidimensional Aggregation Metadata'
 
-        schema_config = {'read_only': ['type', 'url']}
+        schema_config = {'read_only': ['type', 'url'],
+                         'dictionary_field': ['additional_metadata']}
 
     type: AggregationType = Field(
         const=True,
@@ -202,7 +208,8 @@ class ReferencedTimeSeriesMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Referenced Time Series Aggregation Metadata'
 
-        schema_config = {'read_only': ['type', 'url']}
+        schema_config = {'read_only': ['type', 'url'],
+                         'dictionary_field': ['additional_metadata']}
 
     type: AggregationType = Field(
         const=True,
@@ -225,7 +232,8 @@ class FileSetMetadata(BaseAggregationMetadata):
     class Config:
         title = 'File Set Aggregation Metadata'
 
-        schema_config = {'read_only': ['type', 'url']}
+        schema_config = {'read_only': ['type', 'url'],
+                         'dictionary_field': ['additional_metadata']}
 
     type: AggregationType = Field(
         const=True,
@@ -247,7 +255,8 @@ class SingleFileMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Single File Aggregation Metadata'
 
-        schema_config = {'read_only': ['type', 'url']}
+        schema_config = {'read_only': ['type', 'url'],
+                         'dictionary_field': ['additional_metadata']}
 
     type: AggregationType = Field(
         const=True,
@@ -272,7 +281,8 @@ class TimeSeriesMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Time Series Aggregation Metadata'
 
-        schema_config = {'read_only': ['type', 'url']}
+        schema_config = {'read_only': ['type', 'url'],
+                         'dictionary_field': ['additional_metadata']}
 
     type: AggregationType = Field(
         const=True,

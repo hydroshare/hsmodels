@@ -23,7 +23,8 @@ from hsmodels.schemas.root_validators import (
     split_coverages,
     split_dates,
 )
-from hsmodels.schemas.validators import list_not_empty, parse_identifier, parse_sources, parse_spatial_coverage
+from hsmodels.schemas.validators import list_not_empty, parse_identifier, parse_sources, parse_spatial_coverage,\
+    normalize_additional_metadata
 
 
 class ResourceMetadata(BaseMetadata):
@@ -34,7 +35,8 @@ class ResourceMetadata(BaseMetadata):
     class Config:
         title = 'Resource Metadata'
 
-        schema_config = {'read_only': ['type', 'identifier', 'created', 'modified', 'published', 'url']}
+        schema_config = {'read_only': ['type', 'identifier', 'created', 'modified', 'published', 'url'],
+                         'dictionary_field': ['additional_metadata']}
 
     type: str = Field(
         const=True,
@@ -141,6 +143,7 @@ class ResourceMetadata(BaseMetadata):
     _parse_identifier = validator("identifier", pre=True)(parse_identifier)
     _parse_sources = validator("sources", pre=True)(parse_sources)
     _parse_spatial_coverage = validator("spatial_coverage", allow_reuse=True, pre=True)(parse_spatial_coverage)
+    _normalize_additional_metadata = validator("additional_metadata", allow_reuse=True, pre=True)(normalize_additional_metadata)
 
     _language_constraint = validator('language', allow_reuse=True)(language_constraint)
     _creators_constraint = validator('creators')(list_not_empty)

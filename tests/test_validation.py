@@ -301,7 +301,7 @@ def test_aggregation_metadata_from_form():
         "title": "asdf",
         "subjects": ["Small", "Logan", "VRT"],
         "language": "eng",
-        "additional_metadata": {"key": "value", "another_key": "another_value"},
+        "additional_metadata": [{"key": "key1", "value": "value1"}, {"key": "another key", "value": "another value"}],
         "spatial_coverage": {
             "name": "12232",
             "northlimit": 30.214583003567654,
@@ -339,3 +339,5 @@ def test_aggregation_metadata_from_form():
     }
     agg = GeographicRasterMetadata(**md)
     assert agg.spatial_coverage.type == "box"
+    assert agg.additional_metadata["key1"] == "value1"
+    assert agg.additional_metadata["another key"] == "another value"

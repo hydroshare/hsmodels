@@ -18,7 +18,9 @@ class BaseMetadata(BaseModel):
             exclude_none: bool = False,
     ) -> 'DictStrAny':
         """
-        Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
+        Checks the config for a schema_config dictionary_field and converts a dictionary to a list of key/value pairs.
+        This converts the dictionary to a format that can be described in a json schema (which can be found below in the
+        schema_extra staticmethod.
 
         """
         d = super().dict(include=include, exclude=exclude, by_alias=by_alias, skip_defaults=skip_defaults,

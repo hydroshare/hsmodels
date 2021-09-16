@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from pydantic import AnyUrl, Field, root_validator
@@ -132,3 +133,18 @@ class SingleFileMetadataInRDF(BaseAggregationMetadataInRDF):
 
     label: str = Field(const=True, default="Single File Content: A single file with file specific metadata")
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.SingleFileAggregation, const=True)
+
+
+class ModelProgramMetadataInRDF(BaseAggregationMetadataInRDF):
+    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, const=True, default=HSTERMS.ModelProgramAggregation)
+
+    label: str = Field(const=True, default="Model Program Content: One or more files with specific metadata")
+    dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.ModelProgramAggregation, const=True)
+
+    name: str = Field(rdf_predicate=HSTERMS.modelProgramName)
+    version: str = Field(rdf_predicate=HSTERMS.modelVersion)
+    programming_languages: List[str] = Field(rdf_predicate=HSTERMS.modelProgramLanguage)
+    operating_systems: List[str] = Field(rdf_predicate=HSTERMS.modelOperatingSystem)
+    release_date: datetime = Field(rdf_predicate=HSTERMS.modelReleaseDate)
+    website: AnyUrl = Field(rdf_predicate=HSTERMS.modelWebsite)
+    code_repository: AnyUrl = Field(rdf_predicate=HSTERMS.modelCodeRepository)

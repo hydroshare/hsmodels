@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Union
 
 from pydantic import AnyUrl, Field, root_validator, validator
@@ -290,3 +291,59 @@ class TimeSeriesMetadata(BaseAggregationMetadata):
     abstract: str = Field(default=None, title="Abstract", description="A string containing a summary of a aggregation")
 
     _parse_abstract = root_validator(pre=True, allow_reuse=True)(parse_abstract)
+
+
+class ModelProgramMetadata(BaseAggregationMetadata):
+    """
+    A class used to represent the metadata associated with a model program aggregation
+    """
+
+    class Config:
+        title = 'Single File Aggregation Metadata'
+
+        schema_config = {'read_only': ['type', 'url'],
+                         'dictionary_field': ['additional_metadata']}
+
+    type: AggregationType = Field(
+        const=True,
+        default=AggregationType.ModelProgramAggregation,
+        title="Aggregation type",
+        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False,
+    )
+
+    version: str = Field(
+        default=None,
+        title="Version",
+        description="The software version or build number of the model",
+        max_length=255
+    )
+
+    name: str = Field(default="Unknown Model Program",
+                      max_length=255,
+                      title="Model Program Name",
+                      description="TODO")
+
+    programming_languages: List[str] = Field(default=[],
+                                             max_length=100,
+                                             title="Programming Languages",
+                                             description="The programming languages that the model is written in")
+
+    operating_systems: List[str] = Field(default=[],
+                                         max_length=100,
+                                         title="Operating Systems",
+                                         description="Compatible operating systems to setup and run the model")
+
+    release_date: datetime = Field(default=None,
+                                   title="Release Date",
+                                   description="The date that this version of the model was released")
+
+    website: AnyUrl = Field(default=None,
+                            title='Website',
+                            description='A URL to the website maintained by the model developers')
+
+    code_repository: AnyUrl = Field(default=None,
+                                    title='Software Repository',
+                                    description='A URL to the source code repository (e.g. git, mercurial, svn)')
+
+

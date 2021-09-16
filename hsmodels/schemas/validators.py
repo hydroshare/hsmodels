@@ -5,6 +5,13 @@ from hsmodels.utils import to_coverage_dict
 def parse_spatial_reference(cls, value):
     if not value:
         return value
+    # This is a workaround for form submissions that do not include type
+    if isinstance(value, dict) and "type" not in value:
+        if "north" in value or "east" in value:
+            # it's a type point
+            value["type"] = "point"
+        else:
+            value["type"] = "box"
     if value['type'] == enums.SpatialReferenceType.box:
         return fields.BoxSpatialReference(**to_coverage_dict(value['value']))
     if value['type'] == enums.SpatialReferenceType.point:

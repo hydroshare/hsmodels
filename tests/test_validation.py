@@ -327,7 +327,15 @@ def test_aggregation_metadata_from_form():
             "method": None,
             "minimum_value": "2274.95898438",
         },
-        "spatial_reference": None,
+        "spatial_reference": {
+            "northlimit": 30.214583003567654,
+            "eastlimit": -97.92170777387547,
+            "southlimit": 30.127513332692264,
+            "westlimit": -98.01556648306897,
+            "units": "Decimal degrees",
+            "projection": "WGS 84 EPSG:4326",
+            "projection_string": "WGS 84 EPSG:4326",
+        },
         "cell_information": {
             "name": "logan.vrt",
             "rows": 230,
@@ -338,4 +346,5 @@ def test_aggregation_metadata_from_form():
         },
     }
     agg = GeographicRasterMetadata(**md)
+    assert agg.spatial_reference.type == "box"
     assert agg.spatial_coverage.type == "box"

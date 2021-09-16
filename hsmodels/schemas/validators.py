@@ -49,6 +49,12 @@ def normalize_additional_metadata(cls, value):
     if isinstance(value, list):
         as_dict = {}
         for val in value:
+            if not isinstance(val, dict):
+                raise ValueError(f"List entry {val} must be a dict")
+            if "key" not in val:
+                raise ValueError(f"Missing the 'key' key in {val}")
+            if "value" not in val:
+                raise ValueError(f"Missing the 'value' key in {val}")
             if val["key"] in as_dict:
                 raise ValueError(f"Found a duplicate key {val['key']}")
             as_dict[val["key"]] = val["value"]

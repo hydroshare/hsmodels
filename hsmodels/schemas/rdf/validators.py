@@ -28,10 +28,9 @@ def subjects_constraint(cls, subjects):
     """Removes empty/None and duplicates"""
     validated = []
     for subject in subjects:
-        if subject:
-            trimmed = subject.strip()
-            if trimmed not in validated:
-                validated.append(trimmed)
+        trimmed = subject.strip()
+        if trimmed and trimmed not in validated:
+            validated.append(trimmed)
     return validated
 
 

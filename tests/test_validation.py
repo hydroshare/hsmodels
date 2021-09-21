@@ -359,12 +359,12 @@ def test_aggregation_metadata_from_form():
 
 
 def test_subjects_resource(res_md):
-    res_md.subjects = ["", "a", "a"]
+    res_md.subjects = ["", "a ", "a", " a"]
     assert res_md.subjects == ["a"]
 
 
 def test_subjects_aggregation(agg_md):
-    agg_md.subjects = ["", "a", "a"]
+    agg_md.subjects = ["", "a ", "a ", "a"]
     assert agg_md.subjects == ["a"]
 
 

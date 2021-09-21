@@ -24,6 +24,15 @@ def rdf_parse_identifier(cls, value):
     return value
 
 
+def subjects_constraint(cls, subjects):
+    """Removes empty/None and duplicates"""
+    validated = []
+    for subject in subjects:
+        if subject and subject not in validated:
+            validated.append(subject)
+    return validated
+
+
 def language_constraint(cls, language):
     if language not in [code for code, verbose in languages]:
         raise ValueError("language '{}' must be a 3 letter iso language code".format(language))

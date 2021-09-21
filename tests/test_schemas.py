@@ -80,21 +80,10 @@ def test_dictionary_field(additional_metadata_field):
     for field in fields:
         assert 'additionalProperties' not in s["properties"][field]
         assert 'default' not in s["properties"][field]
-        assert s["properties"][field]['items'] == \
-               {
-                   "type": "object",
-                   "title": "Key-Value",
-                   "description": "A key-value pair",
-                   "properties": {
-                       "key": {
-                           "type": "string"
-                       },
-                       "value": {
-                           "type": "string"
-                       }
-                   },
-                   "required": [
-                       "key",
-                       "value"
-                   ]
-               }
+        assert s["properties"][field]['items'] == {
+            "type": "object",
+            "title": "Key-Value",
+            "description": "A key-value pair",
+            "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
+            "required": ["key", "value"],
+        }

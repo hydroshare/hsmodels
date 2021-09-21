@@ -25,6 +25,12 @@ def res_md(change_test_dir):
         return load_rdf(f.read())
 
 
+@pytest.fixture()
+def agg_md(change_test_dir):
+    with open("data/metadata/geographicraster_meta.xml", 'r') as f:
+        return load_rdf(f.read())
+
+
 def test_resource_metadata_language(res_md):
     try:
         res_md.language = "badcode"
@@ -350,3 +356,19 @@ def test_aggregation_metadata_from_form():
     assert agg.spatial_coverage.type == "box"
     assert agg.additional_metadata["key1"] == "value1"
     assert agg.additional_metadata["another key"] == "another value"
+
+
+def test_subjects_resource(res_md):
+    res_md.subjects = ["", "a ", "a", " a"]
+    assert res_md.subjects == ["a"]
+
+
+def test_subjects_aggregation(agg_md):
+    agg_md.subjects = ["", "a ", "a ", "a"]
+    assert agg_md.subjects == ["a"]
+
+
+def test_default_exclude_none(res_md):
+    res_md.spatial_coverage = None
+    assert "spatial_coverage" not in res_md.dict()
+    assert "spatial_coverage" in res_md.dict(exclude_none=False)

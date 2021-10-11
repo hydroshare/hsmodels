@@ -73,12 +73,8 @@ def rdf_parse_rdf_subject(cls, values):
 
 def parse_rdf_extended_metadata(cls, values):
     if "additional_metadata" in values:
-        em = values["additional_metadata"]
-        assert isinstance(em, dict)
-        values["extended_metadata"] = []
+        values["extended_metadata"] = values["additional_metadata"]
         del values["additional_metadata"]
-        for key, value in em.items():
-            values["extended_metadata"].append({"key": key, "value": value})
     return values
 
 

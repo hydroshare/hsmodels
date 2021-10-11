@@ -76,8 +76,8 @@
     </hsterms:extendedMetadata>
     <dc:subject>Snow water equivalent</dc:subject>
     <dc:language>eng</dc:language>
-    <dc:subject> Logan River</dc:subject>
-    <dc:subject> UEB</dc:subject>
+    <dc:subject>Logan River</dc:subject>
+    <dc:subject>UEB</dc:subject>
     <dc:type rdf:resource="https://www.hydroshare.org/terms/MultidimensionalAggregation"/>
     <dc:subject>changed</dc:subject>
     <dc:title>changed UEB modael simulation of snow water equivalent in Logan River watershed from 2008 to 2009</dc:title>

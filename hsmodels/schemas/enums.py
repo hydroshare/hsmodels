@@ -80,3 +80,10 @@ class DateType(TermEnum):
     valid = str(DCTERMS.valid)
     available = str(DCTERMS.available)
     published = str(DCTERMS.published)
+
+
+class ModelProgramFileType(TermEnum):
+    release_notes = str(HSTERMS.modelReleaseNotes)
+    documentation = str(HSTERMS.modelDocumentation)
+    software = str(HSTERMS.modelSoftware)
+    engine = str(HSTERMS.modelEngine)

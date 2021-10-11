@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import List, Union
 
 from pydantic import AnyUrl, Field, root_validator, validator
@@ -12,6 +12,7 @@ from hsmodels.schemas.fields import (
     CellInformation,
     FieldInformation,
     GeometryInformation,
+    ModelProgramFile,
     MultidimensionalBoxSpatialReference,
     MultidimensionalPointSpatialReference,
     PeriodCoverage,
@@ -22,7 +23,13 @@ from hsmodels.schemas.fields import (
     Variable,
 )
 from hsmodels.schemas.rdf.validators import language_constraint, subjects_constraint
-from hsmodels.schemas.root_validators import parse_abstract, parse_additional_metadata, parse_url, split_coverages
+from hsmodels.schemas.root_validators import (
+    parse_abstract,
+    parse_additional_metadata,
+    parse_file_types,
+    parse_url,
+    split_coverages,
+)
 from hsmodels.schemas.validators import (
     normalize_additional_metadata,
     parse_multidimensional_spatial_reference,
@@ -306,8 +313,7 @@ class ModelProgramMetadata(BaseAggregationMetadata):
     class Config:
         title = 'Single File Aggregation Metadata'
 
-        schema_config = {'read_only': ['type', 'url'],
-                         'dictionary_field': ['additional_metadata']}
+        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
 
     type: AggregationType = Field(
         const=True,
@@ -318,37 +324,45 @@ class ModelProgramMetadata(BaseAggregationMetadata):
     )
 
     version: str = Field(
-        default=None,
-        title="Version",
-        description="The software version or build number of the model",
-        max_length=255
+        default=None, title="Version", description="The software version or build number of the model", max_length=255
     )
 
-    name: str = Field(default="Unknown Model Program",
-                      max_length=255,
-                      title="Model Program Name",
-                      description="TODO")
+    name: str = Field(default="Unknown Model Program", max_length=255, title="Model Program Name", description="TODO")
 
-    programming_languages: List[str] = Field(default=[],
-                                             max_length=100,
-                                             title="Programming Languages",
-                                             description="The programming languages that the model is written in")
+    programming_languages: List[str] = Field(
+        default=[],
+        max_length=100,
+        title="Programming Languages",
+        description="The programming languages that the model is written in",
+    )
 
-    operating_systems: List[str] = Field(default=[],
-                                         max_length=100,
-                                         title="Operating Systems",
-                                         description="Compatible operating systems to setup and run the model")
+    operating_systems: List[str] = Field(
+        default=[],
+        max_length=100,
+        title="Operating Systems",
+        description="Compatible operating systems to setup and run the model",
+    )
 
-    release_date: datetime = Field(default=None,
-                                   title="Release Date",
-                                   description="The date that this version of the model was released")
+    release_date: date = Field(
+        default=None, title="Release Date", description="The date that this version of the model was released"
+    )
 
-    website: AnyUrl = Field(default=None,
-                            title='Website',
-                            description='A URL to the website maintained by the model developers')
+    website: AnyUrl = Field(
+        default=None, title='Website', description='A URL to the website maintained by the model developers'
+    )
 
-    code_repository: AnyUrl = Field(default=None,
-                                    title='Software Repository',
-                                    description='A URL to the source code repository (e.g. git, mercurial, svn)')
+    code_repository: AnyUrl = Field(
+        default=None,
+        title='Software Repository',
+        description='A URL to the source code repository (e.g. git, mercurial, svn)',
+    )
 
+    file_types: List[ModelProgramFile] = Field(
+        default=None, title='File Types', description='A URL to the source code repository (e.g. git, mercurial, svn)'
+    )
 
+    json_schema: AnyUrl = Field(
+        default=None, title='Model program schema', description='A path to the model program JSON schema'
+    )
+
+    _parse_file_types = root_validator(pre=True, allow_reuse=True)(parse_file_types)

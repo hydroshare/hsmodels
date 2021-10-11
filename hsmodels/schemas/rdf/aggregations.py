@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import List
 
 from pydantic import AnyUrl, Field, root_validator
@@ -25,6 +25,7 @@ from hsmodels.schemas.rdf.root_validators import (
     parse_rdf_multidimensional_spatial_reference,
     parse_rdf_spatial_reference,
     rdf_parse_description,
+    rdf_parse_file_types,
     rdf_parse_rdf_subject,
 )
 
@@ -141,10 +142,18 @@ class ModelProgramMetadataInRDF(BaseAggregationMetadataInRDF):
     label: str = Field(const=True, default="Model Program Content: One or more files with specific metadata")
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.ModelProgramAggregation, const=True)
 
-    name: str = Field(rdf_predicate=HSTERMS.modelProgramName)
-    version: str = Field(rdf_predicate=HSTERMS.modelVersion)
-    programming_languages: List[str] = Field(rdf_predicate=HSTERMS.modelProgramLanguage)
-    operating_systems: List[str] = Field(rdf_predicate=HSTERMS.modelOperatingSystem)
-    release_date: datetime = Field(rdf_predicate=HSTERMS.modelReleaseDate)
-    website: AnyUrl = Field(rdf_predicate=HSTERMS.modelWebsite)
-    code_repository: AnyUrl = Field(rdf_predicate=HSTERMS.modelCodeRepository)
+    name: str = Field(rdf_predicate=HSTERMS.modelProgramName, default=None)
+    version: str = Field(rdf_predicate=HSTERMS.modelVersion, default=None)
+    programming_languages: List[str] = Field(rdf_predicate=HSTERMS.modelProgramLanguage, default=None)
+    operating_systems: List[str] = Field(rdf_predicate=HSTERMS.modelOperatingSystem, default=None)
+    release_date: date = Field(rdf_predicate=HSTERMS.modelReleaseDate, default=None)
+    website: AnyUrl = Field(rdf_predicate=HSTERMS.modelWebsite, default=None)
+    code_repository: AnyUrl = Field(rdf_predicate=HSTERMS.modelCodeRepository, default=None)
+    json_schema: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchema, default=None)
+
+    release_notes: List[str] = Field(rdf_predicate=HSTERMS.modelReleaseNotes, default=None)
+    documentation: List[str] = Field(rdf_predicate=HSTERMS.modelDocumentation, default=None)
+    software: List[str] = Field(rdf_predicate=HSTERMS.modelSoftware, default=None)
+    engine: List[str] = Field(rdf_predicate=HSTERMS.modelEngine, default=None)
+
+    _parse_file_types = root_validator(pre=True, allow_reuse=True)(rdf_parse_file_types)

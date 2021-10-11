@@ -59,6 +59,7 @@ metadata_files = [
     'singlefile_meta.xml',
     'geographicfeature_meta.xml',
     'timeseries_meta.xml',
+    'modelprogram_meta.xml',
 ]
 
 

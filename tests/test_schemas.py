@@ -7,6 +7,7 @@ from hsmodels.schemas import (
     FileSetMetadata,
     GeographicFeatureMetadata,
     GeographicRasterMetadata,
+    ModelProgramMetadata,
     MultidimensionalMetadata,
     ReferencedTimeSeriesMetadata,
     ResourceMetadata,
@@ -69,6 +70,7 @@ additional_metadata_fields = [
     (FileSetMetadata, ['additional_metadata']),
     (SingleFileMetadata, ['additional_metadata']),
     (TimeSeriesMetadata, ['additional_metadata']),
+    (ModelProgramMetadata, ['additional_metadata']),
 ]
 
 

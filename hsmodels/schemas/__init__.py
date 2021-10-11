@@ -10,20 +10,22 @@ from hsmodels.schemas.aggregations import (
     FileSetMetadata,
     GeographicFeatureMetadata,
     GeographicRasterMetadata,
+    ModelProgramMetadata,
     MultidimensionalMetadata,
     ReferencedTimeSeriesMetadata,
     SingleFileMetadata,
-    TimeSeriesMetadata, ModelProgramMetadata,
+    TimeSeriesMetadata,
 )
 from hsmodels.schemas.enums import TermEnum
 from hsmodels.schemas.rdf.aggregations import (
     FileSetMetadataInRDF,
     GeographicFeatureMetadataInRDF,
     GeographicRasterMetadataInRDF,
+    ModelProgramMetadataInRDF,
     MultidimensionalMetadataInRDF,
     ReferencedTimeSeriesMetadataInRDF,
     SingleFileMetadataInRDF,
-    TimeSeriesMetadataInRDF, ModelProgramMetadataInRDF,
+    TimeSeriesMetadataInRDF,
 )
 from hsmodels.schemas.rdf.resource import ResourceMap, ResourceMetadataInRDF
 from hsmodels.schemas.resource import ResourceMetadata

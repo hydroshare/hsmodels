@@ -5,7 +5,7 @@ from pydantic import AnyUrl, EmailStr, Field, HttpUrl, root_validator, validator
 
 from hsmodels.schemas import base_models
 from hsmodels.schemas.base_models import BaseMetadata
-from hsmodels.schemas.enums import RelationType, UserIdentifierType, VariableType
+from hsmodels.schemas.enums import ModelProgramFileType, RelationType, UserIdentifierType, VariableType
 from hsmodels.schemas.root_validators import group_user_identifiers, parse_relation, parse_utc_offset_value
 from hsmodels.schemas.validators import validate_user_url
 
@@ -948,3 +948,15 @@ class PeriodCoverage(base_models.BaseCoverage):
         elif end and not start:
             raise ValueError(f"A start date was not included with end date [{end}]")
         return values
+
+
+class ModelProgramFile(BaseMetadata):
+    """"""
+
+    class Config:
+        title = ""
+
+    type: ModelProgramFileType = Field(
+        title="Model program file type", description="The type of file in a model program"
+    )
+    value: str = Field(title="Model program file name", description="The file name of a file with a labeled type")

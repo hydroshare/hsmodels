@@ -96,7 +96,7 @@ def parse_file_types(cls, values):
             ftypes = values[file_type.name]
             if isinstance(ftypes, list):
                 for ftype in ftypes:
-                    file_types_list.append({"type": file_type, "value": ftype})
+                    file_types_list.append({"type": file_type, "url": ftype})
                 del values[file_type.name]
     values['file_types'] = file_types_list
     return values

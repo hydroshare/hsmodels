@@ -77,7 +77,7 @@ def rdf_parse_file_types(cls, values):
             file_type = entry["type"]
             if file_type.name not in values:
                 values[file_type.name] = []
-            values[file_type.name].append(entry["value"])
+            values[file_type.name].append(entry["url"])
         del values["file_types"]
     return values
 

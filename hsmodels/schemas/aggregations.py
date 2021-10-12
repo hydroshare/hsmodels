@@ -311,7 +311,7 @@ class ModelProgramMetadata(BaseAggregationMetadata):
     """
 
     class Config:
-        title = 'Single File Aggregation Metadata'
+        title = 'Model Program Aggregation Metadata'
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
 
@@ -327,7 +327,12 @@ class ModelProgramMetadata(BaseAggregationMetadata):
         default=None, title="Version", description="The software version or build number of the model", max_length=255
     )
 
-    name: str = Field(default="Unknown Model Program", max_length=255, title="Model Program Name", description="TODO")
+    name: str = Field(
+        default="Unknown Model Program",
+        max_length=255,
+        title="Model Program Name",
+        description="A string expressing the name of the model program",
+    )
 
     programming_languages: List[str] = Field(
         default=[],
@@ -348,21 +353,25 @@ class ModelProgramMetadata(BaseAggregationMetadata):
     )
 
     website: AnyUrl = Field(
-        default=None, title='Website', description='A URL to the website maintained by the model developers'
+        default=None,
+        title='Website',
+        description='A URL to a website describing the model that is maintained by the model developers',
     )
 
     code_repository: AnyUrl = Field(
         default=None,
         title='Software Repository',
-        description='A URL to the source code repository (e.g. git, mercurial, svn)',
+        description='A URL to the source code repository for the model code (e.g., git, mercurial, svn, etc.)',
     )
 
     file_types: List[ModelProgramFile] = Field(
-        default=None, title='File Types', description='A URL to the source code repository (e.g. git, mercurial, svn)'
+        default=None, title='File Types', description='File types used by the model program'
     )
 
     program_schema_json: AnyUrl = Field(
-        default=None, title='Model program schema', description='A path to the model program JSON schema'
+        default=None,
+        title='Model program schema',
+        description='A url to the JSON metadata schema for the model program',
     )
 
     _parse_file_types = root_validator(pre=True, allow_reuse=True)(parse_file_types)

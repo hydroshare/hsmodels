@@ -951,12 +951,14 @@ class PeriodCoverage(base_models.BaseCoverage):
 
 
 class ModelProgramFile(BaseMetadata):
-    """"""
+    """
+    A class used to represent the metadata associated with a file used by a model program aggregation
+    """
 
     class Config:
-        title = ""
+        title = "Model program file metadata"
 
     type: ModelProgramFileType = Field(
-        title="Model program file type", description="The type of file in a model program"
+        title="Model program file type", description="The type of the file used by the model program"
     )
-    value: AnyUrl = Field(title="Model program file url", description="The url of a file with a labeled type")
+    url: AnyUrl = Field(title="Model program file url", description="The url of the file used by the model program")

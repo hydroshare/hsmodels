@@ -959,4 +959,4 @@ class ModelProgramFile(BaseMetadata):
     type: ModelProgramFileType = Field(
         title="Model program file type", description="The type of file in a model program"
     )
-    value: str = Field(title="Model program file name", description="The file name of a file with a labeled type")
+    value: AnyUrl = Field(title="Model program file url", description="The url of a file with a labeled type")

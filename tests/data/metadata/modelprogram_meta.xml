@@ -9,7 +9,14 @@
     <hsterms:modelOperatingSystem>linux</hsterms:modelOperatingSystem>
     <dc:title>setup againas</dc:title>
     <hsterms:modelWebsite rdf:resource="https://www.hydroshare.org"/>
-    <hsterms:modelReleaseNotes>setup.cfg</hsterms:modelReleaseNotes>
+    <hsterms:modelReleaseNotes rdf:resource="https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup.cfg"/>
+    <hsterms:modelReleaseNotes rdf:resource="https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup1.cfg"/>
+    <hsterms:modelDocumentation rdf:resource="https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup.cfg"/>
+    <hsterms:modelDocumentation rdf:resource="https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup1.cfg"/>
+    <hsterms:modelSoftware rdf:resource="https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup.cfg"/>
+    <hsterms:modelSoftware rdf:resource="https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup1.cfg"/>
+    <hsterms:modelEngine rdf:resource="https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup.cfg"/>
+    <hsterms:modelEngine rdf:resource="https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup1.cfg"/>
     <hsterms:extendedMetadata>
       <rdf:Description>
         <hsterms:value>4</hsterms:value>

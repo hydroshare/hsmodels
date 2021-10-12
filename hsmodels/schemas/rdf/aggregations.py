@@ -149,7 +149,7 @@ class ModelProgramMetadataInRDF(BaseAggregationMetadataInRDF):
     release_date: date = Field(rdf_predicate=HSTERMS.modelReleaseDate, default=None)
     website: AnyUrl = Field(rdf_predicate=HSTERMS.modelWebsite, default=None)
     code_repository: AnyUrl = Field(rdf_predicate=HSTERMS.modelCodeRepository, default=None)
-    json_schema: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchema, default=None)
+    program_schema_json: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchema, default=None)
 
     release_notes: List[str] = Field(rdf_predicate=HSTERMS.modelReleaseNotes, default=None)
     documentation: List[str] = Field(rdf_predicate=HSTERMS.modelDocumentation, default=None)
@@ -157,3 +157,15 @@ class ModelProgramMetadataInRDF(BaseAggregationMetadataInRDF):
     engine: List[str] = Field(rdf_predicate=HSTERMS.modelEngine, default=None)
 
     _parse_file_types = root_validator(pre=True, allow_reuse=True)(rdf_parse_file_types)
+
+
+class ModelInstanceMetadataInRDF(BaseAggregationMetadataInRDF):
+    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, const=True, default=HSTERMS.ModelInstanceAggregation)
+
+    label: str = Field(const=True, default="Model Instance Content: One or more files with specific metadata")
+    dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.ModelInstanceAggregation, const=True)
+
+    includes_model_output: bool = Field(rdf_predicate=HSTERMS.includesModelOutput)
+    executed_by: AnyUrl = Field(rdf_predicate=HSTERMS.executedByModelProgram, default=None)
+    program_schema_json: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchema, default=None)
+    program_schema_json_values: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchemaValues, default=None)

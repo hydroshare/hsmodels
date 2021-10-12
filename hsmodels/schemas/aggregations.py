@@ -361,8 +361,39 @@ class ModelProgramMetadata(BaseAggregationMetadata):
         default=None, title='File Types', description='A URL to the source code repository (e.g. git, mercurial, svn)'
     )
 
-    json_schema: AnyUrl = Field(
+    program_schema_json: AnyUrl = Field(
         default=None, title='Model program schema', description='A path to the model program JSON schema'
     )
 
     _parse_file_types = root_validator(pre=True, allow_reuse=True)(parse_file_types)
+
+
+class ModelInstanceMetadata(BaseAggregationMetadata):
+    """
+    A class used to represent the metadata associated with a model program aggregation
+    """
+
+    class Config:
+        title = 'Single File Aggregation Metadata'
+
+        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+
+    type: AggregationType = Field(
+        const=True,
+        default=AggregationType.ModelInstanceAggregation,
+        title="Aggregation type",
+        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False,
+    )
+
+    includes_model_output: bool = Field(
+        title="Version", description="The software version or build number of the model"
+    )
+
+    executed_by: AnyUrl = Field(default="Unknown Model Program", title="Model Program Name", description="TODO")
+
+    program_schema_json: AnyUrl = Field(default="Unknown Model Program", title="Model Program Name", description="TODO")
+
+    program_schema_json_values: AnyUrl = Field(
+        default="Unknown Model Program", title="Model Program Name", description="TODO"
+    )

@@ -60,6 +60,7 @@ metadata_files = [
     'geographicfeature_meta.xml',
     'timeseries_meta.xml',
     'modelprogram_meta.xml',
+    'modelinstance_meta.xml',
 ]
 
 

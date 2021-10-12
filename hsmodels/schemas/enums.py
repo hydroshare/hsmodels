@@ -72,6 +72,7 @@ class AggregationType(StringEnum):
     ReferencedTimeSeriesAggregation = "RefTimeseries"
     TimeSeriesAggregation = "TimeSeries"
     ModelProgramAggregation = "Model Program"
+    ModelInstanceAggregation = "Model Instance"
 
 
 class DateType(TermEnum):

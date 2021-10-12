@@ -379,11 +379,11 @@ class ModelProgramMetadata(BaseAggregationMetadata):
 
 class ModelInstanceMetadata(BaseAggregationMetadata):
     """
-    A class used to represent the metadata associated with a model program aggregation
+    A class used to represent the metadata associated with a model instance aggregation
     """
 
     class Config:
-        title = 'Single File Aggregation Metadata'
+        title = 'Model Instance Aggregation Metadata'
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
 
@@ -396,13 +396,16 @@ class ModelInstanceMetadata(BaseAggregationMetadata):
     )
 
     includes_model_output: bool = Field(
-        title="Version", description="The software version or build number of the model"
+        title="Includes Model Output",
+        description="Indicates whether model output files are included in the aggregation",
     )
 
-    executed_by: AnyUrl = Field(default="Unknown Model Program", title="Model Program Name", description="TODO")
+    executed_by: AnyUrl = Field(default=None, title="Executed By", description="A url to the Model Program")
 
-    program_schema_json: AnyUrl = Field(default="Unknown Model Program", title="Model Program Name", description="TODO")
+    program_schema_json: AnyUrl = Field(
+        default=None, title="Schema JSON url", description="A url to the Model Program schema json"
+    )
 
     program_schema_json_values: AnyUrl = Field(
-        default="Unknown Model Program", title="Model Program Name", description="TODO"
+        default=None, title="Schema JSON values url", description="A url to the Model Program schema values json"
     )

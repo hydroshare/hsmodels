@@ -400,12 +400,20 @@ class ModelInstanceMetadata(BaseAggregationMetadata):
         description="Indicates whether model output files are included in the aggregation",
     )
 
-    executed_by: AnyUrl = Field(default=None, title="Executed By", description="A url to the Model Program")
+    executed_by: AnyUrl = Field(
+        default=None,
+        title="Executed By",
+        description="A URL to the Model Program that can be used to execute this model instance",
+    )
 
     program_schema_json: AnyUrl = Field(
-        default=None, title="Schema JSON url", description="A url to the Model Program schema json"
+        default=None,
+        title="JSON Metadata schema URL",
+        description="A URL to the JSON metadata schema for the related model program",
     )
 
     program_schema_json_values: AnyUrl = Field(
-        default=None, title="Schema JSON values url", description="A url to the Model Program schema values json"
+        default=None,
+        title="JSON metadata schema values URL",
+        description="A URL to a JSON file containing the metadata values conforming to the JSON metadata schema for the related model program",
     )

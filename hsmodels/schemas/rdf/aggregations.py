@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from typing import List
 
 from pydantic import AnyUrl, Field, root_validator
@@ -24,6 +25,7 @@ from hsmodels.schemas.rdf.root_validators import (
     parse_rdf_multidimensional_spatial_reference,
     parse_rdf_spatial_reference,
     rdf_parse_description,
+    rdf_parse_file_types,
     rdf_parse_rdf_subject,
 )
 
@@ -132,3 +134,38 @@ class SingleFileMetadataInRDF(BaseAggregationMetadataInRDF):
 
     label: str = Field(const=True, default="Single File Content: A single file with file specific metadata")
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.SingleFileAggregation, const=True)
+
+
+class ModelProgramMetadataInRDF(BaseAggregationMetadataInRDF):
+    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, const=True, default=HSTERMS.ModelProgramAggregation)
+
+    label: str = Field(const=True, default="Model Program Content: One or more files with specific metadata")
+    dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.ModelProgramAggregation, const=True)
+
+    name: str = Field(rdf_predicate=HSTERMS.modelProgramName, default=None)
+    version: str = Field(rdf_predicate=HSTERMS.modelVersion, default=None)
+    programming_languages: List[str] = Field(rdf_predicate=HSTERMS.modelProgramLanguage, default=None)
+    operating_systems: List[str] = Field(rdf_predicate=HSTERMS.modelOperatingSystem, default=None)
+    release_date: date = Field(rdf_predicate=HSTERMS.modelReleaseDate, default=None)
+    website: AnyUrl = Field(rdf_predicate=HSTERMS.modelWebsite, default=None)
+    code_repository: AnyUrl = Field(rdf_predicate=HSTERMS.modelCodeRepository, default=None)
+    program_schema_json: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchema, default=None)
+
+    release_notes: List[str] = Field(rdf_predicate=HSTERMS.modelReleaseNotes, default=None)
+    documentation: List[str] = Field(rdf_predicate=HSTERMS.modelDocumentation, default=None)
+    software: List[str] = Field(rdf_predicate=HSTERMS.modelSoftware, default=None)
+    engine: List[str] = Field(rdf_predicate=HSTERMS.modelEngine, default=None)
+
+    _parse_file_types = root_validator(pre=True, allow_reuse=True)(rdf_parse_file_types)
+
+
+class ModelInstanceMetadataInRDF(BaseAggregationMetadataInRDF):
+    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, const=True, default=HSTERMS.ModelInstanceAggregation)
+
+    label: str = Field(const=True, default="Model Instance Content: One or more files with specific metadata")
+    dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.ModelInstanceAggregation, const=True)
+
+    includes_model_output: bool = Field(rdf_predicate=HSTERMS.includesModelOutput)
+    executed_by: AnyUrl = Field(rdf_predicate=HSTERMS.executedByModelProgram, default=None)
+    program_schema_json: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchema, default=None)
+    program_schema_json_values: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchemaValues, default=None)

@@ -7,6 +7,8 @@ from hsmodels.schemas import (
     FileSetMetadata,
     GeographicFeatureMetadata,
     GeographicRasterMetadata,
+    ModelInstanceMetadata,
+    ModelProgramMetadata,
     MultidimensionalMetadata,
     ReferencedTimeSeriesMetadata,
     ResourceMetadata,
@@ -33,6 +35,8 @@ def change_test_dir(request):
 read_only_fields = [
     (ResourceMetadata, ['type', 'identifier', 'created', 'modified', 'published', 'url']),
     (GeographicRasterMetadata, ['type', 'url']),
+    (ModelProgramMetadata, ['type', 'url']),
+    (ModelInstanceMetadata, ['type', 'url']),
     (GeographicFeatureMetadata, ['type', 'url']),
     (MultidimensionalMetadata, ['type', 'url']),
     (ReferencedTimeSeriesMetadata, ['type', 'url']),
@@ -69,6 +73,8 @@ additional_metadata_fields = [
     (FileSetMetadata, ['additional_metadata']),
     (SingleFileMetadata, ['additional_metadata']),
     (TimeSeriesMetadata, ['additional_metadata']),
+    (ModelProgramMetadata, ['additional_metadata']),
+    (ModelInstanceMetadata, ['additional_metadata']),
 ]
 
 

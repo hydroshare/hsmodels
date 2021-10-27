@@ -71,6 +71,17 @@ def rdf_parse_rdf_subject(cls, values):
     return values
 
 
+def rdf_parse_file_types(cls, values):
+    if "file_types" in values:
+        for entry in values["file_types"]:
+            file_type = entry["type"]
+            if file_type.name not in values:
+                values[file_type.name] = []
+            values[file_type.name].append(entry["url"])
+        del values["file_types"]
+    return values
+
+
 def parse_rdf_extended_metadata(cls, values):
     if "additional_metadata" in values:
         values["extended_metadata"] = values["additional_metadata"]

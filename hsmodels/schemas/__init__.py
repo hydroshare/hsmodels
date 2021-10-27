@@ -10,6 +10,8 @@ from hsmodels.schemas.aggregations import (
     FileSetMetadata,
     GeographicFeatureMetadata,
     GeographicRasterMetadata,
+    ModelInstanceMetadata,
+    ModelProgramMetadata,
     MultidimensionalMetadata,
     ReferencedTimeSeriesMetadata,
     SingleFileMetadata,
@@ -20,6 +22,8 @@ from hsmodels.schemas.rdf.aggregations import (
     FileSetMetadataInRDF,
     GeographicFeatureMetadataInRDF,
     GeographicRasterMetadataInRDF,
+    ModelInstanceMetadataInRDF,
+    ModelProgramMetadataInRDF,
     MultidimensionalMetadataInRDF,
     ReferencedTimeSeriesMetadataInRDF,
     SingleFileMetadataInRDF,
@@ -38,6 +42,8 @@ rdf_schemas = {
     HSTERMS.FileSetAggregation: FileSetMetadataInRDF,
     HSTERMS.SingleFileAggregation: SingleFileMetadataInRDF,
     HSTERMS.TimeSeriesAggregation: TimeSeriesMetadataInRDF,
+    HSTERMS.ModelProgramAggregation: ModelProgramMetadataInRDF,
+    HSTERMS.ModelInstanceAggregation: ModelInstanceMetadataInRDF,
 }
 
 user_schemas = {
@@ -49,6 +55,8 @@ user_schemas = {
     FileSetMetadataInRDF: FileSetMetadata,
     SingleFileMetadataInRDF: SingleFileMetadata,
     TimeSeriesMetadataInRDF: TimeSeriesMetadata,
+    ModelProgramMetadataInRDF: ModelProgramMetadata,
+    ModelInstanceMetadataInRDF: ModelInstanceMetadata,
 }
 
 
@@ -102,7 +110,7 @@ def _rdf_fields(schema):
 def _rdf_graph(schema, graph=None):
     for f, predicate in _rdf_fields(schema):
         values = getattr(schema, f.name, None)
-        if values:
+        if values is not None:
             if not isinstance(values, list):
                 # handle single values as a list to simplify
                 values = [values]
@@ -116,12 +124,6 @@ def _rdf_graph(schema, graph=None):
                     # primitive value
                     if isinstance(value, AnyUrl):
                         value = URIRef(value)
-                    elif isinstance(value, datetime):
-                        value = Literal(value.isoformat())
-                    elif isinstance(value, int):
-                        value = Literal(value, datatype=XSD.integer)
-                    elif isinstance(value, float):
-                        value = Literal(value, datatype=XSD.double)
                     elif isinstance(value, TermEnum):
                         value = URIRef(value.value)
                     elif isinstance(value, Enum):

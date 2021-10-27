@@ -961,4 +961,6 @@ class ModelProgramFile(BaseMetadata):
     type: ModelProgramFileType = Field(
         title="Model program file type", description="The type of the file used by the model program"
     )
-    url: AnyUrl = Field(title="Model program file url", description="The url of the file used by the model program")
+    url: AnyUrl = Field(
+        title="Model program file url", description="The url of the file used by the model program", default=None
+    )

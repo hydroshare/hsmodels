@@ -12,21 +12,14 @@ from hsmodels.schemas.fields import BoxCoverage, PeriodCoverage, PointCoverage
 from hsmodels.utils import to_coverage_dict
 
 
-@pytest.fixture(scope="function")
-def change_test_dir(request):
-    os.chdir(request.fspath.dirname)
-    yield
-    os.chdir(request.config.invocation_dir)
-
-
 @pytest.fixture()
-def res_md(change_test_dir):
+def res_md():
     with open("data/metadata/resourcemetadata.xml", 'r') as f:
         return load_rdf(f.read())
 
 
 @pytest.fixture()
-def res_md_point(change_test_dir):
+def res_md_point():
     with open("data/metadata/resourcemetadata_with_point_coverage.xml", 'r') as f:
         return load_rdf(f.read())
 
@@ -65,7 +58,7 @@ metadata_files = [
 
 
 @pytest.mark.parametrize("metadata_file", metadata_files)
-def test_resource_serialization(change_test_dir, metadata_file):
+def test_resource_serialization(metadata_file):
     metadata_file = os.path.join('data', 'metadata', metadata_file)
     with open(metadata_file, 'r') as f:
         md = load_rdf(f.read())

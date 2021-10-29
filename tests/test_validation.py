@@ -1,4 +1,3 @@
-import os
 from datetime import datetime, timedelta
 
 import pytest
@@ -12,21 +11,14 @@ from hsmodels.schemas.rdf.fields import DateInRDF, ExtendedMetadataInRDF
 from hsmodels.schemas.resource import ResourceMetadata
 
 
-@pytest.fixture(scope="function")
-def change_test_dir(request):
-    os.chdir(request.fspath.dirname)
-    yield
-    os.chdir(request.config.invocation_dir)
-
-
 @pytest.fixture()
-def res_md(change_test_dir):
+def res_md():
     with open("data/metadata/resourcemetadata.xml", 'r') as f:
         return load_rdf(f.read())
 
 
 @pytest.fixture()
-def agg_md(change_test_dir):
+def agg_md():
     with open("data/metadata/geographicraster_meta.xml", 'r') as f:
         return load_rdf(f.read())
 

@@ -17,49 +17,28 @@ from hsmodels.schemas.fields import (
 )
 from hsmodels.schemas.rdf.validators import language_constraint, subjects_constraint
 from hsmodels.schemas.root_validators import (
+    normalize_additional_metadata,
     parse_abstract,
     parse_additional_metadata,
     parse_url,
     split_coverages,
     split_dates,
 )
-from hsmodels.schemas.validators import (
-    list_not_empty,
-    normalize_additional_metadata,
-    parse_identifier,
-    parse_sources,
-    parse_spatial_coverage,
-)
+from hsmodels.schemas.validators import list_not_empty, parse_identifier, parse_sources, parse_spatial_coverage
 
 
-class ResourceMetadata(BaseMetadata):
+class ResourceMetadataIn(BaseMetadata):
     """
-    A class used to represent the metadata for a resource
+    A class used to represent the metadata for a resource that can be modified
     """
 
     class Config:
         title = 'Resource Metadata'
 
         schema_config = {
-            'read_only': ['type', 'identifier', 'created', 'modified', 'published', 'url'],
             'dictionary_field': ['additional_metadata'],
         }
 
-    type: str = Field(
-        const=True,
-        default="CompositeResource",
-        title="Resource Type",
-        description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
-        allow_mutation=False,
-    )
-
-    url: AnyUrl = Field(title="URL", description="An object containing the URL for a resource", allow_mutation=False)
-
-    identifier: AnyUrl = Field(
-        title="Identifier",
-        description="An object containing the URL-encoded unique identifier for a resource",
-        allow_mutation=False,
-    )
     title: str = Field(
         max_length=300, default=None, title="Title", description="A string containing the name given to a resource"
     )
@@ -99,24 +78,6 @@ class ResourceMetadata(BaseMetadata):
     rights: Rights = Field(
         title="Rights", description="An object containing information about rights held in an over a resource"
     )
-    created: datetime = Field(
-        default_factory=datetime.now,
-        title="Creation date",
-        description="A datetime object containing the instant associated with when a resource was created",
-        allow_mutation=False,
-    )
-    modified: datetime = Field(
-        default_factory=datetime.now,
-        title="Modified date",
-        description="A datetime object containing the instant associated with when a resource was last modified",
-        allow_mutation=False,
-    )
-    published: datetime = Field(
-        default=None,
-        title="Published date",
-        description="A datetime object containing the instant associated with when a resource was published",
-        allow_mutation=False,
-    )
     awards: List[AwardInfo] = Field(
         default=[],
         title="Funding agency information",
@@ -142,18 +103,66 @@ class ResourceMetadata(BaseMetadata):
     )
 
     _parse_coverages = root_validator(pre=True, allow_reuse=True)(split_coverages)
-    _parse_dates = root_validator(pre=True, allow_reuse=True)(split_dates)
     _parse_additional_metadata = root_validator(pre=True, allow_reuse=True)(parse_additional_metadata)
     _parse_abstract = root_validator(pre=True)(parse_abstract)
-    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
-
-    _parse_identifier = validator("identifier", pre=True)(parse_identifier)
     _parse_sources = validator("sources", pre=True)(parse_sources)
     _parse_spatial_coverage = validator("spatial_coverage", allow_reuse=True, pre=True)(parse_spatial_coverage)
-    _normalize_additional_metadata = validator("additional_metadata", allow_reuse=True, pre=True)(
-        normalize_additional_metadata
-    )
+
+    _normalize_additional_metadata = root_validator(allow_reuse=True, pre=True)(normalize_additional_metadata)
 
     _subjects_constraint = validator('subjects', allow_reuse=True)(subjects_constraint)
     _language_constraint = validator('language', allow_reuse=True)(language_constraint)
     _creators_constraint = validator('creators')(list_not_empty)
+
+
+class ResourceMetadata(ResourceMetadataIn):
+    """
+    A class used to represent the metadata for a resource
+    """
+
+    class Config:
+        title = 'Resource Metadata'
+
+        schema_config = {
+            'read_only': ['type', 'identifier', 'created', 'modified', 'published', 'url'],
+            'dictionary_field': ['additional_metadata'],
+        }
+
+    type: str = Field(
+        const=True,
+        default="CompositeResource",
+        title="Resource Type",
+        description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
+        allow_mutation=False,
+    )
+
+    url: AnyUrl = Field(title="URL", description="An object containing the URL for a resource", allow_mutation=False)
+
+    identifier: AnyUrl = Field(
+        title="Identifier",
+        description="An object containing the URL-encoded unique identifier for a resource",
+        allow_mutation=False,
+    )
+    created: datetime = Field(
+        default_factory=datetime.now,
+        title="Creation date",
+        description="A datetime object containing the instant associated with when a resource was created",
+        allow_mutation=False,
+    )
+    modified: datetime = Field(
+        default_factory=datetime.now,
+        title="Modified date",
+        description="A datetime object containing the instant associated with when a resource was last modified",
+        allow_mutation=False,
+    )
+    published: datetime = Field(
+        default=None,
+        title="Published date",
+        description="A datetime object containing the instant associated with when a resource was published",
+        allow_mutation=False,
+    )
+
+    _parse_dates = root_validator(pre=True, allow_reuse=True)(split_dates)
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
+    _parse_identifier = validator("identifier", pre=True)(parse_identifier)

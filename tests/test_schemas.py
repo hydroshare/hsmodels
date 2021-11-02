@@ -22,7 +22,6 @@ from hsmodels.schemas.fields import (
     PointSpatialReference,
 )
 
-
 read_only_fields = [
     (ResourceMetadata, ['type', 'identifier', 'created', 'modified', 'published', 'url']),
     (GeographicRasterMetadata, ['type', 'url']),

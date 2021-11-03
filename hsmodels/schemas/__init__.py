@@ -1,11 +1,10 @@
 import inspect
-from datetime import datetime
 from enum import Enum
 
 from pydantic import AnyUrl, BaseModel
 from rdflib import Graph, Literal, URIRef
 
-from hsmodels.namespaces import DC, HSTERMS, ORE, RDF, RDFS1, XSD
+from hsmodels.namespaces import DC, HSTERMS, ORE, RDF, RDFS1
 from hsmodels.schemas.aggregations import (
     FileSetMetadata,
     GeographicFeatureMetadata,

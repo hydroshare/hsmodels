@@ -4,7 +4,7 @@ README = 'Refer to the models seciont of https://hydroshare.github.io/hsclient/'
 
 setup(
     name='hsmodels',
-    version='0.3.0',
+    version='0.3.0a',
     packages=find_packages(include=['hsmodels', 'hsmodels.*', 'hsmodels.schemas.*', 'hsmodels.schemas.rdf.*'],
                            exclude=("tests",)),
     install_requires=[

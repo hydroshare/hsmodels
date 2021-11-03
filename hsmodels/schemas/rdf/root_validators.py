@@ -84,8 +84,16 @@ def rdf_parse_file_types(cls, values):
 
 def parse_rdf_extended_metadata(cls, values):
     if "additional_metadata" in values:
-        values["extended_metadata"] = values["additional_metadata"]
+        if type(values["additional_metadata"] is list):
+            values["extended_metadata"] = values["additional_metadata"]
+        else:
+            assert type(values["additional_metadata"]) is dict
+            em = []
+            for key, value in values["additional_metadata"].items():
+                em.append({"key": key, "value": value})
+            values["extended_metadata"] = em
         del values["additional_metadata"]
+
     return values
 
 

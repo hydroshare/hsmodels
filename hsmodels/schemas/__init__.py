@@ -1,11 +1,10 @@
 import inspect
-from datetime import datetime
 from enum import Enum
 
 from pydantic import AnyUrl, BaseModel
 from rdflib import Graph, Literal, URIRef
 
-from hsmodels.namespaces import DC, HSTERMS, ORE, RDF, RDFS1, XSD
+from hsmodels.namespaces import DC, HSTERMS, ORE, RDF, RDFS1
 from hsmodels.schemas.aggregations import (
     FileSetMetadata,
     GeographicFeatureMetadata,
@@ -84,7 +83,7 @@ def parse_file(schema, file, file_format='xml', subject=None):
 def rdf_graph(schema):
     for rdf_schema, user_schema in user_schemas.items():
         if isinstance(schema, user_schema):
-            return _rdf_graph(rdf_schema(**schema.dict()), Graph())
+            return _rdf_graph(rdf_schema(**schema.dict(to_rdf=True)), Graph())
     return _rdf_graph(schema, Graph())
 
 

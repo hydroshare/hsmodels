@@ -15,6 +15,7 @@ class BaseMetadata(BaseModel):
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = True,
+        to_rdf: bool = False
     ) -> 'DictStrAny':
         """
         Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
@@ -35,7 +36,7 @@ class BaseMetadata(BaseModel):
             exclude_none=exclude_none,
         )
 
-        if hasattr(self.Config, "schema_config"):
+        if to_rdf and hasattr(self.Config, "schema_config"):
             schema_config = self.Config.schema_config
             if "dictionary_field" in schema_config:
                 for field in schema_config["dictionary_field"]:

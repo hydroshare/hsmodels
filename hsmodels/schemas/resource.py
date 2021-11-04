@@ -27,6 +27,8 @@ from hsmodels.schemas.root_validators import (
 from hsmodels.schemas.validators import list_not_empty, parse_identifier, parse_sources, parse_spatial_coverage
 
 
+
+
 class ResourceMetadataIn(BaseMetadata):
     """
     A class used to represent the metadata for a resource that can be modified
@@ -44,8 +46,9 @@ class ResourceMetadataIn(BaseMetadata):
     )
     abstract: str = Field(default=None, title="Abstract", description="A string containing a summary of a resource")
     language: str = Field(
+        default="eng",
         title="Language",
-        description="A 3-character string for the language in which the metadata and content of a resource are expressed",
+        description="A 3-character string for the language in which the metadata and content of a resource are expressed"
     )
     subjects: List[str] = Field(
         default=[], title="Subject keywords", description="A list of keyword strings expressing the topic of a resource"
@@ -76,6 +79,7 @@ class ResourceMetadataIn(BaseMetadata):
         description="A dictionary containing key-value pair metadata associated with a resource",
     )
     rights: Rights = Field(
+        default_factory=Rights.Creative_Commons_Attribution_CC_BY,
         title="Rights", description="An object containing information about rights held in an over a resource"
     )
     awards: List[AwardInfo] = Field(

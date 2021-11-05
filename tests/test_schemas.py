@@ -81,5 +81,5 @@ def test_dictionary_field(additional_metadata_field):
             "title": "Key-Value",
             "description": "A key-value pair",
             "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
-            "required": ["key", "value"],
+            # "required": ["key", "value"],
         }

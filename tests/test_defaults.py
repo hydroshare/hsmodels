@@ -1,5 +1,3 @@
-from typing import get_origin
-
 import pytest
 
 from hsmodels.schemas.aggregations import (
@@ -49,6 +47,10 @@ schema_list_count = [
     (ModelInstanceMetadataInRDF, 3),
     (FileSetMetadataInRDF, 3),
 ]
+
+
+def get_origin(t):
+    return getattr(t, '__origin__', None)
 
 
 @pytest.mark.parametrize("schema_list_count", schema_list_count)

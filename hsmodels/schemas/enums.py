@@ -71,8 +71,8 @@ class AggregationType(StringEnum):
     GeographicFeatureAggregation = "GeoFeature"
     ReferencedTimeSeriesAggregation = "RefTimeseries"
     TimeSeriesAggregation = "TimeSeries"
-    ModelProgramAggregation = "Model Program"
-    ModelInstanceAggregation = "Model Instance"
+    ModelProgramAggregation = "ModelProgram"
+    ModelInstanceAggregation = "ModelInstance"
 
 
 class DateType(TermEnum):

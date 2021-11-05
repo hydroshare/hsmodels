@@ -15,7 +15,7 @@ class BaseMetadata(BaseModel):
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = True,
-        to_rdf: bool = False
+        to_rdf: bool = False,
     ) -> 'DictStrAny':
         """
         Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.

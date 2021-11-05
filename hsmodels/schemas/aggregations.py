@@ -148,6 +148,7 @@ class GeographicFeatureMetadata(BaseAggregationMetadata):
     )
 
     field_information: List[FieldInformation] = Field(
+        default=[],
         title="Field information",
         description="A list of objects containing information about the fields in the dataset attribute table",
     )
@@ -187,6 +188,7 @@ class MultidimensionalMetadata(BaseAggregationMetadata):
     )
 
     variables: List[Variable] = Field(
+        default=[],
         title="Variables",
         description="A list containing information about the variables for which data are stored in the dataset",
     )
@@ -294,6 +296,7 @@ class TimeSeriesMetadata(BaseAggregationMetadata):
     )
 
     time_series_results: List[TimeSeriesResult] = Field(
+        default=[],
         title="Time series results",
         description="A list of time series results contained within the time series aggregation",
     )
@@ -363,7 +366,7 @@ class ModelProgramMetadata(BaseAggregationMetadata):
     )
 
     file_types: List[ModelProgramFile] = Field(
-        default=None, title='File Types', description='File types used by the model program'
+        default=[], title='File Types', description='File types used by the model program'
     )
 
     program_schema_json: AnyUrl = Field(

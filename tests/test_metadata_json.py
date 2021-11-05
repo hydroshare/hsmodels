@@ -1,6 +1,7 @@
 import json
 
 import pytest
+
 from hsmodels.schemas.resource import ResourceMetadata, ResourceMetadataIn
 
 

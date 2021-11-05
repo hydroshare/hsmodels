@@ -70,7 +70,7 @@ class GeographicFeatureMetadataInRDF(BaseAggregationMetadataInRDF):
     )
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.GeographicFeatureAggregation, const=True)
 
-    field_information: List[FieldInformationInRDF] = Field(rdf_predicate=HSTERMS.FieldInformation)
+    field_information: List[FieldInformationInRDF] = Field(rdf_predicate=HSTERMS.FieldInformation, default=[])
     geometry_information: GeometryInformationInRDF = Field(rdf_predicate=HSTERMS.GeometryInformation)
     spatial_reference: SpatialReferenceInRDF = Field(rdf_predicate=HSTERMS.spatialReference, default=None)
 
@@ -87,7 +87,7 @@ class MultidimensionalMetadataInRDF(BaseAggregationMetadataInRDF):
     )
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.MultidimensionalAggregation, const=True)
 
-    variables: List[VariableInRDF] = Field(rdf_predicate=HSTERMS.Variable)
+    variables: List[VariableInRDF] = Field(rdf_predicate=HSTERMS.Variable, default=[])
     spatial_reference: MultidimensionalSpatialReferenceInRDF = Field(
         rdf_predicate=HSTERMS.spatialReference, default=None
     )
@@ -106,7 +106,7 @@ class TimeSeriesMetadataInRDF(BaseAggregationMetadataInRDF):
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.TimeSeriesAggregation, const=True)
     description: DescriptionInRDF = Field(rdf_predicate=DC.description, default_factory=DescriptionInRDF)
 
-    time_series_results: List[TimeSeriesResultInRDF] = Field(rdf_predicate=HSTERMS.timeSeriesResult)
+    time_series_results: List[TimeSeriesResultInRDF] = Field(rdf_predicate=HSTERMS.timeSeriesResult, default=[])
 
     _parse_description = root_validator(pre=True, allow_reuse=True)(rdf_parse_description)
 
@@ -144,17 +144,17 @@ class ModelProgramMetadataInRDF(BaseAggregationMetadataInRDF):
 
     name: str = Field(rdf_predicate=HSTERMS.modelProgramName, default=None)
     version: str = Field(rdf_predicate=HSTERMS.modelVersion, default=None)
-    programming_languages: List[str] = Field(rdf_predicate=HSTERMS.modelProgramLanguage, default=None)
-    operating_systems: List[str] = Field(rdf_predicate=HSTERMS.modelOperatingSystem, default=None)
+    programming_languages: List[str] = Field(rdf_predicate=HSTERMS.modelProgramLanguage, default=[])
+    operating_systems: List[str] = Field(rdf_predicate=HSTERMS.modelOperatingSystem, default=[])
     release_date: date = Field(rdf_predicate=HSTERMS.modelReleaseDate, default=None)
     website: AnyUrl = Field(rdf_predicate=HSTERMS.modelWebsite, default=None)
     code_repository: AnyUrl = Field(rdf_predicate=HSTERMS.modelCodeRepository, default=None)
     program_schema_json: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchema, default=None)
 
-    release_notes: List[str] = Field(rdf_predicate=HSTERMS.modelReleaseNotes, default=None)
-    documentation: List[str] = Field(rdf_predicate=HSTERMS.modelDocumentation, default=None)
-    software: List[str] = Field(rdf_predicate=HSTERMS.modelSoftware, default=None)
-    engine: List[str] = Field(rdf_predicate=HSTERMS.modelEngine, default=None)
+    release_notes: List[str] = Field(rdf_predicate=HSTERMS.modelReleaseNotes, default=[])
+    documentation: List[str] = Field(rdf_predicate=HSTERMS.modelDocumentation, default=[])
+    software: List[str] = Field(rdf_predicate=HSTERMS.modelSoftware, default=[])
+    engine: List[str] = Field(rdf_predicate=HSTERMS.modelEngine, default=[])
 
     _parse_file_types = root_validator(pre=True, allow_reuse=True)(rdf_parse_file_types)
 

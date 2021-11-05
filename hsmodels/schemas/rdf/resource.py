@@ -46,7 +46,7 @@ class FileMap(BaseModel):
     rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, const=True, default=ORE.Aggregation)
 
     is_documented_by: AnyUrl = Field(rdf_predicate=CITOTERMS.isDocumentedBy)
-    files: List[AnyUrl] = Field(rdf_predicate=ORE.aggregates)
+    files: List[AnyUrl] = Field(rdf_predicate=ORE.aggregates, default=[])
     title: str = Field(rdf_predicate=DC.title)
     is_described_by: AnyUrl = Field(rdf_predicate=ORE.isDescribedBy)
 
@@ -76,14 +76,14 @@ class ResourceMetadataInRDF(BaseModel):
     subjects: List[str] = Field(rdf_predicate=DC.subject, default=[])
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.CompositeResource, const=True)
     identifier: IdentifierInRDF = Field(rdf_predicate=DC.identifier, cont=True)
-    creators: List[CreatorInRDF] = Field(rdf_predicate=DC.creator)
+    creators: List[CreatorInRDF] = Field(rdf_predicate=DC.creator, default=[])
 
     contributors: List[ContributorInRDF] = Field(rdf_predicate=DC.contributor, default=[])
     sources: List[SourceInRDF] = Field(rdf_predicate=DC.source, default=[])
     relations: List[RelationInRDF] = Field(rdf_predicate=DC.relation, default=[])
     extended_metadata: List[ExtendedMetadataInRDF] = Field(rdf_predicate=HSTERMS.extendedMetadata, default=[])
     rights: RightsInRDF = Field(rdf_predicate=DC.rights, default=None)
-    dates: List[DateInRDF] = Field(rdf_predicate=DC.date)
+    dates: List[DateInRDF] = Field(rdf_predicate=DC.date, default=[])
     awards: List[AwardInfoInRDF] = Field(rdf_predicate=HSTERMS.awardInfo, default=[])
     coverages: List[CoverageInRDF] = Field(rdf_predicate=DC.coverage, default=[])
     publisher: PublisherInRDF = Field(rdf_predicate=DC.publisher, default=None)

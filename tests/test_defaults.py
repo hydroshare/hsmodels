@@ -1,0 +1,65 @@
+import pytest
+
+from hsmodels.schemas.aggregations import (
+    FileSetMetadata,
+    GeographicFeatureMetadata,
+    GeographicRasterMetadata,
+    ModelInstanceMetadata,
+    ModelProgramMetadata,
+    MultidimensionalMetadata,
+    ReferencedTimeSeriesMetadata,
+    SingleFileMetadata,
+    TimeSeriesMetadata,
+)
+from hsmodels.schemas.rdf.aggregations import (
+    FileSetMetadataInRDF,
+    GeographicFeatureMetadataInRDF,
+    GeographicRasterMetadataInRDF,
+    ModelInstanceMetadataInRDF,
+    ModelProgramMetadataInRDF,
+    MultidimensionalMetadataInRDF,
+    ReferencedTimeSeriesMetadataInRDF,
+    SingleFileMetadataInRDF,
+    TimeSeriesMetadataInRDF,
+)
+from hsmodels.schemas.rdf.resource import ResourceMetadataInRDF
+from hsmodels.schemas.resource import ResourceMetadata
+
+schema_list_count = [
+    (ResourceMetadata, 6),
+    (GeographicRasterMetadata, 1),
+    (GeographicFeatureMetadata, 2),
+    (MultidimensionalMetadata, 2),
+    (ReferencedTimeSeriesMetadata, 1),
+    (FileSetMetadata, 1),
+    (SingleFileMetadata, 1),
+    (TimeSeriesMetadata, 2),
+    (ModelProgramMetadata, 4),
+    (ModelInstanceMetadata, 1),
+    (ResourceMetadataInRDF, 9),
+    (GeographicRasterMetadataInRDF, 3),
+    (GeographicFeatureMetadataInRDF, 4),
+    (MultidimensionalMetadataInRDF, 4),
+    (ReferencedTimeSeriesMetadataInRDF, 3),
+    (SingleFileMetadataInRDF, 3),
+    (TimeSeriesMetadataInRDF, 4),
+    (ModelProgramMetadataInRDF, 9),
+    (ModelInstanceMetadataInRDF, 3),
+    (FileSetMetadataInRDF, 3),
+]
+
+
+def get_origin(t):
+    return getattr(t, '__origin__', None)
+
+
+@pytest.mark.parametrize("schema_list_count", schema_list_count)
+def test_lists_default_empty(schema_list_count):
+    schema, number_of_lists = schema_list_count
+    list_count = 0
+    for f in schema.__fields__.values():
+        origin = get_origin(f.outer_type_)
+        if origin is list:
+            assert f.default == []
+            list_count = list_count + 1
+    assert list_count == number_of_lists

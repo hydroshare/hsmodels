@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Any, Callable, Dict, Optional, Union
 
 from pydantic import BaseModel
+from pydantic.schema import default_ref_template, model_schema
 
 
 class BaseMetadata(BaseModel):
@@ -76,6 +77,21 @@ class BaseMetadata(BaseModel):
             **dumps_kwargs,
         )
 
+    @classmethod
+    def schema(cls, by_alias: bool = True, ref_template: str = default_ref_template) -> 'DictStrAny':
+        cached = cls.__schema_cache__.get((by_alias, ref_template))
+        if cached is not None:
+            return cached
+        s = model_schema(cls, by_alias=by_alias, ref_template=ref_template)
+
+        if 'definitions' in s:
+            # TODO this is a terrible hack that needs to be revisited once we get a form build that embedded properties
+            from hsmodels.schemas.fields import AdditionalMetadata
+
+            s['definitions']['AdditionalMetadata'] = AdditionalMetadata.schema()
+        cls.__schema_cache__[(by_alias, ref_template)] = s
+        return s
+
     class Config:
         validate_assignment = True
 
@@ -93,13 +109,7 @@ class BaseMetadata(BaseModel):
                         prop.pop('default', None)
                         prop.pop('additionalProperties', None)
                         prop['type'] = "array"
-                        prop['items'] = {
-                            "type": "object",
-                            "title": "Key-Value",
-                            "description": "A key-value pair",
-                            "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
-                            # "required": ["key", "value"],  TODO re-enable when form generation implements this correctly
-                        }
+                        prop['items'] = {"$ref": "#/definitions/AdditionalMetadata"}
 
 
 class BaseCoverage(BaseMetadata):

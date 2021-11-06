@@ -974,5 +974,5 @@ class AdditionalMetadata(BaseMetadata):
     class Config:
         title = "Additional metadata"
 
-    key: str = Field(title="Key", description="A string for the additional metadata key")
-    value: str = Field(title="Value", description="A string for the additional metadata value")
+    key: str = Field(title="Key", description="A string for the additional metadata key", default="")
+    value: str = Field(title="Value", description="A string for the additional metadata value", default="")

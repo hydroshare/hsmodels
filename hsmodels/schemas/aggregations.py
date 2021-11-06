@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from typing import List, Union
+from typing import Dict, List, Union
 
 from pydantic import AnyUrl, Field, root_validator, validator
 
@@ -56,7 +56,7 @@ class BaseAggregationMetadata(BaseMetadata):
         title="Language",
         description="The 3-character string for the language in which the metadata and content are expressed",
     )
-    additional_metadata: dict = Field(
+    additional_metadata: Dict[str, str] = Field(
         default={},
         title="Extended metadata",
         description="A list of extended metadata elements expressed as key-value pairs",

@@ -29,13 +29,14 @@ from hsmodels.schemas.validators import list_not_empty, parse_identifier, parse_
 
 class ResourceMetadataIn(BaseMetadata):
     """
-    A class used to represent the metadata for a resource that can be modified
+    A class used to represent the metadata for a resource
     """
 
     class Config:
         title = 'Resource Metadata'
 
         schema_config = {
+            'read_only': ['type', 'identifier', 'created', 'modified', 'published', 'url'],
             'dictionary_field': ['additional_metadata'],
         }
 
@@ -119,17 +120,6 @@ class ResourceMetadataIn(BaseMetadata):
 
 
 class ResourceMetadata(ResourceMetadataIn):
-    """
-    A class used to represent the metadata for a resource
-    """
-
-    class Config:
-        title = 'Resource Metadata'
-
-        schema_config = {
-            'read_only': ['type', 'identifier', 'created', 'modified', 'published', 'url'],
-            'dictionary_field': ['additional_metadata'],
-        }
 
     type: str = Field(
         const=True,

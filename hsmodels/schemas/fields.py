@@ -964,15 +964,3 @@ class ModelProgramFile(BaseMetadata):
     url: AnyUrl = Field(
         title="Model program file url", description="The url of the file used by the model program", default=None
     )
-
-
-class AdditionalMetadata(BaseMetadata):
-    """
-    A class used to represent the additional metadata Key/Value pairs
-    """
-
-    class Config:
-        title = "Additional metadata"
-
-    key: str = Field(title="Key", description="A string for the additional metadata key", default="")
-    value: str = Field(title="Value", description="A string for the additional metadata value", default="")

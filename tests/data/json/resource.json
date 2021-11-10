@@ -1,7 +1,4 @@
 {
-  "type": "CompositeResource",
-  "url": "http://www.hydroshare.org/resource/0fdbb27857844644bacc274882601598",
-  "identifier": "http://www.hydroshare.org/resource/0fdbb27857844644bacc274882601598",
   "title": "sadfadsgasdf",
   "abstract": "sadfasdfsadfa",
   "language": "eng",
@@ -87,8 +84,6 @@
     "statement": "my statement",
     "url": "http://studio.bakajo.com"
   },
-  "created": "2020-07-09T19:12:21.354703+00:00",
-  "modified": "2020-11-13T19:40:57.276064+00:00",
   "awards": [
     {
       "funding_agency_name": "agency1",

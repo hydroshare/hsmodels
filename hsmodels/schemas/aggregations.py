@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 from typing import Dict, List, Union
 
 from pydantic import AnyUrl, Field, root_validator, validator
@@ -38,11 +38,8 @@ from hsmodels.schemas.validators import (
 )
 
 
-class BaseAggregationMetadata(BaseMetadata):
+class BaseAggregationMetadataIn(BaseMetadata):
 
-    url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
-    )
     title: str = Field(
         title="Aggregation title", description="A string containing a descriptive title for the aggregation"
     )
@@ -79,7 +76,6 @@ class BaseAggregationMetadata(BaseMetadata):
 
     _parse_additional_metadata = root_validator(pre=True, allow_reuse=True)(parse_additional_metadata)
     _parse_coverages = root_validator(pre=True, allow_reuse=True)(split_coverages)
-    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
 
     _subjects_constraint = validator('subjects', allow_reuse=True)(subjects_constraint)
     _language_constraint = validator('language', allow_reuse=True)(language_constraint)
@@ -87,7 +83,7 @@ class BaseAggregationMetadata(BaseMetadata):
     _normalize_additional_metadata = root_validator(allow_reuse=True, pre=True)(normalize_additional_metadata)
 
 
-class GeographicRasterMetadata(BaseAggregationMetadata):
+class GeographicRasterMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a geographic raster aggregation
 
@@ -100,14 +96,6 @@ class GeographicRasterMetadata(BaseAggregationMetadata):
         title = 'Geographic Raster Aggregation Metadata'
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
-
-    type: AggregationType = Field(
-        const=True,
-        default=AggregationType.GeographicRasterAggregation,
-        title="Aggregation type",
-        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
-    )
 
     band_information: BandInformation = Field(
         title="Band information",
@@ -125,7 +113,26 @@ class GeographicRasterMetadata(BaseAggregationMetadata):
     _parse_spatial_reference = validator("spatial_reference", pre=True, allow_reuse=True)(parse_spatial_reference)
 
 
-class GeographicFeatureMetadata(BaseAggregationMetadata):
+class GeographicRasterMetadata(GeographicRasterMetadataIn):
+
+    _type = AggregationType.GeographicRasterAggregation
+
+    type: AggregationType = Field(
+        const=True,
+        default=_type,
+        title="Aggregation type",
+        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False,
+    )
+
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
+
+class GeographicFeatureMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a geographic feature aggregation
 
@@ -138,14 +145,6 @@ class GeographicFeatureMetadata(BaseAggregationMetadata):
         title = 'Geographic Feature Aggregation Metadata'
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
-
-    type: AggregationType = Field(
-        const=True,
-        default=AggregationType.GeographicFeatureAggregation,
-        title="Aggregation type",
-        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
-    )
 
     field_information: List[FieldInformation] = Field(
         default=[],
@@ -165,7 +164,24 @@ class GeographicFeatureMetadata(BaseAggregationMetadata):
     _parse_spatial_reference = validator("spatial_reference", pre=True, allow_reuse=True)(parse_spatial_reference)
 
 
-class MultidimensionalMetadata(BaseAggregationMetadata):
+class GeographicFeatureMetadata(GeographicFeatureMetadataIn):
+
+    type: AggregationType = Field(
+        const=True,
+        default=AggregationType.GeographicFeatureAggregation,
+        title="Aggregation type",
+        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False,
+    )
+
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
+
+class MultidimensionalMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a multidimensional space-time aggregation
 
@@ -178,14 +194,6 @@ class MultidimensionalMetadata(BaseAggregationMetadata):
         title = 'Multidimensional Aggregation Metadata'
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
-
-    type: AggregationType = Field(
-        const=True,
-        default=AggregationType.MultidimensionalAggregation,
-        title="Aggregation type",
-        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
-    )
 
     variables: List[Variable] = Field(
         default=[],
@@ -203,7 +211,24 @@ class MultidimensionalMetadata(BaseAggregationMetadata):
     )
 
 
-class ReferencedTimeSeriesMetadata(BaseAggregationMetadata):
+class MultidimensionalMetadata(MultidimensionalMetadataIn):
+
+    type: AggregationType = Field(
+        const=True,
+        default=AggregationType.MultidimensionalAggregation,
+        title="Aggregation type",
+        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False,
+    )
+
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
+
+class ReferencedTimeSeriesMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a referenced time series aggregation
 
@@ -217,6 +242,9 @@ class ReferencedTimeSeriesMetadata(BaseAggregationMetadata):
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
 
+
+class ReferencedTimeSeriesMetadata(ReferencedTimeSeriesMetadataIn):
+
     type: AggregationType = Field(
         const=True,
         default=AggregationType.ReferencedTimeSeriesAggregation,
@@ -225,8 +253,14 @@ class ReferencedTimeSeriesMetadata(BaseAggregationMetadata):
         allow_mutation=False,
     )
 
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
 
-class FileSetMetadata(BaseAggregationMetadata):
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
+
+class FileSetMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a file set aggregation
 
@@ -240,6 +274,9 @@ class FileSetMetadata(BaseAggregationMetadata):
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
 
+
+class FileSetMetadata(FileSetMetadataIn):
+
     type: AggregationType = Field(
         const=True,
         default=AggregationType.FileSetAggregation,
@@ -248,8 +285,14 @@ class FileSetMetadata(BaseAggregationMetadata):
         allow_mutation=False,
     )
 
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
 
-class SingleFileMetadata(BaseAggregationMetadata):
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
+
+class SingleFileMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a single file aggregation
 
@@ -262,6 +305,9 @@ class SingleFileMetadata(BaseAggregationMetadata):
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
 
+
+class SingleFileMetadata(SingleFileMetadataIn):
+
     type: AggregationType = Field(
         const=True,
         default=AggregationType.SingleFileAggregation,
@@ -270,8 +316,14 @@ class SingleFileMetadata(BaseAggregationMetadata):
         allow_mutation=False,
     )
 
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
 
-class TimeSeriesMetadata(BaseAggregationMetadata):
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
+
+class TimeSeriesMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a time series aggregation
 
@@ -287,14 +339,6 @@ class TimeSeriesMetadata(BaseAggregationMetadata):
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
 
-    type: AggregationType = Field(
-        const=True,
-        default=AggregationType.TimeSeriesAggregation,
-        title="Aggregation type",
-        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
-    )
-
     time_series_results: List[TimeSeriesResult] = Field(
         default=[],
         title="Time series results",
@@ -306,7 +350,24 @@ class TimeSeriesMetadata(BaseAggregationMetadata):
     _parse_abstract = root_validator(pre=True, allow_reuse=True)(parse_abstract)
 
 
-class ModelProgramMetadata(BaseAggregationMetadata):
+class TimeSeriesMetadata(TimeSeriesMetadataIn):
+
+    type: AggregationType = Field(
+        const=True,
+        default=AggregationType.TimeSeriesAggregation,
+        title="Aggregation type",
+        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False,
+    )
+
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
+
+class ModelProgramMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a model program aggregation
     """
@@ -315,14 +376,6 @@ class ModelProgramMetadata(BaseAggregationMetadata):
         title = 'Model Program Aggregation Metadata'
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
-
-    type: AggregationType = Field(
-        const=True,
-        default=AggregationType.ModelProgramAggregation,
-        title="Aggregation type",
-        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
-    )
 
     version: str = Field(
         default=None, title="Version", description="The software version or build number of the model", max_length=255
@@ -378,7 +431,24 @@ class ModelProgramMetadata(BaseAggregationMetadata):
     _parse_file_types = root_validator(pre=True, allow_reuse=True)(parse_file_types)
 
 
-class ModelInstanceMetadata(BaseAggregationMetadata):
+class ModelProgramMetadata(ModelProgramMetadataIn):
+
+    type: AggregationType = Field(
+        const=True,
+        default=AggregationType.ModelProgramAggregation,
+        title="Aggregation type",
+        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False,
+    )
+
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+
+
+class ModelInstanceMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a model instance aggregation
     """
@@ -387,14 +457,6 @@ class ModelInstanceMetadata(BaseAggregationMetadata):
         title = 'Model Instance Aggregation Metadata'
 
         schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
-
-    type: AggregationType = Field(
-        const=True,
-        default=AggregationType.ModelInstanceAggregation,
-        title="Aggregation type",
-        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
-    )
 
     includes_model_output: bool = Field(
         title="Includes Model Output",
@@ -418,3 +480,20 @@ class ModelInstanceMetadata(BaseAggregationMetadata):
         title="JSON metadata schema values URL",
         description="A URL to a JSON file containing the metadata values conforming to the JSON metadata schema for the related model program",
     )
+
+
+class ModelInstanceMetadata(ModelInstanceMetadataIn):
+
+    type: AggregationType = Field(
+        const=True,
+        default=AggregationType.ModelInstanceAggregation,
+        title="Aggregation type",
+        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        allow_mutation=False,
+    )
+
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)

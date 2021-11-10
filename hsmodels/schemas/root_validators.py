@@ -90,15 +90,16 @@ def group_user_identifiers(cls, values):
 
 
 def parse_file_types(cls, values):
-    file_types_list = []
-    for file_type in ModelProgramFileType:
-        if file_type.name in values:
-            ftypes = values[file_type.name]
-            if isinstance(ftypes, list):
-                for ftype in ftypes:
-                    file_types_list.append({"type": file_type, "url": ftype})
-                del values[file_type.name]
-    values['file_types'] = file_types_list
+    if "file_types" not in values:
+        file_types_list = []
+        for file_type in ModelProgramFileType:
+            if file_type.name in values:
+                ftypes = values[file_type.name]
+                if isinstance(ftypes, list):
+                    for ftype in ftypes:
+                        file_types_list.append({"type": file_type, "url": ftype})
+                    del values[file_type.name]
+        values['file_types'] = file_types_list
     return values
 
 

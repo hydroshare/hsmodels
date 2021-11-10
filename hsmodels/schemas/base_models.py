@@ -77,21 +77,6 @@ class BaseMetadata(BaseModel):
             **dumps_kwargs,
         )
 
-    @classmethod
-    def schema(cls, by_alias: bool = True, ref_template: str = default_ref_template) -> 'DictStrAny':
-        cached = cls.__schema_cache__.get((by_alias, ref_template))
-        if cached is not None:
-            return cached
-        s = model_schema(cls, by_alias=by_alias, ref_template=ref_template)
-
-        if 'definitions' in s:
-            # TODO this is a terrible hack that needs to be revisited once we get a form build that embedded properties
-            from hsmodels.schemas.fields import AdditionalMetadata
-
-            s['definitions']['AdditionalMetadata'] = AdditionalMetadata.schema()
-        cls.__schema_cache__[(by_alias, ref_template)] = s
-        return s
-
     class Config:
         validate_assignment = True
 
@@ -102,14 +87,23 @@ class BaseMetadata(BaseModel):
                 if "read_only" in schema_config:
                     # set readOnly in json schema
                     for field in schema_config["read_only"]:
-                        schema['properties'][field]['readOnly'] = True
+                        if field in schema['properties']:  # ignore unknown properties for inheritance
+                            schema['properties'][field]['readOnly'] = True
                 if "dictionary_field" in schema_config:
                     for field in schema_config["dictionary_field"]:
-                        prop = schema["properties"][field]
-                        prop.pop('default', None)
-                        prop.pop('additionalProperties', None)
-                        prop['type'] = "array"
-                        prop['items'] = {"$ref": "#/definitions/AdditionalMetadata"}
+                        if field in schema['properties']:  # ignore unknown properties for inheritance
+                            prop = schema["properties"][field]
+                            prop.pop('default', None)
+                            prop.pop('additionalProperties', None)
+                            prop['type'] = "array"
+                            prop['items'] = {
+                                "type": "object",
+                                "title": "Key-Value",
+                                "description": "A key-value pair",
+                                "default": [],
+                                "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
+                                "required": ["key", "value"],
+                            }
 
 
 class BaseCoverage(BaseMetadata):

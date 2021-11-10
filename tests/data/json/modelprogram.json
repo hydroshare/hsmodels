@@ -1,0 +1,64 @@
+{
+  "title": "setup againas",
+  "subjects": [
+    "asdf",
+    "fdsa"
+  ],
+  "language": "eng",
+  "additional_metadata": {
+    "1": "2",
+    "3": "4"
+  },
+  "rights": {
+    "statement": "This resource is shared under the Creative Commons Attribution CC BY.",
+    "url": "http://creativecommons.org/licenses/by/4.0/"
+  },
+  "version": "1",
+  "name": "Unknown Model Program",
+  "programming_languages": [
+    "R",
+    "python"
+  ],
+  "operating_systems": [
+    "linux",
+    "windows"
+  ],
+  "release_date": "2021-09-22",
+  "website": "https://www.hydroshare.org",
+  "code_repository": "https://www.github.com",
+  "file_types": [
+    {
+      "type": "https://www.hydroshare.org/terms/modelReleaseNotes",
+      "url": "https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup1.cfg"
+    },
+    {
+      "type": "https://www.hydroshare.org/terms/modelReleaseNotes",
+      "url": "https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup.cfg"
+    },
+    {
+      "type": "https://www.hydroshare.org/terms/modelDocumentation",
+      "url": "https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup.cfg"
+    },
+    {
+      "type": "https://www.hydroshare.org/terms/modelDocumentation",
+      "url": "https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup1.cfg"
+    },
+    {
+      "type": "https://www.hydroshare.org/terms/modelSoftware",
+      "url": "https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup1.cfg"
+    },
+    {
+      "type": "https://www.hydroshare.org/terms/modelSoftware",
+      "url": "https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup.cfg"
+    },
+    {
+      "type": "https://www.hydroshare.org/terms/modelEngine",
+      "url": "https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup.cfg"
+    },
+    {
+      "type": "https://www.hydroshare.org/terms/modelEngine",
+      "url": "https://www.hydroshare.org/resource/526e62aac1044285abc2cae4e2f463da/data/contents/setup1.cfg"
+    }
+  ],
+  "program_schema_json": "https://www.hydroshare.org/resource/636729f24c03497e9b844ec3be63e823/data/contents/modelprogram_schema.json"
+}

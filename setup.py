@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
-README = 'Refer to the models seciont of https://hydroshare.github.io/hsclient/'# (pathlib.Path(__file__).parent / "README.md").read_text()
+README = 'Refer to the models section of https://hydroshare.github.io/hsclient/'# (pathlib.Path(__file__).parent / "README.md").read_text()
 
 setup(
     name='hsmodels',
-    version='0.3.6',
+    version='0.4.0',
     packages=find_packages(include=['hsmodels', 'hsmodels.*', 'hsmodels.schemas.*', 'hsmodels.schemas.rdf.*'],
                            exclude=("tests",)),
     install_requires=[

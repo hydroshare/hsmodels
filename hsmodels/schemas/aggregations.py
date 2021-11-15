@@ -41,7 +41,9 @@ from hsmodels.schemas.validators import (
 class BaseAggregationMetadataIn(BaseMetadata):
 
     title: str = Field(
-        title="Aggregation title", description="A string containing a descriptive title for the aggregation"
+        default=None,
+        title="Aggregation title",
+        description="A string containing a descriptive title for the aggregation",
     )
     subjects: List[str] = Field(
         default=[],
@@ -67,11 +69,6 @@ class BaseAggregationMetadataIn(BaseMetadata):
         default=None,
         title="Temporal coverage",
         description="An object containing the temporal coverage for a aggregation expressed as a date range",
-    )
-    rights: Rights = Field(
-        default=None,
-        title="Rights statement",
-        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
     )
 
     _parse_additional_metadata = root_validator(pre=True, allow_reuse=True)(parse_additional_metadata)
@@ -129,6 +126,12 @@ class GeographicRasterMetadata(GeographicRasterMetadataIn):
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
     )
 
+    rights: Rights = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
+    )
+
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
 
 
@@ -178,6 +181,12 @@ class GeographicFeatureMetadata(GeographicFeatureMetadataIn):
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
     )
 
+    rights: Rights = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
+    )
+
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
 
 
@@ -225,6 +234,12 @@ class MultidimensionalMetadata(MultidimensionalMetadataIn):
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
     )
 
+    rights: Rights = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
+    )
+
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
 
 
@@ -255,6 +270,12 @@ class ReferencedTimeSeriesMetadata(ReferencedTimeSeriesMetadataIn):
 
     url: AnyUrl = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    rights: Rights = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
     )
 
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
@@ -289,6 +310,12 @@ class FileSetMetadata(FileSetMetadataIn):
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
     )
 
+    rights: Rights = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
+    )
+
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
 
 
@@ -318,6 +345,12 @@ class SingleFileMetadata(SingleFileMetadataIn):
 
     url: AnyUrl = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    rights: Rights = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
     )
 
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
@@ -362,6 +395,12 @@ class TimeSeriesMetadata(TimeSeriesMetadataIn):
 
     url: AnyUrl = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    rights: Rights = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
     )
 
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
@@ -445,6 +484,12 @@ class ModelProgramMetadata(ModelProgramMetadataIn):
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
     )
 
+    rights: Rights = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
+    )
+
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
 
 
@@ -494,6 +539,12 @@ class ModelInstanceMetadata(ModelInstanceMetadataIn):
 
     url: AnyUrl = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+    )
+
+    rights: Rights = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
     )
 
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)

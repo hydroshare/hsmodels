@@ -22,10 +22,6 @@
     "start": "2020-11-05T00:00:00",
     "end": "2020-11-26T00:00:00"
   },
-  "rights": {
-    "statement": "my statement",
-    "url": "http://studio.bakajo.com"
-  },
   "field_information": [
     {
       "field_name": "Id",

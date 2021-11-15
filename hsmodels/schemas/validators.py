@@ -20,6 +20,13 @@ def parse_spatial_reference(cls, value):
 
 
 def parse_multidimensional_spatial_reference(cls, value):
+    # This is a workaround for form submissions that do not include type
+    if isinstance(value, dict) and "type" not in value:
+        if "north" in value or "east" in value:
+            # it's a type point
+            value["type"] = "point"
+        else:
+            value["type"] = "box"
     if value['type'] == enums.MultidimensionalSpatialReferenceType.box:
         d = to_coverage_dict(value['value'])
         return fields.MultidimensionalBoxSpatialReference(**d)

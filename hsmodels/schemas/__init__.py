@@ -184,8 +184,10 @@ def _parse(schema, metadata_graph, subject=None):
                 elif f.sub_fields:
                     parsed.append([])
             else:
+                parsed_value = str(value.toPython())
                 # primitive value
-                parsed.append(str(value.toPython()))
+                if parsed_value:
+                    parsed.append(parsed_value)
         if len(parsed) > 0:
             if f.sub_fields:
                 # list

@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import Any, Callable, Dict, Optional, Union
 
 from pydantic import BaseModel
-from pydantic.schema import default_ref_template, model_schema
 
 
 class BaseMetadata(BaseModel):
@@ -101,8 +100,7 @@ class BaseMetadata(BaseModel):
                                 "title": "Key-Value",
                                 "description": "A key-value pair",
                                 "default": [],
-                                "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
-                                "required": ["key", "value"],
+                                "properties": {"key": {"type": "string"}, "value": {"type": "string"}}
                             }
 
 

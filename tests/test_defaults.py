@@ -26,7 +26,7 @@ from hsmodels.schemas.rdf.resource import ResourceMetadataInRDF
 from hsmodels.schemas.resource import ResourceMetadata
 
 schema_list_count = [
-    (ResourceMetadata, 6),
+    (ResourceMetadata, 5),
     (GeographicRasterMetadata, 1),
     (GeographicFeatureMetadata, 2),
     (MultidimensionalMetadata, 2),
@@ -36,7 +36,7 @@ schema_list_count = [
     (TimeSeriesMetadata, 2),
     (ModelProgramMetadata, 4),
     (ModelInstanceMetadata, 1),
-    (ResourceMetadataInRDF, 9),
+    (ResourceMetadataInRDF, 8),
     (GeographicRasterMetadataInRDF, 3),
     (GeographicFeatureMetadataInRDF, 4),
     (MultidimensionalMetadataInRDF, 4),

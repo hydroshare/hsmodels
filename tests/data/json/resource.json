@@ -58,13 +58,9 @@
       }
     }
   ],
-  "sources": [
-    "another",
-    "the source"
-  ],
   "relations": [
     {
-      "type": "The content of this resource serves as the data for",
+      "type": "This resource is described by",
       "value": "Bastidas Pacheco, C. J., Horsburgh, J. S., Tracy, R. J. (2020). A low-cost, open source monitoring system for collecting high-resolution water use data on magnetically-driven residential water meters, Sensors, 20(13), 3655, https://doi.org/10.3390/s20133655."
     },
     {
@@ -72,7 +68,7 @@
       "value": "https://sadf.com"
     },
     {
-      "type": "The content of this resource was copied from",
+      "type": "The content of this resource was created by",
       "value": "https://www.google.com"
     }
   ],

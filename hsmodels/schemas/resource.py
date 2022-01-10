@@ -24,7 +24,7 @@ from hsmodels.schemas.root_validators import (
     split_coverages,
     split_dates,
 )
-from hsmodels.schemas.validators import list_not_empty, parse_identifier, parse_sources, parse_spatial_coverage
+from hsmodels.schemas.validators import list_not_empty, parse_identifier,  parse_spatial_coverage
 
 
 class ResourceMetadataIn(BaseMetadata):
@@ -61,11 +61,6 @@ class ResourceMetadataIn(BaseMetadata):
         default=[],
         title="Contributors",
         description="A list of Contributor objects indicating the entities that contributed to a resource",
-    )
-    sources: List[str] = Field(
-        default=[],
-        title="Sources",
-        description="A list of strings containing references to related resources from which a described resource was derived",
     )
     relations: List[Relation] = Field(
         default=[],
@@ -109,7 +104,7 @@ class ResourceMetadataIn(BaseMetadata):
     _parse_coverages = root_validator(pre=True, allow_reuse=True)(split_coverages)
     _parse_additional_metadata = root_validator(pre=True, allow_reuse=True)(parse_additional_metadata)
     _parse_abstract = root_validator(pre=True)(parse_abstract)
-    _parse_sources = validator("sources", pre=True)(parse_sources)
+
     _parse_spatial_coverage = validator("spatial_coverage", allow_reuse=True, pre=True)(parse_spatial_coverage)
 
     _normalize_additional_metadata = root_validator(allow_reuse=True, pre=True)(normalize_additional_metadata)

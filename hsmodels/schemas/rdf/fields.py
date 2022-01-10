@@ -35,22 +35,24 @@ class DCTypeInRDF(RDFBaseModel):
     label: str = Field(rdf_predicate=RDFS.label)
 
 
-class SourceInRDF(RDFBaseModel):
-    is_derived_from: str = Field(rdf_predicate=HSTERMS.isDerivedFrom, default=None)
-
-
 class RelationInRDF(RDFBaseModel):
-    isHostedBy: str = Field(rdf_predicate=HSTERMS.isHostedBy, default=None)
-    isCopiedFrom: str = Field(rdf_predicate=HSTERMS.isCopiedFrom, default=None)
-    isPartOf: str = Field(rdf_predicate=HSTERMS.isPartOf, default=None)
-    hasPart: str = Field(rdf_predicate=HSTERMS.hasPart, default=None)
     isExecutedBy: str = Field(rdf_predicate=HSTERMS.isExecutedBy, default=None)
     isCreatedBy: str = Field(rdf_predicate=HSTERMS.isCreatedBy, default=None)
-    isVersionOf: str = Field(rdf_predicate=HSTERMS.isVersionOf, default=None)
-    isReplacedBy: str = Field(rdf_predicate=HSTERMS.isReplacedBy, default=None)
-    isDataFor: str = Field(rdf_predicate=HSTERMS.isDataFor, default=None)
-    cites: str = Field(rdf_predicate=HSTERMS.cites, default=None)
     isDescribedBy: str = Field(rdf_predicate=HSTERMS.isDescribedBy, default=None)
+
+    isPartOf: str = Field(rdf_predicate=DCTERMS.isPartOf, default=None)
+    hasPart: str = Field(rdf_predicate=DCTERMS.hasPart, default=None)
+    isVersionOf: str = Field(rdf_predicate=DCTERMS.isVersionOf, default=None)
+    isReplacedBy: str = Field(rdf_predicate=DCTERMS.isReplacedBy, default=None)
+    conformsTo: str = Field(rdf_predicate=DCTERMS.conformsTo, default=None)
+    hasFormat: str = Field(rdf_predicate=DCTERMS.hasFormat, default=None)
+    isFormatOf: str = Field(rdf_predicate=DCTERMS.isFormatOf, default=None)
+    isRequiredBy: str = Field(rdf_predicate=DCTERMS.isRequiredBy, default=None)
+    requires: str = Field(rdf_predicate=DCTERMS.requires, default=None)
+    isReferencedBy: str = Field(rdf_predicate=DCTERMS.isReferencedBy, default=None)
+    references: str = Field(rdf_predicate=DCTERMS.references, default=None)
+    replaces: str = Field(rdf_predicate=DCTERMS.replaces, default=None)
+    source: str = Field(rdf_predicate=DCTERMS.source, default=None)
 
     _parse_relation = root_validator(pre=True)(parse_relation_rdf)
 

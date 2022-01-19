@@ -13,11 +13,6 @@
   <hsterms:CompositeResource rdf:about="http://www.hydroshare.org/resource/84805fd615a04d63b4eada65644a1e20">
     <dc:subject>Logan River</dc:subject>
     <dcterms:bibliographicCitation>a custom citation</dcterms:bibliographicCitation>
-    <dc:source>
-      <rdf:Description>
-        <hsterms:isDerivedFrom>another</hsterms:isDerivedFrom>
-      </rdf:Description>
-    </dc:source>
     <hsterms:Format>
       <rdf:Description>
         <hsterms:value>application/dbf</hsterms:value>
@@ -59,7 +54,7 @@
     </hsterms:Format>
     <dc:relation>
       <rdf:Description>
-        <hsterms:isPartOf rdf:resource="https://sadf.com"/>
+        <dcterms:isPartOf>https://sadf.com</dcterms:isPartOf>
       </rdf:Description>
     </dc:relation>
     <hsterms:awardInfo>
@@ -73,7 +68,7 @@
     <dc:subject>Time Series</dc:subject>
     <dc:relation>
       <rdf:Description>
-        <hsterms:isCopiedFrom rdf:resource="https://www.google.com"/>
+        <hsterms:isDescribedBy>Bastidas Pacheco, C. J., Horsburgh, J. S., Tracy, R. J. (2020). A low-cost, open source monitoring system for collecting high-resolution water use data on magnetically-driven residential water meters, Sensors, 20(13), 3655, https://doi.org/10.3390/s20133655.</hsterms:isDescribedBy>
       </rdf:Description>
     </dc:relation>
     <dc:date>
@@ -153,11 +148,6 @@
       </rdf:Description>
     </dc:creator>
     <dc:subject>key 1</dc:subject>
-    <dc:source>
-      <rdf:Description>
-        <hsterms:isDerivedFrom>the source</hsterms:isDerivedFrom>
-      </rdf:Description>
-    </dc:source>
     <hsterms:Format>
       <rdf:Description>
         <hsterms:value>application/sbn</hsterms:value>

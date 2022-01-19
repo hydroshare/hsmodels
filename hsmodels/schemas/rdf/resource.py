@@ -17,7 +17,6 @@ from hsmodels.schemas.rdf.fields import (
     PublisherInRDF,
     RelationInRDF,
     RightsInRDF,
-    SourceInRDF,
 )
 from hsmodels.schemas.rdf.root_validators import (
     parse_coverages,
@@ -31,7 +30,6 @@ from hsmodels.schemas.rdf.validators import (
     coverages_spatial_constraint,
     dates_constraint,
     language_constraint,
-    parse_rdf_sources,
     rdf_parse_identifier,
     sort_creators,
 )
@@ -79,7 +77,6 @@ class ResourceMetadataInRDF(BaseModel):
     creators: List[CreatorInRDF] = Field(rdf_predicate=DC.creator, default=[])
 
     contributors: List[ContributorInRDF] = Field(rdf_predicate=DC.contributor, default=[])
-    sources: List[SourceInRDF] = Field(rdf_predicate=DC.source, default=[])
     relations: List[RelationInRDF] = Field(rdf_predicate=DC.relation, default=[])
     extended_metadata: List[ExtendedMetadataInRDF] = Field(rdf_predicate=HSTERMS.extendedMetadata, default=[])
     rights: RightsInRDF = Field(rdf_predicate=DC.rights, default=None)
@@ -95,7 +92,6 @@ class ResourceMetadataInRDF(BaseModel):
     _parse_description = root_validator(pre=True, allow_reuse=True)(rdf_parse_description)
 
     _parse_identifier = validator("identifier", pre=True, allow_reuse=True)(rdf_parse_identifier)
-    _parse_rdf_sources = validator("sources", pre=True, allow_reuse=True)(parse_rdf_sources)
 
     _language_constraint = validator('language', allow_reuse=True)(language_constraint)
     _dates_constraint = validator('dates', allow_reuse=True)(dates_constraint)

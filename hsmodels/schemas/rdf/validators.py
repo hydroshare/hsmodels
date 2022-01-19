@@ -2,12 +2,6 @@ from hsmodels.schemas.enums import CoverageType, DateType
 from hsmodels.schemas.languages_iso import languages
 
 
-def parse_rdf_sources(cls, value):
-    if len(value) > 0 and isinstance(value[0], str):
-        return [{"is_derived_from": v} for v in value]
-    return value
-
-
 def rdf_parse_extended_metadata(cls, value):
     from hsmodels.schemas.rdf.fields import ExtendedMetadataInRDF
 

@@ -42,12 +42,6 @@ def parse_identifier(cls, value):
     return value
 
 
-def parse_sources(cls, value):
-    if len(value) > 0 and isinstance(value[0], dict):
-        return [f['is_derived_from'] for f in value]
-    return value
-
-
 def parse_spatial_coverage(cls, value):
     # This is a workaround for form submissions that do not include type
     if isinstance(value, dict) and "type" not in value:

@@ -86,10 +86,6 @@ def test_resource_metadata(res_md):
     assert "key2" in res_md.additional_metadata
     assert res_md.additional_metadata["key2"] == "value2"
 
-    assert len(res_md.sources) == 2
-    assert "another" in res_md.sources
-    assert "the source" in res_md.sources
-
     assert len(res_md.creators) == 3
     creator = res_md.creators[0]
     assert creator.organization == 'Utah State University'
@@ -121,7 +117,7 @@ def test_resource_metadata(res_md):
     assert len(res_md.relations) == 3
     assert any(x for x in res_md.relations if x.value == "https://sadf.com" and x.type == RelationType.isPartOf)
     assert any(
-        x for x in res_md.relations if x.value == "https://www.google.com" and x.type == RelationType.isCopiedFrom
+        x for x in res_md.relations if x.value == "https://www.google.com" and x.type == RelationType.isCreatedBy
     )
 
     assert res_md.rights.statement == "my statement"

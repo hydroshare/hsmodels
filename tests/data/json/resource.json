@@ -40,7 +40,7 @@
       "homepage": "http://anthonycastronova.com",
       "google_scholar_id": "https://scholar.google.com/citations?user=ScWTFoQAAAAJ&hl=en",
       "research_gate_id": "https://www.researchgate.net/profile/Anthony_Castronova",
-      "ORCID": "https://orcid.org/0000-0002-1341-5681"
+      "orcid": "https://orcid.org/0000-0002-1341-5681"
     },
     {
       "name": "David Tarboton",
@@ -49,7 +49,7 @@
       "organization": "Utah State University",
       "email": "dtarb@usu.edu",
       "homepage": "http://hydrology.usu.edu/dtarb",
-      "ORCID": "https://orcid.org/0000-0002-1998-3479"
+      "orcid": "https://orcid.org/0000-0002-1998-3479"
     }
   ],
   "relations": [

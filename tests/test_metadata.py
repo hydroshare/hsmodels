@@ -111,7 +111,7 @@ def test_resource_metadata(res_md):
     assert contributor.address == "Utah, US"
     assert contributor.homepage == "http://hydrology.usu.edu/dtarb"
     assert contributor.organization == "Utah State University"
-    assert contributor.ORCID == "https://orcid.org/0000-0002-1998-3479"
+    assert contributor.orcid == "https://orcid.org/0000-0002-1998-3479"
     assert contributor.name == "David Tarboton"
 
     assert len(res_md.relations) == 3

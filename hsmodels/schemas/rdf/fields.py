@@ -101,7 +101,7 @@ class CreatorInRDF(RDFBaseModel):
     email: EmailStr = Field(default=None)
     homepage: HttpUrl = Field(default=None)
     description: str = Field(max_length=50, default=None)
-    ORCID: AnyUrl = Field(default=None)
+    orcid: AnyUrl = Field(default=None)
     google_scholar_id: AnyUrl = Field(default=None)
     research_gate_id: AnyUrl = Field(default=None)
 
@@ -112,7 +112,7 @@ class CreatorInRDF(RDFBaseModel):
             'google_scholar_id': {"rdf_predicate": HSTERMS.GoogleScholarID},
             'research_gate_id': {"rdf_predicate": HSTERMS.ResearchGateID},
             'phone': {"rdf_predicate": HSTERMS.phone},
-            'ORCID': {"rdf_predicate": HSTERMS.ORCID},
+            'orcid': {"rdf_predicate": HSTERMS.ORCID},
             'address': {"rdf_predicate": HSTERMS.address},
             'organization': {"rdf_predicate": HSTERMS.organization},
             'email': {"rdf_predicate": HSTERMS.email},
@@ -129,7 +129,7 @@ class ContributorInRDF(RDFBaseModel):
     email: EmailStr = Field(default=None)
     homepage: HttpUrl = Field(default=None)
     description: str = Field(max_length=50, default=None)
-    ORCID: AnyUrl = Field(default=None)
+    orcid: AnyUrl = Field(default=None)
     google_scholar_id: AnyUrl = Field(default=None)
     research_gate_id: AnyUrl = Field(default=None)
 
@@ -141,7 +141,7 @@ class ContributorInRDF(RDFBaseModel):
             'organization': {"rdf_predicate": HSTERMS.organization},
             'email': {"rdf_predicate": HSTERMS.email},
             'homepage': {"rdf_predicate": HSTERMS.homepage},
-            'ORCID': {"rdf_predicate": HSTERMS.ORCID},
+            'orcid': {"rdf_predicate": HSTERMS.ORCID},
             'google_scholar_id': {"rdf_predicate": HSTERMS.GoogleScholarID},
             'research_gate_id': {"rdf_predicate": HSTERMS.ResearchGateID},
             'description': {"rdf_predicate": HSTERMS.description},

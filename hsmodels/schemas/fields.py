@@ -163,7 +163,7 @@ class Creator(BaseMetadata):
         description="A string containing the path to the hydroshare profile",
         allow_mutation=False,
     )
-    ORCID: AnyUrl = Field(default=None, title="ORCID identifier", description="Identifier from https://orcid.org/")
+    orcid: AnyUrl = Field(default=None, title="ORCID identifier", description="Identifier from https://orcid.org/")
     google_scholar_id: AnyUrl = Field(
         default=None, title="Google Scholar identifier", description="Identifier from https://scholar.google.co.id/"
     )
@@ -220,7 +220,7 @@ class Contributor(BaseMetadata):
         description="A string containing the path to the hydroshare profile",
         allow_mutation=False,
     )
-    ORCID: AnyUrl = Field(default=None, title="ORCID identifier", description="Identifier from https://orcid.org/")
+    orcid: AnyUrl = Field(default=None, title="ORCID identifier", description="Identifier from https://orcid.org/")
     google_scholar_id: AnyUrl = Field(
         default=None, title="Google Scholar identifier", description="Identifier from https://scholar.google.co.id/"
     )

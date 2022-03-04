@@ -170,6 +170,9 @@ class Creator(BaseMetadata):
     research_gate_id: AnyUrl = Field(
         default=None, title="Research Gate identifier", description="Identifier from https://www.researchgate.net/"
     )
+    researcher_id: AnyUrl = Field(
+        default=None, title="Research identifier", description="Identifier from https://researcherid.com/"
+    )
 
     _description_validator = validator("description", pre=True)(validate_user_url)
 
@@ -226,6 +229,9 @@ class Contributor(BaseMetadata):
     )
     research_gate_id: AnyUrl = Field(
         default=None, title="Research Gate identifier", description="Identifier from https://www.researchgate.net/"
+    )
+    researcher_id: AnyUrl = Field(
+        default=None, title="Research identifier", description="Identifier from https://researcherid.com/"
     )
 
     @classmethod

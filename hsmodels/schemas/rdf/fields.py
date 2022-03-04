@@ -104,6 +104,7 @@ class CreatorInRDF(RDFBaseModel):
     orcid: AnyUrl = Field(default=None)
     google_scholar_id: AnyUrl = Field(default=None)
     research_gate_id: AnyUrl = Field(default=None)
+    researcher_id: AnyUrl = Field(default=None)
 
     class Config:
         fields = {
@@ -111,6 +112,7 @@ class CreatorInRDF(RDFBaseModel):
             'creator_order': {"rdf_predicate": HSTERMS.creatorOrder},
             'google_scholar_id': {"rdf_predicate": HSTERMS.GoogleScholarID},
             'research_gate_id': {"rdf_predicate": HSTERMS.ResearchGateID},
+            'researcher_id': {"rdf_predicate": HSTERMS.ResearcherID},
             'phone': {"rdf_predicate": HSTERMS.phone},
             'orcid': {"rdf_predicate": HSTERMS.ORCID},
             'address': {"rdf_predicate": HSTERMS.address},
@@ -132,6 +134,7 @@ class ContributorInRDF(RDFBaseModel):
     orcid: AnyUrl = Field(default=None)
     google_scholar_id: AnyUrl = Field(default=None)
     research_gate_id: AnyUrl = Field(default=None)
+    researcher_id: AnyUrl = Field(default=None)
 
     class Config:
         fields = {
@@ -144,6 +147,7 @@ class ContributorInRDF(RDFBaseModel):
             'orcid': {"rdf_predicate": HSTERMS.ORCID},
             'google_scholar_id': {"rdf_predicate": HSTERMS.GoogleScholarID},
             'research_gate_id': {"rdf_predicate": HSTERMS.ResearchGateID},
+            'researcher_id': {"rdf_predicate": HSTERMS.ResearcherID},
             'description': {"rdf_predicate": HSTERMS.description},
         }
 

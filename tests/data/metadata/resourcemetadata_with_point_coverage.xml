@@ -114,6 +114,7 @@
         <hsterms:GoogleScholarID rdf:resource="https://scholar.google.com/citations?user=ScWTFoQAAAAJ&amp;hl=en"/>
         <hsterms:email>castronova.anthony@gmail.com</hsterms:email>
         <hsterms:homepage rdf:resource="http://anthonycastronova.com"/>
+        <hsterms:ResearcherID rdf:resource="https://researcherid.com/abc123"/>
         <hsterms:ResearchGateID rdf:resource="https://www.researchgate.net/profile/Anthony_Castronova"/>
       </rdf:Description>
     </dc:contributor>

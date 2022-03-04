@@ -1,4 +1,4 @@
-from hsmodels.schemas.enums import CoverageType, DateType, ModelProgramFileType, RelationType, UserIdentifierType
+from hsmodels.schemas.enums import CoverageType, DateType, ModelProgramFileType, RelationType
 from hsmodels.utils import to_coverage_dict
 
 
@@ -77,16 +77,6 @@ def parse_relation(cls, values):
             values["type"] = relation_type
             values["value"] = values[relation_type.name]
             return values
-
-
-def group_user_identifiers(cls, values):
-    if "identifiers" not in values:
-        identifiers = {}
-        for identifier in UserIdentifierType:
-            if identifier.name in values and values[identifier.name]:
-                identifiers[identifier] = values[identifier.name]
-        values["identifiers"] = identifiers
-    return values
 
 
 def parse_file_types(cls, values):

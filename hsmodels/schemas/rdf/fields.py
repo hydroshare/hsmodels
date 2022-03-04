@@ -23,7 +23,7 @@ from hsmodels.schemas.fields import (
     UTCOffSet,
     Variable,
 )
-from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, rdf_parse_utc_offset, split_user_identifiers
+from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, rdf_parse_utc_offset
 
 
 class RDFBaseModel(BaseModel):
@@ -105,8 +105,6 @@ class CreatorInRDF(RDFBaseModel):
     google_scholar_id: AnyUrl = Field(default=None)
     research_gate_id: AnyUrl = Field(default=None)
 
-    _group_identifiers = root_validator(pre=True, allow_reuse=True)(split_user_identifiers)
-
     class Config:
         fields = {
             'name': {"rdf_predicate": HSTERMS.name},
@@ -134,8 +132,6 @@ class ContributorInRDF(RDFBaseModel):
     ORCID: AnyUrl = Field(default=None)
     google_scholar_id: AnyUrl = Field(default=None)
     research_gate_id: AnyUrl = Field(default=None)
-
-    _group_identifiers = root_validator(pre=True, allow_reuse=True)(split_user_identifiers)
 
     class Config:
         fields = {

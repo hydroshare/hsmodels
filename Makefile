@@ -27,7 +27,7 @@ publish-docs:
 
 .PHONY: test
 test:
-	pytest tests
+	pytest tests -vv
 
 .PHONY: test-cov
 test-cov:

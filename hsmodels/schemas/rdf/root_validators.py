@@ -124,11 +124,3 @@ def parse_relation_rdf(cls, values):
     if "type" in values and "value" in values:
         values[values["type"].name] = values["value"]
     return values
-
-
-def split_user_identifiers(cls, values):
-    if "identifiers" in values:
-        identifiers = values["identifiers"]
-        for id_type, id_value in identifiers.items():
-            values[id_type.name] = id_value
-    return values

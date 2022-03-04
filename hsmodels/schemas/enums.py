@@ -44,12 +44,6 @@ class VariableType(StringEnum):
     Unknown = 'Unknown'
 
 
-class UserIdentifierType(StringEnum):
-    google_scholar_id = "GoogleScholarID"
-    research_gate_id = "ResearchGateID"
-    ORCID = "ORCID"
-
-
 class RelationType(StringEnum):
     isPartOf = 'The content of this resource is part of'
     hasPart = 'This resource includes'

@@ -5,8 +5,8 @@ from pydantic import AnyUrl, EmailStr, Field, HttpUrl, root_validator, validator
 
 from hsmodels.schemas import base_models
 from hsmodels.schemas.base_models import BaseMetadata
-from hsmodels.schemas.enums import ModelProgramFileType, RelationType, UserIdentifierType, VariableType
-from hsmodels.schemas.root_validators import group_user_identifiers, parse_relation, parse_utc_offset_value
+from hsmodels.schemas.enums import ModelProgramFileType, RelationType, VariableType
+from hsmodels.schemas.root_validators import parse_relation, parse_utc_offset_value
 from hsmodels.schemas.validators import validate_user_url
 
 
@@ -163,15 +163,15 @@ class Creator(BaseMetadata):
         description="A string containing the path to the hydroshare profile",
         allow_mutation=False,
     )
-    identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
-        default={},
-        title="Creator identifiers",
-        description="A dictionary containing identifier types and URL links to alternative identifiers for the creator",
+    ORCID: AnyUrl = Field(default=None, title="ORCID identifier", description="Identifier from https://orcid.org/")
+    google_scholar_id: AnyUrl = Field(
+        default=None, title="Google Scholar identifier", description="Identifier from https://scholar.google.co.id/"
+    )
+    research_gate_id: AnyUrl = Field(
+        default=None, title="Research Gate identifier", description="Identifier from https://www.researchgate.net/"
     )
 
     _description_validator = validator("description", pre=True)(validate_user_url)
-
-    _split_identifiers = root_validator(pre=True, allow_reuse=True)(group_user_identifiers)
 
     @classmethod
     def from_user(cls, user):
@@ -220,13 +220,13 @@ class Contributor(BaseMetadata):
         description="A string containing the path to the hydroshare profile",
         allow_mutation=False,
     )
-    identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
-        default={},
-        title="Contributor identifiers",
-        description="A dictionary containing identifier types and URL links to alternative identiers for the contributor",
+    ORCID: AnyUrl = Field(default=None, title="ORCID identifier", description="Identifier from https://orcid.org/")
+    google_scholar_id: AnyUrl = Field(
+        default=None, title="Google Scholar identifier", description="Identifier from https://scholar.google.co.id/"
     )
-
-    _split_identifiers = root_validator(pre=True, allow_reuse=True)(group_user_identifiers)
+    research_gate_id: AnyUrl = Field(
+        default=None, title="Research Gate identifier", description="Identifier from https://www.researchgate.net/"
+    )
 
     @classmethod
     def from_user(cls, user):

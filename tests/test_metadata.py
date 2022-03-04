@@ -7,7 +7,7 @@ from rdflib.compare import _squashed_graphs_triples
 
 from hsmodels.namespaces import RDF
 from hsmodels.schemas import load_rdf, rdf_graph
-from hsmodels.schemas.enums import RelationType, UserIdentifierType
+from hsmodels.schemas.enums import RelationType
 from hsmodels.schemas.fields import BoxCoverage, PeriodCoverage, PointCoverage
 from hsmodels.utils import to_coverage_dict
 
@@ -111,7 +111,7 @@ def test_resource_metadata(res_md):
     assert contributor.address == "Utah, US"
     assert contributor.homepage == "http://hydrology.usu.edu/dtarb"
     assert contributor.organization == "Utah State University"
-    assert contributor.identifiers[UserIdentifierType.ORCID] == "https://orcid.org/0000-0002-1998-3479"
+    assert contributor.ORCID == "https://orcid.org/0000-0002-1998-3479"
     assert contributor.name == "David Tarboton"
 
     assert len(res_md.relations) == 3

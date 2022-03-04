@@ -24,12 +24,10 @@
       "phone": "",
       "organization": "RENCI",
       "email": "test_user@email.com",
-      "description": "/user/1/",
-      "identifiers": {}
+      "description": "/user/1/"
     },
     {
-      "name": "Tseganeh Z. Gichamo",
-      "identifiers": {}
+      "name": "Tseganeh Z. Gichamo"
     }
   ],
   "contributors": [
@@ -40,11 +38,9 @@
       "organization": "CUAHSI",
       "email": "castronova.anthony@gmail.com",
       "homepage": "http://anthonycastronova.com",
-      "identifiers": {
-        "GoogleScholarID": "https://scholar.google.com/citations?user=ScWTFoQAAAAJ&hl=en",
-        "ResearchGateID": "https://www.researchgate.net/profile/Anthony_Castronova",
-        "ORCID": "https://orcid.org/0000-0002-1341-5681"
-      }
+      "google_scholar_id": "https://scholar.google.com/citations?user=ScWTFoQAAAAJ&hl=en",
+      "research_gate_id": "https://www.researchgate.net/profile/Anthony_Castronova",
+      "ORCID": "https://orcid.org/0000-0002-1341-5681"
     },
     {
       "name": "David Tarboton",
@@ -53,9 +49,7 @@
       "organization": "Utah State University",
       "email": "dtarb@usu.edu",
       "homepage": "http://hydrology.usu.edu/dtarb",
-      "identifiers": {
-        "ORCID": "https://orcid.org/0000-0002-1998-3479"
-      }
+      "ORCID": "https://orcid.org/0000-0002-1998-3479"
     }
   ],
   "relations": [

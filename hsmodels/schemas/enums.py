@@ -53,8 +53,8 @@ class UserIdentifierType(StringEnum):
 class RelationType(StringEnum):
     isPartOf = 'The content of this resource is part of'
     hasPart = 'This resource includes'
-    isExecutedBy = 'The content of this resource was created by a related App or software program'
-    isCreatedBy = 'The content of this resource was created by'
+    isExecutedBy = 'The content of this resource can be executed by'
+    isCreatedBy = 'The content of this resource was created by a related App or software program'
     isVersionOf = 'This resource updates and replaces a previous version'
     isReplacedBy = 'This resource has been replaced by a newer version'
     isDescribedBy = 'This resource is described by'

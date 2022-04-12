@@ -167,21 +167,21 @@ def test_invalid_email():
 
 
 def test_creator_readonly():
-    creator = Creator(hydroshare_user_id=5)
+    creator = Creator(description="/user/5/")
     try:
-        creator.hydroshare_user_id = 6
+        creator.description = "/user/6/"
         assert False, "Should have thrown error"
     except TypeError as e:
-        assert '"hydroshare_user_id" has allow_mutation set to False and cannot be assigned' in str(e)
+        assert '"description" has allow_mutation set to False and cannot be assigned' in str(e)
 
 
 def test_contributor_readonly():
-    contributor = Contributor(hydroshare_user_id=5)
+    contributor = Contributor(description="/user/5/")
     try:
-        contributor.hydroshare_user_id = 6
+        contributor.description = "/user/6/"
         assert False, "Should have thrown error"
     except TypeError as e:
-        assert '"hydroshare_user_id" has allow_mutation set to False and cannot be assigned' in str(e)
+        assert '"description" has allow_mutation set to False and cannot be assigned' in str(e)
 
 
 def test_resource_created_readonly(res_md):
@@ -271,7 +271,7 @@ def test_resource_metadata_from_form():
                 "name": "Black, Scott Steven",
                 "organization": "USU",
                 "email": "scott.black@usu.edu",
-                "hydroshare_user_id": 2351,
+                "description": "/user/2351/",
             }
         ],
         "contributors": [],

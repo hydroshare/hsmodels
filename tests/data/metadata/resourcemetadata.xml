@@ -23,7 +23,7 @@
         <hsterms:organization>Utah State University</hsterms:organization>
         <hsterms:ORCID rdf:resource="https://orcid.org/0000-0002-1998-3479"/>
         <hsterms:name>David Tarboton</hsterms:name>
-        <hsterms:hydroshare_user_id'>2</hsterms:hydroshare_user_id'>
+        <hsterms:hydroshare_user_id>2</hsterms:hydroshare_user_id>
       </rdf:Description>
     </dc:contributor>
     <dc:rights>
@@ -86,7 +86,7 @@
         <hsterms:email>castronova.anthony@gmail.com</hsterms:email>
         <hsterms:homepage rdf:resource="http://anthonycastronova.com"/>
         <hsterms:ResearchGateID rdf:resource="https://www.researchgate.net/profile/Anthony_Castronova"/>
-        <hsterms:hydroshare_user_id>11</hsterms:hydroshare_user_id'>
+        <hsterms:hydroshare_user_id>11</hsterms:hydroshare_user_id>
       </rdf:Description>
     </dc:contributor>
     <dc:description>

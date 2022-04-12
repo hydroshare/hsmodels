@@ -24,7 +24,7 @@
       "phone": "",
       "organization": "RENCI",
       "email": "test_user@email.com",
-      "description": "/user/1/",
+      "hydroshare_user_id": 1,
       "identifiers": {}
     },
     {

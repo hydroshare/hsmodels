@@ -156,7 +156,6 @@ class Creator(BaseMetadata):
         description="An object containing the URL for website associated with the creator",
     )
     hydroshare_user_id: int = Field(
-        max_length=50,
         default=None,
         title="Hydroshare user id",
         description="An integer containing the Hydroshare user ID",
@@ -212,7 +211,6 @@ class Contributor(BaseMetadata):
         description="An object containing the URL for website associated with the contributor",
     )
     hydroshare_user_id: int = Field(
-        max_length=50,
         default=None,
         title="Hyroshare user id",
         description="An integer containing the Hydroshare user ID",

@@ -59,18 +59,12 @@ def list_not_empty(cls, l):
     return l
 
 
-def validate_user_url(value):
-    """Validate that a URL is a valid URL for a hydroshare user."""
-    err_message = '%s is not a valid url for hydroshare user' % value
+def validate_user_id(value):
+    """Validate that value is a valid id for a hydroshare user."""
+    err_message = '%s is not a valid id for hydroshare user' % value
     if value:
-        url_parts = value.split('/')
-        if len(url_parts) != 4:
-            raise ValueError(err_message)
-        if url_parts[1] != 'user':
-            raise ValueError(err_message)
-
         try:
-            user_id = int(url_parts[2])
+            user_id = value
         except ValueError:
             raise ValueError(err_message)
     return value

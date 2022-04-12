@@ -7,7 +7,7 @@ from hsmodels.schemas import base_models
 from hsmodels.schemas.base_models import BaseMetadata
 from hsmodels.schemas.enums import ModelProgramFileType, RelationType, UserIdentifierType, VariableType
 from hsmodels.schemas.root_validators import group_user_identifiers, parse_relation, parse_utc_offset_value
-from hsmodels.schemas.validators import validate_user_url
+from hsmodels.schemas.validators import validate_user_id
 
 
 class Relation(BaseMetadata):
@@ -130,7 +130,7 @@ class Creator(BaseMetadata):
     class Config:
         title = 'Creator Metadata'
 
-        schema_config = {'read_only': ['description']}
+        schema_config = {'read_only': ['hydroshare_user_id']}
 
     name: str = Field(
         default=None, max_length=100, title="Name", description="A string containing the name of the creator"
@@ -155,12 +155,11 @@ class Creator(BaseMetadata):
         title="Homepage",
         description="An object containing the URL for website associated with the creator",
     )
-    # TODO: Is there such a thing as a "description" property for Creator?
-    description: str = Field(
+    hydroshare_user_id: int = Field(
         max_length=50,
         default=None,
-        title="Description",
-        description="A string containing the path to the hydroshare profile",
+        title="Hydroshare user id",
+        description="An integer containing the Hydroshare user ID",
         allow_mutation=False,
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
@@ -168,8 +167,7 @@ class Creator(BaseMetadata):
         title="Creator identifiers",
         description="A dictionary containing identifier types and URL links to alternative identifiers for the creator",
     )
-
-    _description_validator = validator("description", pre=True)(validate_user_url)
+    _description_validator = validator("hydroshare_user_id", pre=True)(validate_user_id)
 
     _split_identifiers = root_validator(pre=True, allow_reuse=True)(group_user_identifiers)
 
@@ -213,11 +211,11 @@ class Contributor(BaseMetadata):
         title="Homepage",
         description="An object containing the URL for website associated with the contributor",
     )
-    description: str = Field(
+    hydroshare_user_id: int = Field(
         max_length=50,
         default=None,
-        title="Description",
-        description="A string containing the path to the hydroshare profile",
+        title="Hyroshare user id",
+        description="An integer containing the Hydroshare user ID",
         allow_mutation=False,
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
@@ -236,7 +234,7 @@ class Contributor(BaseMetadata):
         :return: a Contributor
         """
         user_dict = user.dict()
-        user_dict["description"] = user.url.path
+        user_dict["hydroshare_user_id"] = user.id
         if user.website:
             user_dict["homepage"] = user.website
 

@@ -188,7 +188,7 @@ class Contributor(BaseMetadata):
     class Config:
         title = 'Contributor Metadata'
 
-        schema_config = {'read_only': ['description']}
+        schema_config = {'read_only': ['hydroshare_user_id']}
 
     name: str = Field(default=None, title="Name", description="A string containing the name of the contributor")
     phone: str = Field(

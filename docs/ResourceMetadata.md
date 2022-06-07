@@ -40,7 +40,7 @@
     - **`organization`** *(string)*: TODO Jeff.
     - **`email`** *(string)*: TODO Jeff.
     - **`homepage`** *(string)*: TODO Jeff.
-    - **`description`** *(string)*: TODO Jeff.
+    - **`hydroshare_user_id`** *(string)*: TODO Jeff.
     - **`identifiers`** *(object)*: TODO Jeff. Can contain additional properties. Default: `{}`.
 - **`Contributor`** *(object)*: TODO Jeff (description of class).
     - **`name`** *(string)*: TODO Jeff.
@@ -49,7 +49,7 @@
     - **`organization`** *(string)*: TODO Jeff.
     - **`email`** *(string)*: TODO Jeff.
     - **`homepage`** *(string)*: TODO Jeff.
-    - **`description`** *(string)*: TODO Jeff.
+    - **`hydroshare_user_id`** *(string)*: TODO Jeff.
     - **`identifiers`** *(object)*: TODO Jeff. Can contain additional properties. Default: `{}`.
 - **`RelationType`** *(string)*: An enumeration. Must be one of: `['The content of this resource was copied from', 'The content of this resource is part of', 'Has Part', 'The content of this resource can be executed by', 'The content of this resource was created by', 'Version Of', 'Replaced By', 'The content of this resource serves as the data for', 'This resource cites', 'This resource is described by']`.
 - **`Relation`** *(object)*: TODO Jeff (description of class).

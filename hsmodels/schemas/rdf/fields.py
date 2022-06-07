@@ -100,7 +100,7 @@ class CreatorInRDF(RDFBaseModel):
     organization: str = Field(default=None)
     email: EmailStr = Field(default=None)
     homepage: HttpUrl = Field(default=None)
-    description: str = Field(max_length=50, default=None)
+    hydroshare_user_id: int = Field(default=None)
     ORCID: AnyUrl = Field(default=None)
     google_scholar_id: AnyUrl = Field(default=None)
     research_gate_id: AnyUrl = Field(default=None)
@@ -119,7 +119,7 @@ class CreatorInRDF(RDFBaseModel):
             'organization': {"rdf_predicate": HSTERMS.organization},
             'email': {"rdf_predicate": HSTERMS.email},
             'homepage': {"rdf_predicate": HSTERMS.homepage},
-            'description': {"rdf_predicate": HSTERMS.description},
+            'hydroshare_user_id': {"rdf_predicate": HSTERMS.hydroshare_user_id},
         }
 
 
@@ -130,7 +130,7 @@ class ContributorInRDF(RDFBaseModel):
     organization: str = Field(default=None)
     email: EmailStr = Field(default=None)
     homepage: HttpUrl = Field(default=None)
-    description: str = Field(max_length=50, default=None)
+    hydroshare_user_id: int = Field(default=None)
     ORCID: AnyUrl = Field(default=None)
     google_scholar_id: AnyUrl = Field(default=None)
     research_gate_id: AnyUrl = Field(default=None)
@@ -148,7 +148,7 @@ class ContributorInRDF(RDFBaseModel):
             'ORCID': {"rdf_predicate": HSTERMS.ORCID},
             'google_scholar_id': {"rdf_predicate": HSTERMS.GoogleScholarID},
             'research_gate_id': {"rdf_predicate": HSTERMS.ResearchGateID},
-            'description': {"rdf_predicate": HSTERMS.description},
+            'hydroshare_user_id': {"rdf_predicate": HSTERMS.hydroshare_user_id},
         }
 
 

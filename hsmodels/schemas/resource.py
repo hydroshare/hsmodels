@@ -24,7 +24,7 @@ from hsmodels.schemas.root_validators import (
     split_coverages,
     split_dates,
 )
-from hsmodels.schemas.validators import list_not_empty, parse_identifier,  parse_spatial_coverage
+from hsmodels.schemas.validators import list_not_empty, parse_identifier, parse_spatial_coverage
 
 
 class ResourceMetadataIn(BaseMetadata):

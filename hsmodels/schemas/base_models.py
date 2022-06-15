@@ -100,7 +100,7 @@ class BaseMetadata(BaseModel):
                                 "title": "Key-Value",
                                 "description": "A key-value pair",
                                 "default": [],
-                                "properties": {"key": {"type": "string"}, "value": {"type": "string"}}
+                                "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
                             }
 
 

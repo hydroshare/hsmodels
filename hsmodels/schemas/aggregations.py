@@ -420,13 +420,6 @@ class ModelProgramMetadataIn(BaseAggregationMetadataIn):
         default=None, title="Version", description="The software version or build number of the model", max_length=255
     )
 
-    name: str = Field(
-        default="Unknown Model Program",
-        max_length=255,
-        title="Model Program Name",
-        description="A string expressing the name of the model program",
-    )
-
     programming_languages: List[str] = Field(
         default=[],
         max_length=100,

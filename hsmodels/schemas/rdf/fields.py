@@ -39,6 +39,7 @@ class RelationInRDF(RDFBaseModel):
     isExecutedBy: str = Field(rdf_predicate=HSTERMS.isExecutedBy, default=None)
     isCreatedBy: str = Field(rdf_predicate=HSTERMS.isCreatedBy, default=None)
     isDescribedBy: str = Field(rdf_predicate=HSTERMS.isDescribedBy, default=None)
+    isSimilarTo: str = Field(rdf_predicate=HSTERMS.isSimilarTo, default=None)
 
     isPartOf: str = Field(rdf_predicate=DCTERMS.isPartOf, default=None)
     hasPart: str = Field(rdf_predicate=DCTERMS.hasPart, default=None)

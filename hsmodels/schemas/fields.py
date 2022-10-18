@@ -286,15 +286,15 @@ class BandInformation(BaseMetadata):
         title="Variable unit",
         description="A string containing the units for the raster band variable",
     )
-    no_data_value: str = Field(
+    no_data_value: float = Field(
         default=None,
         title="Nodata value",
-        description="A string containing the numeric nodata value for the raster band",
+        description="A float containing the numeric nodata value for the raster band",
     )
-    maximum_value: str = Field(
+    maximum_value: float = Field(
         default=None,
         title="Maximum value",
-        description="A string containing the maximum numeric value for the raster band",
+        description="A float containing the maximum numeric value for the raster band",
     )
     comment: str = Field(
         default=None, title="Comment", description="A string containing a comment about the raster band"
@@ -304,10 +304,10 @@ class BandInformation(BaseMetadata):
         title="Method",
         description="A string containing a description of the method used to create the raster band data",
     )
-    minimum_value: str = Field(
+    minimum_value: float = Field(
         default=None,
         title="Minimum value",
-        description="A string containing the minimum numerica value for the raster dataset",
+        description="A float containing the minimum numerica value for the raster dataset",
     )
 
 
@@ -328,11 +328,11 @@ class FieldInformation(BaseMetadata):
     )
     # TODO: What is the "field_type_code"? It's not displayed on the resource landing page, but it's encoded in the
     #  aggregation metadata as an integer value.
-    field_type_code: str = Field(
+    field_type_code: int = Field(
         default=None,
         max_length=50,
         title="Field type code",
-        description="A string value containing a code that indicates the field type",
+        description="An integer value containing a code that indicates the field type",
     )
     field_width: int = Field(
         default=None, title="Field width", description="An integer value containing the width of the attribute field"
@@ -445,7 +445,7 @@ class TimeSeriesVariable(BaseMetadata):
     # TODO: The NoData value for a variable in an ODM2 database is not always an integer.
     #  It could be a floating point value. We might want to change this to a string or a floating point value
     #  It is an integer in the HydroShare database, so will have to be updated there as well if changed
-    no_data_value: int = Field(title="NoData value", description="The NoData value for the variable")
+    no_data_value: float = Field(title="NoData value", description="The NoData value for the variable")
     variable_definition: str = Field(
         default=None,
         max_length=255,
@@ -628,15 +628,18 @@ class TimeSeriesResult(BaseMetadata):
         description="A string containing the status of the time series result chosen from the ODM2 Status controlled vocabulary",
     )
     sample_medium: str = Field(
+        default=None,
         max_length=255,
         title="Sample medium",
         description="A string containing the sample medium in which the time series result was measured chosen from the ODM2 Medium controlled vocabulary",
     )
     value_count: int = Field(
+        default=None,
         title="Value count",
         description="An integer value containing the number of data values contained within the time series result",
     )
     aggregation_statistic: str = Field(
+        default=None,
         max_length=255,
         title="Aggregation statistic",
         description="A string containing the aggregation statistic associated with the values of the time series result chosen from the ODM2 Aggregation Statistic controlled vocabulary",
@@ -651,18 +654,22 @@ class TimeSeriesResult(BaseMetadata):
         description="A string containing a label for the time series result",
     )
     site: TimeSeriesSite = Field(
+        default=None,
         title="Site",
         description="An object containing metadata about the site at which the time series result was created",
     )
     variable: TimeSeriesVariable = Field(
-        title="Variablef",
+        default=None,
+        title="Variable",
         description="An object containing metadata about the observed variable associated with the time series result values",
     )
     method: TimeSeriesMethod = Field(
+        default=None,
         title="Method",
         description="An object containing metadata about the method used to produce the time series result values",
     )
     processing_level: ProcessingLevel = Field(
+        default=None,
         title="Processing level",
         description="An object containing metadata about the processing level or level of quality control to which the time series result values have been subjected",
     )

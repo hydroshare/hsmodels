@@ -56,13 +56,13 @@
     </dc:coverage>
     <hsterms:BandInformation>
       <rdf:Description>
-        <hsterms:minimumValue>2.67393466E-316</hsterms:minimumValue>
+        <hsterms:minimumValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.67393466E-316</hsterms:minimumValue>
         <hsterms:variableUnit>variableunit</hsterms:variableUnit>
         <hsterms:comment>comment</hsterms:comment>
-        <hsterms:maximumValue>6.9103932008822E-310</hsterms:maximumValue>
+        <hsterms:maximumValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">6.9103932008822E-310</hsterms:maximumValue>
         <hsterms:variableName>variablename</hsterms:variableName>
         <hsterms:name>Band_1</hsterms:name>
-        <hsterms:noDataValue>-3.4028234663852886E+38</hsterms:noDataValue>
+        <hsterms:noDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-3.4028234663852886E+38</hsterms:noDataValue>
         <hsterms:method>method</hsterms:method>
       </rdf:Description>
     </hsterms:BandInformation>

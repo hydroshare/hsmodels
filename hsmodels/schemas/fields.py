@@ -330,7 +330,6 @@ class FieldInformation(BaseMetadata):
     #  aggregation metadata as an integer value.
     field_type_code: int = Field(
         default=None,
-        max_length=50,
         title="Field type code",
         description="An integer value containing a code that indicates the field type",
     )

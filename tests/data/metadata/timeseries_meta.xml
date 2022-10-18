@@ -57,7 +57,7 @@
         <hsterms:variable>
           <rdf:Description>
             <hsterms:VariableCode>USU36</hsterms:VariableCode>
-            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">-9999</hsterms:NoDataValue>
+            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-9999</hsterms:NoDataValue>
             <hsterms:VariableName>Temperature</hsterms:VariableName>
             <hsterms:VariableType>Water Quality</hsterms:VariableType>
             <hsterms:Speciation>Not Applicable</hsterms:Speciation>
@@ -99,7 +99,7 @@
         <hsterms:variable>
           <rdf:Description>
             <hsterms:VariableCode>USU36</hsterms:VariableCode>
-            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">-9999</hsterms:NoDataValue>
+            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-9999</hsterms:NoDataValue>
             <hsterms:VariableName>Temperature</hsterms:VariableName>
             <hsterms:VariableType>Water Quality</hsterms:VariableType>
             <hsterms:Speciation>Not Applicable</hsterms:Speciation>
@@ -146,7 +146,7 @@
             <hsterms:VariableType>Water Quality</hsterms:VariableType>
             <hsterms:VariableName>Temperature</hsterms:VariableName>
             <hsterms:VariableCode>USU36</hsterms:VariableCode>
-            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">-9999</hsterms:NoDataValue>
+            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-9999</hsterms:NoDataValue>
           </rdf:Description>
         </hsterms:variable>
         <hsterms:SampleMedium>Surface Water</hsterms:SampleMedium>
@@ -178,7 +178,7 @@
             <hsterms:VariableType>Water Quality</hsterms:VariableType>
             <hsterms:Speciation>Not Applicable</hsterms:Speciation>
             <hsterms:VariableCode>USU36</hsterms:VariableCode>
-            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">-9999</hsterms:NoDataValue>
+            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-9999</hsterms:NoDataValue>
             <hsterms:VariableName>Temperature</hsterms:VariableName>
           </rdf:Description>
         </hsterms:variable>
@@ -250,7 +250,7 @@
             <hsterms:Speciation>Not Applicable</hsterms:Speciation>
             <hsterms:VariableType>Water Quality</hsterms:VariableType>
             <hsterms:VariableCode>USU36</hsterms:VariableCode>
-            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">-9999</hsterms:NoDataValue>
+            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-9999</hsterms:NoDataValue>
             <hsterms:VariableName>Temperature</hsterms:VariableName>
           </rdf:Description>
         </hsterms:variable>
@@ -330,7 +330,7 @@
         <hsterms:variable>
           <rdf:Description>
             <hsterms:VariableCode>USU36</hsterms:VariableCode>
-            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">-9999</hsterms:NoDataValue>
+            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-9999</hsterms:NoDataValue>
             <hsterms:VariableName>Temperature</hsterms:VariableName>
             <hsterms:VariableType>Water Quality</hsterms:VariableType>
             <hsterms:Speciation>Not Applicable</hsterms:Speciation>
@@ -383,7 +383,7 @@
             <hsterms:Speciation>Not Applicable</hsterms:Speciation>
             <hsterms:VariableType>Water Quality</hsterms:VariableType>
             <hsterms:VariableCode>USU36</hsterms:VariableCode>
-            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">-9999</hsterms:NoDataValue>
+            <hsterms:NoDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-9999</hsterms:NoDataValue>
             <hsterms:VariableName>Temperature</hsterms:VariableName>
           </rdf:Description>
         </hsterms:variable>

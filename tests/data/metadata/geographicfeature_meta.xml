@@ -12,7 +12,7 @@
         <hsterms:fieldType>Real</hsterms:fieldType>
         <hsterms:fieldName>Shape_Leng</hsterms:fieldName>
         <hsterms:fieldWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">19</hsterms:fieldWidth>
-        <hsterms:fieldTypeCode>2</hsterms:fieldTypeCode>
+        <hsterms:fieldTypeCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hsterms:fieldTypeCode>
         <hsterms:fieldPrecision rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">11</hsterms:fieldPrecision>
       </rdf:Description>
     </hsterms:FieldInformation>
@@ -30,7 +30,7 @@
     <dc:subject>fdas</dc:subject>
     <hsterms:FieldInformation>
       <rdf:Description>
-        <hsterms:fieldTypeCode>12</hsterms:fieldTypeCode>
+        <hsterms:fieldTypeCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">12</hsterms:fieldTypeCode>
         <hsterms:fieldName>OBJECTID</hsterms:fieldName>
         <hsterms:fieldType>Integer64</hsterms:fieldType>
         <hsterms:fieldWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</hsterms:fieldWidth>
@@ -52,7 +52,7 @@
     <hsterms:FieldInformation>
       <rdf:Description>
         <hsterms:fieldName>Shape_Area</hsterms:fieldName>
-        <hsterms:fieldTypeCode>2</hsterms:fieldTypeCode>
+        <hsterms:fieldTypeCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hsterms:fieldTypeCode>
         <hsterms:fieldWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">19</hsterms:fieldWidth>
         <hsterms:fieldType>Real</hsterms:fieldType>
         <hsterms:fieldPrecision rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">11</hsterms:fieldPrecision>
@@ -95,7 +95,7 @@
     <hsterms:FieldInformation>
       <rdf:Description>
         <hsterms:fieldType>Integer64</hsterms:fieldType>
-        <hsterms:fieldTypeCode>12</hsterms:fieldTypeCode>
+        <hsterms:fieldTypeCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">12</hsterms:fieldTypeCode>
         <hsterms:fieldWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</hsterms:fieldWidth>
         <hsterms:fieldName>Id</hsterms:fieldName>
       </rdf:Description>
@@ -103,7 +103,7 @@
     <dc:subject>asdf</dc:subject>
     <hsterms:FieldInformation>
       <rdf:Description>
-        <hsterms:fieldTypeCode>2</hsterms:fieldTypeCode>
+        <hsterms:fieldTypeCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hsterms:fieldTypeCode>
         <hsterms:fieldType>Real</hsterms:fieldType>
         <hsterms:fieldWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">19</hsterms:fieldWidth>
         <hsterms:fieldPrecision rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">11</hsterms:fieldPrecision>
@@ -112,7 +112,7 @@
     </hsterms:FieldInformation>
     <hsterms:FieldInformation>
       <rdf:Description>
-        <hsterms:fieldTypeCode>12</hsterms:fieldTypeCode>
+        <hsterms:fieldTypeCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">12</hsterms:fieldTypeCode>
         <hsterms:fieldWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</hsterms:fieldWidth>
         <hsterms:fieldType>Integer64</hsterms:fieldType>
         <hsterms:fieldName>gridcode</hsterms:fieldName>

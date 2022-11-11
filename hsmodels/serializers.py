@@ -2,21 +2,19 @@ import warnings
 from typing import IO, Optional
 
 from rdflib.graph import Graph
-from rdflib.namespace import RDF, XSD
+from rdflib.namespace import XSD
 from rdflib.serializer import Serializer
-from rdflib.term import BNode, Literal, URIRef
-
-from rdflib.plugins.shared.jsonld.context import UNDEF, Context
-from rdflib.plugins.shared.jsonld.keys import CONTEXT, GRAPH, ID, LANG, LIST, SET, VOCAB
+from rdflib.plugin import register
 from rdflib.plugins.shared.jsonld.util import json
+from rdflib.plugins.serializers.jsonld import JsonLDSerializer, from_rdf
 
-__all__ = ["JsonLDSerializer", "from_rdf"]
+__all__ = ["PrettyJsonLDSerializer", "from_rdf"]
 
 
 PLAIN_LITERAL_TYPES = {XSD.boolean, XSD.integer, XSD.double, XSD.string}
 
 
-class JsonLDSerializer(Serializer):
+class PrettyJsonLDSerializer(Serializer):
     def __init__(self, store: Graph):
         super(JsonLDSerializer, self).__init__(store)
 
@@ -54,6 +52,9 @@ class JsonLDSerializer(Serializer):
             auto_compact=auto_compact,
         )
 
+        '''Here is where the compaction takes place!'''
+        distribute_nodes(obj)
+
         data = json.dumps(
             obj,
             indent=indent,
@@ -64,287 +65,52 @@ class JsonLDSerializer(Serializer):
 
         stream.write(data.encode(encoding, "replace"))
 
-def from_rdf(
-    graph,
-    context_data=None,
-    base=None,
-    use_native_types=False,
-    use_rdf_type=False,
-    auto_compact=False,
-    startnode=None,
-    index=False,
-):
-    # TODO: docstring w. args and return value
-    # TODO: support for index and startnode
 
-    if not context_data and auto_compact:
-        context_data = dict(
-            (pfx, str(ns))
-            for (pfx, ns) in graph.namespaces()
-            if pfx and str(ns) != "http://www.w3.org/XML/1998/namespace"
-        )
+def distribute_nodes(jld):
+    # group nodes to be distributed into roots
+    # nodes are identified by a dictionary with {'@id': "_:N..."}
+    nodes_by_id = {d.pop('@id'): d for d in jld['@graph'] if d['@id'].startswith("_:N")}
+    roots = [d for d in jld['@graph'] if '@id' in d and not d['@id'].startswith("_:N")]
 
-    if isinstance(context_data, Context):
-        context = context_data
-        context_data = context.to_dict()
-    else:
-        context = Context(context_data, base=base)
+    # code for walking dictionaries and lists to replace node identifiers with the nodes
+    def is_node_id(d) -> bool:
+        if isinstance(d, dict):
+            if "@id" in d and d["@id"].startswith("_:N"):
+                return True
+        return False
 
-    converter = Converter(context, use_native_types, use_rdf_type)
-    result = converter.convert(graph)
+    def get_node(d: dict):
+        return nodes_by_id[d["@id"]]
 
-    if converter.context.active:
-        if isinstance(result, list):
-            result = {context.get_key(GRAPH): result}
-        result[CONTEXT] = context_data
+    def parse_list(l: list):
+        nodes = []
+        for item in l:
+            if is_node_id(item):
+                nodes.append((item, get_node(item)))
+            if isinstance(item, list):
+                parse_list(item)
+            if isinstance(item, dict):
+                parse_dict(item)
+        for node in nodes:
+            l.remove(node[0])
+            l.append(node[1])
 
-    return result
+    def parse_dict(d: dict):
+        nodes = []
+        for key, value in d.items():
+            if is_node_id(value):
+                nodes.append((key, get_node(value)))
+            if isinstance(value, list):
+                parse_list(value)
+            if isinstance(value, dict):
+                parse_dict(value)
+        for node in nodes:
+            d[node[0]] = node[1]
+    # run the node replacements for each root
+    for d in roots:
+        parse_dict(d)
 
-class Converter(object):
-    def __init__(self, context, use_native_types, use_rdf_type):
-        self.context = context
-        self.use_native_types = context.active or use_native_types
-        self.use_rdf_type = use_rdf_type
 
-    def convert(self, graph):
-        # TODO: bug in rdflib dataset parsing (nquads et al):
-        # plain triples end up in separate unnamed graphs (rdflib issue #436)
-        if graph.context_aware:
-            default_graph = Graph()
-            graphs = [default_graph]
-            for g in graph.contexts():
-                if isinstance(g.identifier, URIRef):
-                    graphs.append(g)
-                else:
-                    default_graph += g
-        else:
-            graphs = [graph]
-
-        context = self.context
-
-        objs = []
-        for g in graphs:
-            obj = {}
-            graphname = None
-
-            if isinstance(g.identifier, URIRef):
-                graphname = context.shrink_iri(g.identifier)
-                obj[context.id_key] = graphname
-
-            nodes = self.from_graph(g)
-
-            if not graphname and len(nodes) == 1:
-                obj.update(nodes[0])
-            else:
-                if not nodes:
-                    continue
-                obj[context.graph_key] = nodes
-
-            if objs and objs[0].get(context.get_key(ID)) == graphname:
-                objs[0].update(obj)
-            else:
-                objs.append(obj)
-
-        if len(graphs) == 1 and len(objs) == 1 and not self.context.active:
-            default = objs[0]
-            items = default.get(context.graph_key)
-            if len(default) == 1 and items:
-                objs = items
-        elif len(objs) == 1 and self.context.active:
-            objs = objs[0]
-
-        return objs
-
-    def from_graph(self, graph):
-        nodemap = {}
-
-        for s in set(graph.subjects()):
-            ## only iri:s and unreferenced (rest will be promoted to top if needed)
-            if isinstance(s, URIRef) or (
-                isinstance(s, BNode) and not any(graph.subjects(None, s))
-            ):
-                self.process_subject(graph, s, nodemap)
-
-        return list(nodemap.values())
-
-    def process_subject(self, graph, s, nodemap):
-        if isinstance(s, URIRef):
-            node_id = self.context.shrink_iri(s)
-        elif isinstance(s, BNode):
-            node_id = s.n3()
-        else:
-            node_id = None
-
-        # used_as_object = any(graph.subjects(None, s))
-        if node_id in nodemap:
-            return None
-
-        node = {}
-        node[self.context.id_key] = node_id
-        nodemap[node_id] = node
-
-        for p, o in graph.predicate_objects(s):
-            self.add_to_node(graph, s, p, o, node, nodemap)
-
-        return node
-
-    def add_to_node(self, graph, s, p, o, s_node, nodemap):
-        context = self.context
-
-        if isinstance(o, Literal):
-            datatype = str(o.datatype) if o.datatype else None
-            language = o.language
-            term = context.find_term(str(p), datatype, language=language)
-        else:
-            containers = [LIST, None] if graph.value(o, RDF.first) else [None]
-            for container in containers:
-                for coercion in (ID, VOCAB, UNDEF):
-                    term = context.find_term(str(p), coercion, container)
-                    if term:
-                        break
-                if term:
-                    break
-
-        node = None
-        use_set = not context.active
-
-        if term:
-            p_key = term.name
-
-            if term.type:
-                node = self.type_coerce(o, term.type)
-            elif term.language and o.language == term.language:
-                node = str(o)
-            elif context.language and (term.language is None and o.language is None):
-                node = str(o)
-
-            if LIST in term.container:
-                node = [
-                    self.type_coerce(v, term.type)
-                    or self.to_raw_value(graph, s, v, nodemap)
-                    for v in self.to_collection(graph, o)
-                ]
-            elif LANG in term.container and language:
-                value = s_node.setdefault(p_key, {})
-                values = value.get(language)
-                node = str(o)
-                if values or SET in term.container:
-                    if not isinstance(values, list):
-                        value[language] = values = [values]
-                    values.append(node)
-                else:
-                    value[language] = node
-                return
-            elif SET in term.container:
-                use_set = True
-
-        else:
-            p_key = context.to_symbol(p)
-            # TODO: for coercing curies - quite clumsy; unify to_symbol and find_term?
-            key_term = context.terms.get(p_key)
-            if key_term and (key_term.type or key_term.container):
-                p_key = p
-            if not term and p == RDF.type and not self.use_rdf_type:
-                if isinstance(o, URIRef):
-                    node = context.to_symbol(o)
-                p_key = context.type_key
-
-        if node is None:
-            node = self.to_raw_value(graph, s, o, nodemap)
-
-        value = s_node.get(p_key)
-        if value:
-            if not isinstance(value, list):
-                value = [value]
-            value.append(node)
-        elif use_set:
-            value = [node]
-        else:
-            value = node
-        s_node[p_key] = value
-
-    def type_coerce(self, o, coerce_type):
-        if coerce_type == ID:
-            if isinstance(o, URIRef):
-                return self.context.shrink_iri(o)
-            elif isinstance(o, BNode):
-                return o.n3()
-            else:
-                return o
-        elif coerce_type == VOCAB and isinstance(o, URIRef):
-            return self.context.to_symbol(o)
-        elif isinstance(o, Literal) and str(o.datatype) == coerce_type:
-            return o
-        else:
-            return None
-
-    def to_raw_value(self, graph, s, o, nodemap):
-        context = self.context
-        coll = self.to_collection(graph, o)
-        if coll is not None:
-            coll = [
-                self.to_raw_value(graph, s, lo, nodemap)
-                for lo in self.to_collection(graph, o)
-            ]
-            return {context.list_key: coll}
-        elif isinstance(o, BNode):
-            embed = (
-                False  # TODO: self.context.active or using startnode and only one ref
-            )
-            onode = self.process_subject(graph, o, nodemap)
-            if onode:
-                if embed and not any(s2 for s2 in graph.subjects(None, o) if s2 != s):
-                    return onode
-                else:
-                    nodemap[onode[context.id_key]] = onode
-            return {context.id_key: o.n3()}
-        elif isinstance(o, URIRef):
-            # TODO: embed if o != startnode (else reverse)
-            return {context.id_key: context.shrink_iri(o)}
-        elif isinstance(o, Literal):
-            # TODO: if compact
-            native = self.use_native_types and o.datatype in PLAIN_LITERAL_TYPES
-            if native:
-                v = o.toPython()
-            else:
-                v = str(o)
-            if o.datatype:
-                if native:
-                    if self.context.active:
-                        return v
-                    else:
-                        return {context.value_key: v}
-                return {
-                    context.type_key: context.to_symbol(o.datatype),
-                    context.value_key: v,
-                }
-            elif o.language and o.language != context.language:
-                return {context.lang_key: o.language, context.value_key: v}
-            elif not context.active or context.language and not o.language:
-                return {context.value_key: v}
-            else:
-                return v
-
-    def to_collection(self, graph, l_):
-        if l_ != RDF.nil and not graph.value(l_, RDF.first):
-            return None
-        list_nodes = []
-        chain = set([l_])
-        while l_:
-            if l_ == RDF.nil:
-                return list_nodes
-            if isinstance(l_, URIRef):
-                return None
-            first, rest = None, None
-            for p, o in graph.predicate_objects(l_):
-                if not first and p == RDF.first:
-                    first = o
-                elif not rest and p == RDF.rest:
-                    rest = o
-                elif p != RDF.type or o != RDF.List:
-                    return None
-            list_nodes.append(first)
-            l_ = rest
-            if l_ in chain:
-                return None
-            chain.add(l_)
+register(
+    'json-ld-pretty', Serializer,
+    'hsmodels.serializers', 'PrettyJsonLDSerializer')

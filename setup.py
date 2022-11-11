@@ -8,7 +8,7 @@ setup(
     packages=find_packages(include=['hsmodels', 'hsmodels.*', 'hsmodels.schemas.*', 'hsmodels.schemas.rdf.*'],
                            exclude=("tests",)),
     install_requires=[
-        'rdflib<6.0.0',
+        'rdflib>=6.0.0',
         'pydantic>=1.8.1,<2.0',
         'email-validator'
     ],

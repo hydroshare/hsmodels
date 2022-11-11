@@ -3,8 +3,6 @@ from typing import IO, Optional
 
 from rdflib.graph import Graph
 from rdflib.namespace import XSD
-from rdflib.serializer import Serializer
-from rdflib.plugin import register
 from rdflib.plugins.shared.jsonld.util import json
 from rdflib.plugins.serializers.jsonld import JsonLDSerializer, from_rdf
 
@@ -14,10 +12,9 @@ __all__ = ["PrettyJsonLDSerializer", "from_rdf"]
 PLAIN_LITERAL_TYPES = {XSD.boolean, XSD.integer, XSD.double, XSD.string}
 
 
-class PrettyJsonLDSerializer(Serializer):
+class PrettyJsonLDSerializer(JsonLDSerializer):
     def __init__(self, store: Graph):
-        super(JsonLDSerializer, self).__init__(store)
-
+        super(PrettyJsonLDSerializer, self).__init__(store)
 
     def serialize(
         self,
@@ -69,8 +66,8 @@ class PrettyJsonLDSerializer(Serializer):
 def distribute_nodes(jld):
     # group nodes to be distributed into roots
     # nodes are identified by a dictionary with {'@id': "_:N..."}
-    nodes_by_id = {d.pop('@id'): d for d in jld['@graph'] if d['@id'].startswith("_:N")}
-    roots = [d for d in jld['@graph'] if '@id' in d and not d['@id'].startswith("_:N")]
+    nodes_by_id = {d.pop('@id'): d for d in jld if d['@id'].startswith("_:N")}
+    roots = [d for d in jld if '@id' in d and not d['@id'].startswith("_:N")]
 
     # code for walking dictionaries and lists to replace node identifiers with the nodes
     def is_node_id(d) -> bool:
@@ -111,6 +108,3 @@ def distribute_nodes(jld):
         parse_dict(d)
 
 
-register(
-    'json-ld-pretty', Serializer,
-    'hsmodels.serializers', 'PrettyJsonLDSerializer')

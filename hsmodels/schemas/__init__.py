@@ -4,7 +4,8 @@ from enum import Enum
 from pydantic import AnyUrl, BaseModel
 from rdflib import Graph, Literal, URIRef
 
-from hsmodels.namespaces import DC, HSTERMS, ORE, RDF, RDFS1
+from hsmodels.namespaces import DC, HSTERMS, ORE, RDF, RDFS1, HSRESOURCE, DCTERMS, SCHEMA, XML, RDFS, CITOTERMS, XSD, \
+    SH, FOAF, DASH, HSUSER
 from hsmodels.schemas.aggregations import (
     FileSetMetadata,
     GeographicFeatureMetadata,
@@ -82,10 +83,27 @@ def parse_file(schema, file, file_format='xml', subject=None):
 
 
 def rdf_graph(schema):
+    g = Graph()
+    g.bind('hsresource', HSRESOURCE)
+    g.bind('dcterms', DCTERMS)
+    g.bind('rdfs1', RDFS1)
+    g.bind('schema', SCHEMA)
+    g.bind('hsterms', HSTERMS)
+    g.bind('xml', XML)
+    g.bind('rdfs', RDFS)
+    g.bind('dc', DC)
+    g.bind('citoterms', CITOTERMS)
+    g.bind('xsd', XSD)
+    g.bind('sh', SH)
+    g.bind('rdf', RDF)
+    g.bind('foaf', FOAF)
+    g.bind('dash', DASH)
+    g.bind('ORE', ORE)
+    g.bind('hsuser', HSUSER)
     for rdf_schema, user_schema in user_schemas.items():
         if isinstance(schema, user_schema):
-            return _rdf_graph(rdf_schema(**schema.dict(to_rdf=True)), Graph())
-    return _rdf_graph(schema, Graph())
+            return _rdf_graph(rdf_schema(**schema.dict(to_rdf=True)), g)
+    return _rdf_graph(schema, g)
 
 
 def rdf_string(schema, rdf_format='pretty-xml'):

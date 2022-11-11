@@ -66,8 +66,8 @@ class PrettyJsonLDSerializer(JsonLDSerializer):
 def distribute_nodes(jld):
     # group nodes to be distributed into roots
     # nodes are identified by a dictionary with {'@id': "_:N..."}
-    nodes_by_id = {d.pop('@id'): d for d in jld if d['@id'].startswith("_:N")}
-    roots = [d for d in jld if '@id' in d and not d['@id'].startswith("_:N")]
+    nodes_by_id = {d.pop('@id'): d for d in jld['@graph'] if d['@id'].startswith("_:N")}
+    roots = [d for d in jld['@graph'] if '@id' in d and not d['@id'].startswith("_:N")]
 
     # code for walking dictionaries and lists to replace node identifiers with the nodes
     def is_node_id(d) -> bool:

@@ -89,7 +89,7 @@ def rdf_graph(schema):
 
 
 def rdf_string(schema, rdf_format='pretty-xml'):
-    return rdf_graph(schema).serialize(format=rdf_format)
+    return rdf_graph(schema).serialize(format=rdf_format, auto_compact=True)
 
 
 def _rdf_fields(schema):

@@ -82,7 +82,7 @@ def test_resource_metadata(res_md):
 
     assert res_md.identifier == "http://www.hydroshare.org/resource/84805fd615a04d63b4eada65644a1e20"
 
-    assert len(res_md.additional_metadata) == 2
+    assert len(res_md.additional_metadata) == 3
     assert "key2" in res_md.additional_metadata
     assert res_md.additional_metadata["key2"] == "value2"
 

@@ -67,7 +67,7 @@ class IdentifierInRDF(RDFBaseModel):
 
 
 class ExtendedMetadataInRDF(RDFBaseModel):
-    value: str = Field(rdf_predicate=HSTERMS.value)
+    value: str = Field(rdf_predicate=HSTERMS.value, default="")
     key: str = Field(rdf_predicate=HSTERMS.key)
 
 

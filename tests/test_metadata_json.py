@@ -33,11 +33,11 @@ def res_md():
 
 
 def test_resource_additional_metadata_dictionary(res_md):
-    assert res_md.additional_metadata == {"key1": "value1", "key2": "value2"}
+    assert res_md.additional_metadata == {"key1": "value1", "key2": "value2", "key_empty": ""}
     res_md_in = ResourceMetadataIn(**res_md.dict())
-    assert res_md_in.additional_metadata == {"key1": "value1", "key2": "value2"}
+    assert res_md_in.additional_metadata == {"key1": "value1", "key2": "value2", "key_empty": ""}
 
-    assert res_md_in.dict()["additional_metadata"] == {"key1": "value1", "key2": "value2"}
+    assert res_md_in.dict()["additional_metadata"] == {"key1": "value1", "key2": "value2", "key_empty": ""}
 
 
 metadata_json_input = [

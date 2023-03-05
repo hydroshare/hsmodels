@@ -4,3 +4,4 @@ site/
 htmlcov/
 hsmodels.egg-info
 .coverage
+tests/__pycache__/

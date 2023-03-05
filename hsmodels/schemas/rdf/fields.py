@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from pydantic import AnyUrl, BaseModel, EmailStr, Field, HttpUrl, PositiveInt, root_validator
 from rdflib import BNode
@@ -68,7 +67,7 @@ class IdentifierInRDF(RDFBaseModel):
 
 
 class ExtendedMetadataInRDF(RDFBaseModel):
-    value: Optional[str] = Field(rdf_predicate=HSTERMS.value)
+    value: str = Field(rdf_predicate=HSTERMS.value, default="")
     key: str = Field(rdf_predicate=HSTERMS.key)
 
 

@@ -28,12 +28,13 @@ from hsmodels.schemas.rdf.aggregations import (
     SingleFileMetadataInRDF,
     TimeSeriesMetadataInRDF,
 )
-from hsmodels.schemas.rdf.resource import ResourceMap, ResourceMetadataInRDF
-from hsmodels.schemas.resource import ResourceMetadata
+from hsmodels.schemas.rdf.resource import CollectionMetadataInRDF, ResourceMap, ResourceMetadataInRDF
+from hsmodels.schemas.resource import CollectionMetadata, ResourceMetadata
 
 rdf_schemas = {
     ORE.ResourceMap: ResourceMap,
     HSTERMS.CompositeResource: ResourceMetadataInRDF,
+    HSTERMS.CollectionResource: CollectionMetadataInRDF,
     HSTERMS.GeographicRasterAggregation: GeographicRasterMetadataInRDF,
     HSTERMS.GeographicFeatureAggregation: GeographicFeatureMetadataInRDF,
     HSTERMS.MultidimensionalAggregation: MultidimensionalMetadataInRDF,
@@ -47,6 +48,7 @@ rdf_schemas = {
 
 user_schemas = {
     ResourceMetadataInRDF: ResourceMetadata,
+    CollectionMetadataInRDF: CollectionMetadata,
     GeographicRasterMetadataInRDF: GeographicRasterMetadata,
     GeographicFeatureMetadataInRDF: GeographicFeatureMetadata,
     MultidimensionalMetadataInRDF: MultidimensionalMetadata,
@@ -60,7 +62,6 @@ user_schemas = {
 
 
 def load_rdf(rdf_str, file_format='xml'):
-
     g = Graph().parse(data=rdf_str, format=file_format)
     for target_class, schema in rdf_schemas.items():
         subject = g.value(predicate=RDF.type, object=target_class)

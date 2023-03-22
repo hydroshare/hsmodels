@@ -39,7 +39,6 @@ from hsmodels.schemas.validators import (
 
 
 class BaseAggregationMetadataIn(BaseMetadata):
-
     title: str = Field(
         default=None,
         title="Aggregation title",
@@ -111,7 +110,6 @@ class GeographicRasterMetadataIn(BaseAggregationMetadataIn):
 
 
 class GeographicRasterMetadata(GeographicRasterMetadataIn):
-
     _type = AggregationType.GeographicRasterAggregation
 
     type: AggregationType = Field(
@@ -168,7 +166,6 @@ class GeographicFeatureMetadataIn(BaseAggregationMetadataIn):
 
 
 class GeographicFeatureMetadata(GeographicFeatureMetadataIn):
-
     type: AggregationType = Field(
         const=True,
         default=AggregationType.GeographicFeatureAggregation,
@@ -221,7 +218,6 @@ class MultidimensionalMetadataIn(BaseAggregationMetadataIn):
 
 
 class MultidimensionalMetadata(MultidimensionalMetadataIn):
-
     type: AggregationType = Field(
         const=True,
         default=AggregationType.MultidimensionalAggregation,
@@ -259,7 +255,6 @@ class ReferencedTimeSeriesMetadataIn(BaseAggregationMetadataIn):
 
 
 class ReferencedTimeSeriesMetadata(ReferencedTimeSeriesMetadataIn):
-
     type: AggregationType = Field(
         const=True,
         default=AggregationType.ReferencedTimeSeriesAggregation,
@@ -297,7 +292,6 @@ class FileSetMetadataIn(BaseAggregationMetadataIn):
 
 
 class FileSetMetadata(FileSetMetadataIn):
-
     type: AggregationType = Field(
         const=True,
         default=AggregationType.FileSetAggregation,
@@ -334,7 +328,6 @@ class SingleFileMetadataIn(BaseAggregationMetadataIn):
 
 
 class SingleFileMetadata(SingleFileMetadataIn):
-
     type: AggregationType = Field(
         const=True,
         default=AggregationType.SingleFileAggregation,
@@ -384,7 +377,6 @@ class TimeSeriesMetadataIn(BaseAggregationMetadataIn):
 
 
 class TimeSeriesMetadata(TimeSeriesMetadataIn):
-
     type: AggregationType = Field(
         const=True,
         default=AggregationType.TimeSeriesAggregation,
@@ -464,7 +456,6 @@ class ModelProgramMetadataIn(BaseAggregationMetadataIn):
 
 
 class ModelProgramMetadata(ModelProgramMetadataIn):
-
     type: AggregationType = Field(
         const=True,
         default=AggregationType.ModelProgramAggregation,
@@ -521,7 +512,6 @@ class ModelInstanceMetadataIn(BaseAggregationMetadataIn):
 
 
 class ModelInstanceMetadata(ModelInstanceMetadataIn):
-
     type: AggregationType = Field(
         const=True,
         default=AggregationType.ModelInstanceAggregation,

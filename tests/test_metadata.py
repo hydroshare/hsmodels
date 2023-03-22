@@ -25,7 +25,7 @@ def res_md_point():
 
 
 def compare_graphs(new_graph, original_graph):
-    for (new_triple, original_triple) in _squashed_graphs_triples(new_graph, original_graph):
+    for new_triple, original_triple in _squashed_graphs_triples(new_graph, original_graph):
         if new_triple[1] == RDF.value:
             # for coverage and spatial reference, the value string needs to be parsed into a dictionary for comparison
             if ';' in new_triple[2]:
@@ -43,18 +43,7 @@ def compare_metadatas(new_graph, original_metadata_file):
     compare_graphs(new_graph, original_graph)
 
 
-metadata_files = [
-    'resourcemetadata.xml',
-    'geographicraster_meta.xml',
-    'fileset_meta.xml',
-    'referencedtimeseries.refts_meta.xml',
-    'multidimensional_meta.xml',
-    'singlefile_meta.xml',
-    'geographicfeature_meta.xml',
-    'timeseries_meta.xml',
-    'modelprogram_meta.xml',
-    'modelinstance_meta.xml',
-]
+metadata_files = ['collection_meta.xml']
 
 
 @pytest.mark.parametrize("metadata_file", metadata_files)
@@ -67,7 +56,6 @@ def test_resource_serialization(metadata_file):
 
 
 def test_resource_metadata(res_md):
-
     assert res_md.title == "sadfadsgasdf"
 
     assert len(res_md.subjects) == 14

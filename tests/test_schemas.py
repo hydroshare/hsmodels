@@ -2,6 +2,7 @@ import pytest
 from pydantic.schema import schema
 
 from hsmodels.schemas import (
+    CollectionMetadata,
     FileSetMetadata,
     GeographicFeatureMetadata,
     GeographicRasterMetadata,
@@ -24,6 +25,7 @@ from hsmodels.schemas.fields import (
 
 read_only_fields = [
     (ResourceMetadata, ['type', 'identifier', 'created', 'modified', 'published', 'url']),
+    (CollectionMetadata, ['type', 'identifier', 'created', 'modified', 'published', 'url']),
     (GeographicRasterMetadata, ['type', 'url']),
     (ModelProgramMetadata, ['type', 'url']),
     (ModelInstanceMetadata, ['type', 'url']),
@@ -56,6 +58,7 @@ def test_readonly(read_only_field):
 
 additional_metadata_fields = [
     (ResourceMetadata, ['additional_metadata']),
+    (CollectionMetadata, ['additional_metadata']),
     (GeographicRasterMetadata, ['additional_metadata']),
     (GeographicFeatureMetadata, ['additional_metadata']),
     (MultidimensionalMetadata, ['additional_metadata']),

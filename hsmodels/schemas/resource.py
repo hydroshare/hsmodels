@@ -114,16 +114,7 @@ class ResourceMetadataIn(BaseMetadata):
     _creators_constraint = validator('creators')(list_not_empty)
 
 
-class ResourceMetadata(ResourceMetadataIn):
-
-    type: str = Field(
-        const=True,
-        default="CompositeResource",
-        title="Resource Type",
-        description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
-        allow_mutation=False,
-    )
-
+class BaseResourceMetadata(ResourceMetadataIn):
     url: AnyUrl = Field(title="URL", description="An object containing the URL for a resource", allow_mutation=False)
 
     identifier: AnyUrl = Field(
@@ -154,3 +145,23 @@ class ResourceMetadata(ResourceMetadataIn):
     _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
 
     _parse_identifier = validator("identifier", pre=True)(parse_identifier)
+
+
+class ResourceMetadata(BaseResourceMetadata):
+    type: str = Field(
+        const=True,
+        default="CompositeResource",
+        title="Resource Type",
+        description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
+        allow_mutation=False,
+    )
+
+
+class CollectionMetadata(BaseResourceMetadata):
+    type: str = Field(
+        const=True,
+        default="CollectionResource",
+        title="Resource Type",
+        description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
+        allow_mutation=False,
+    )

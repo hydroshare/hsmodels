@@ -43,7 +43,19 @@ def compare_metadatas(new_graph, original_metadata_file):
     compare_graphs(new_graph, original_graph)
 
 
-metadata_files = ['collection_meta.xml']
+metadata_files = [
+    'resourcemetadata.xml',
+    'geographicraster_meta.xml',
+    'fileset_meta.xml',
+    'referencedtimeseries.refts_meta.xml',
+    'multidimensional_meta.xml',
+    'singlefile_meta.xml',
+    'geographicfeature_meta.xml',
+    'timeseries_meta.xml',
+    'modelprogram_meta.xml',
+    'modelinstance_meta.xml',
+    'collection_meta.xml'
+]
 
 
 @pytest.mark.parametrize("metadata_file", metadata_files)

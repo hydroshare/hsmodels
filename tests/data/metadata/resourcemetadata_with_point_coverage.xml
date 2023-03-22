@@ -196,9 +196,9 @@
       </rdf:Description>
     </hsterms:extendedMetadata>
     <dc:date>
-      <dcterms:published>
+      <hsterms:published>
         <rdf:value>2020-11-13T18:53:19.778819+00:00</rdf:value>
-      </dcterms:published>
+      </hsterms:published>
     </dc:date>
     <dc:publisher>
       <rdf:Description>

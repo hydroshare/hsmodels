@@ -88,7 +88,7 @@ class DateType(TermEnum):
     valid = str(DCTERMS.valid)
     available = str(DCTERMS.available)
     published = str(HSTERMS.published)
-    review_started = str(HSTERMS.review_started)
+    review_started = str(HSTERMS.reviewStarted)
 
 
 class ModelProgramFileType(TermEnum):

@@ -54,7 +54,7 @@ metadata_files = [
     'timeseries_meta.xml',
     'modelprogram_meta.xml',
     'modelinstance_meta.xml',
-    'collection_meta.xml'
+    'collection_meta.xml',
 ]
 
 

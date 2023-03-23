@@ -1,0 +1,52 @@
+{
+  "title": "Test collection- site data",
+  "abstract": "Abstract abstract",
+  "language": "eng",
+  "subjects": [
+    "water"
+  ],
+  "creators": [
+    {
+      "name": "Cogswell, Clara Beth",
+      "organization": "CUAHSI",
+      "email": "ccogswell@cuahsi.org",
+      "hydroshare_user_id": 11139,
+      "identifiers": {}
+    }
+  ],
+  "contributors": [],
+  "relations": [
+    {
+      "type": "This resource includes",
+      "value": "Ward, A., S. Herzog, J. Bales, R. Barnes, M. Ross, L. Yoder, N. Basu, A. Jefferson, E. Habib, T. Covino, J. Maertens (2021). Educational Resources for Hydrology & Water Resources, HydroShare, http://www.hydroshare.org/resource/148b1ce4e308427ebf58379d48a17b91"
+    },
+    {
+      "type": "This resource includes",
+      "value": "Castronova, A. (2018). JupyterHub Example Notebooks, HydroShare, http://www.hydroshare.org/resource/86619800f07c49d1a1e61eb7f9b95f23"
+    },
+    {
+      "type": "This resource includes",
+      "value": "Castronova, A. (2018). Collection of SUMMA Test Case Simulations, HydroShare, http://www.hydroshare.org/resource/a52d6881ab104d85be4fdf9ad69d6cf7"
+    }
+  ],
+  "additional_metadata": {},
+  "rights": {
+    "statement": "This resource is shared under the Creative Commons Attribution CC BY.",
+    "url": "http://creativecommons.org/licenses/by/4.0/"
+  },
+  "awards": [],
+  "spatial_coverage": {
+    "type": "box",
+    "northlimit": 42.11270614966863,
+    "eastlimit": -89.421,
+    "southlimit": 25.6767,
+    "westlimit": -111.81761887121905,
+    "units": "['Decimal degrees']",
+    "projection": "WGS84 EPSG:4326"
+  },
+  "period_coverage": {
+    "start": "2017-12-11T00:00:00",
+    "end": "2017-12-11T00:00:00"
+  },
+  "citation": "Cogswell, C. B. (2023). Test collection- site data, HydroShare, http://www.hydroshare.org/resource/8ab496b4dc2a416190a020050df9eb03"
+}

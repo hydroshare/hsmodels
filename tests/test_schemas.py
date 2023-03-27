@@ -23,7 +23,7 @@ from hsmodels.schemas.fields import (
 )
 
 read_only_fields = [
-    (ResourceMetadata, ['type', 'identifier', 'created', 'modified', 'published', 'url']),
+    (ResourceMetadata, ['type', 'identifier', 'created', 'modified', 'review_started', 'published', 'url']),
     (GeographicRasterMetadata, ['type', 'url']),
     (ModelProgramMetadata, ['type', 'url']),
     (ModelInstanceMetadata, ['type', 'url']),

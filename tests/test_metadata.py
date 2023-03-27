@@ -125,6 +125,7 @@ def test_resource_metadata(res_md):
 
     assert res_md.modified == datetime.fromisoformat("2020-11-13T19:40:57.276064+00:00")
     assert res_md.created == datetime.fromisoformat("2020-07-09T19:12:21.354703+00:00")
+    assert res_md.review_started == datetime.fromisoformat("2020-11-12T18:53:19.778819+00:00")
     assert res_md.published == datetime.fromisoformat("2020-11-13T18:53:19.778819+00:00")
 
     assert len(res_md.awards) == 2

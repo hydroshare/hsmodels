@@ -9,6 +9,8 @@ def split_dates(cls, values):
                 values["created"] = date['value']
             elif date['type'] == DateType.modified:
                 values["modified"] = date['value']
+            elif date['type'] == DateType.review_started:
+                values["review_started"] = date['value']
             elif date['type'] == DateType.published:
                 values["published"] = date['value']
         del values["dates"]

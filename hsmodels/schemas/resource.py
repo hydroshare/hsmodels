@@ -36,7 +36,7 @@ class ResourceMetadataIn(BaseMetadata):
         title = 'Resource Metadata'
 
         schema_config = {
-            'read_only': ['type', 'identifier', 'created', 'modified', 'published', 'url'],
+            'read_only': ['type', 'identifier', 'created', 'modified', 'review_started', 'published', 'url'],
             'dictionary_field': ['additional_metadata'],
         }
 
@@ -141,6 +141,12 @@ class ResourceMetadata(ResourceMetadataIn):
         default_factory=datetime.now,
         title="Modified date",
         description="A datetime object containing the instant associated with when a resource was last modified",
+        allow_mutation=False,
+    )
+    review_started: datetime = Field(
+        default=None,
+        title="Review started date",
+        description="A datetime object containing the instant associated with when metadata review started on a resource",
         allow_mutation=False,
     )
     published: datetime = Field(

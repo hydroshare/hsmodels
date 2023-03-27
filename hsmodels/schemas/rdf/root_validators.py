@@ -112,6 +112,10 @@ def parse_rdf_dates(cls, values):
     dates.append({"type": DateType.modified, "value": values["modified"]})
     del values["modified"]
 
+    if "review_started" in values and values["review_started"]:
+        dates.append({"type": DateType.review_started, "value": values["review_started"]})
+        del values["review_started"]
+
     if "published" in values and values["published"]:
         dates.append({"type": DateType.published, "value": values["published"]})
         del values["published"]

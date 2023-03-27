@@ -196,6 +196,11 @@
       </rdf:Description>
     </hsterms:extendedMetadata>
     <dc:date>
+      <hsterms:reviewStarted>
+        <rdf:value>2020-11-12T18:53:19.778819+00:00</rdf:value>
+      </hsterms:reviewStarted>
+    </dc:date>
+    <dc:date>
       <hsterms:published>
         <rdf:value>2020-11-13T18:53:19.778819+00:00</rdf:value>
       </hsterms:published>

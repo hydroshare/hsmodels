@@ -5,3 +5,5 @@ htmlcov/
 hsmodels.egg-info
 .coverage
 tests/__pycache__/
+venv
+*.pyc

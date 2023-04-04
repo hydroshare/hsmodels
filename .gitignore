@@ -1,7 +1,10 @@
 .idea/
 dist/
+build/
 site/
 htmlcov/
 hsmodels.egg-info
 .coverage
-tests/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+*/__pycache__/

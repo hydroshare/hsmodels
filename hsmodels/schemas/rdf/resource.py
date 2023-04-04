@@ -59,14 +59,8 @@ class ResourceMap(BaseModel):
     creator: str = Field(rdf_predicate=DC.creator, default=None)
 
 
-class ResourceMetadataInRDF(BaseModel):
-
+class BaseResource(BaseModel):
     rdf_subject: RDFIdentifier = Field(default_factory=hs_uid)
-    _parse_rdf_subject = root_validator(pre=True, allow_reuse=True)(rdf_parse_rdf_subject)
-
-    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, const=True, default=HSTERMS.CompositeResource)
-
-    label: str = Field(default="Composite Resource", const=True)
 
     title: str = Field(rdf_predicate=DC.title)
     description: DescriptionInRDF = Field(rdf_predicate=DC.description, default_factory=DescriptionInRDF)
@@ -86,6 +80,8 @@ class ResourceMetadataInRDF(BaseModel):
     publisher: PublisherInRDF = Field(rdf_predicate=DC.publisher, default=None)
     citation: str = Field(rdf_predicate=DCTERMS.bibliographicCitation)
 
+    _parse_rdf_subject = root_validator(pre=True, allow_reuse=True)(rdf_parse_rdf_subject)
+
     _parse_coverages = root_validator(pre=True, allow_reuse=True)(parse_coverages)
     _parse_extended_metadata = root_validator(pre=True, allow_reuse=True)(parse_rdf_extended_metadata)
     _parse_rdf_dates = root_validator(pre=True, allow_reuse=True)(parse_rdf_dates)
@@ -98,3 +94,16 @@ class ResourceMetadataInRDF(BaseModel):
     _coverages_constraint = validator('coverages', allow_reuse=True)(coverages_constraint)
     _coverages_spatial_constraint = validator('coverages', allow_reuse=True)(coverages_spatial_constraint)
     _sort_creators = validator("creators", pre=True)(sort_creators)
+
+
+class ResourceMetadataInRDF(BaseResource):
+    dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.CompositeResource, const=True)
+    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, const=True, default=HSTERMS.CompositeResource)
+
+    label: str = Field(default="Composite Resource", const=True)
+
+
+class CollectionMetadataInRDF(BaseResource):
+    dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.CollectionResource, const=True)
+    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, const=True, default=HSTERMS.CollectionResource)
+    label: str = Field(default="Collection Resource", const=True)

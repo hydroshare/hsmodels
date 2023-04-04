@@ -289,7 +289,6 @@ class UTCOffSetInRDF(UTCOffSet, RDFBaseModel):
 
 
 class TimeSeriesResultInRDF(TimeSeriesResult, RDFBaseModel):
-
     unit: UnitInRDF = Field(rdf_predicate=HSTERMS.unit, default=None)
     site: TimeSeriesSiteInRDF = Field(rdf_predicate=HSTERMS.site)
     variable: TimeSeriesVariableInRDF = Field(rdf_predicate=HSTERMS.variable)

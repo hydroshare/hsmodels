@@ -25,7 +25,7 @@ def res_md_point():
 
 
 def compare_graphs(new_graph, original_graph):
-    for (new_triple, original_triple) in _squashed_graphs_triples(new_graph, original_graph):
+    for new_triple, original_triple in _squashed_graphs_triples(new_graph, original_graph):
         if new_triple[1] == RDF.value:
             # for coverage and spatial reference, the value string needs to be parsed into a dictionary for comparison
             if ';' in new_triple[2]:
@@ -54,6 +54,7 @@ metadata_files = [
     'timeseries_meta.xml',
     'modelprogram_meta.xml',
     'modelinstance_meta.xml',
+    'collection_meta.xml',
 ]
 
 
@@ -67,7 +68,6 @@ def test_resource_serialization(metadata_file):
 
 
 def test_resource_metadata(res_md):
-
     assert res_md.title == "sadfadsgasdf"
 
     assert len(res_md.subjects) == 14

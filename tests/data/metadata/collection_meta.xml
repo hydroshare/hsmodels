@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:hsterms="https://www.hydroshare.org/terms/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <hsterms:CollectionResource rdf:about="http://www.hydroshare.org/resource/8ab496b4dc2a416190a020050df9eb03">
+    <dc:coverage>
+      <dcterms:box>
+        <rdf:value>eastlimit=-89.421; westlimit=-111.81761887121905; northlimit=42.11270614966863; southlimit=25.6767; units=['Decimal degrees']; projection=WGS84 EPSG:4326</rdf:value>
+      </dcterms:box>
+    </dc:coverage>
+    <dc:relation>
+      <rdf:Description>
+        <dcterms:hasPart>Castronova, A. (2018). Collection of SUMMA Test Case Simulations, HydroShare, http://www.hydroshare.org/resource/a52d6881ab104d85be4fdf9ad69d6cf7</dcterms:hasPart>
+      </rdf:Description>
+    </dc:relation>
+    <dcterms:bibliographicCitation>Cogswell, C. B. (2023). Test collection- site data, HydroShare, http://www.hydroshare.org/resource/8ab496b4dc2a416190a020050df9eb03</dcterms:bibliographicCitation>
+    <dc:title>Test collection- site data</dc:title>
+    <dc:date>
+      <dcterms:modified>
+        <rdf:value>2023-03-21T17:27:21.504324+00:00</rdf:value>
+      </dcterms:modified>
+    </dc:date>
+    <dc:identifier>
+      <rdf:Description>
+        <hsterms:hydroShareIdentifier rdf:resource="http://www.hydroshare.org/resource/8ab496b4dc2a416190a020050df9eb03"/>
+      </rdf:Description>
+    </dc:identifier>
+    <dc:description>
+      <rdf:Description>
+        <dcterms:abstract>Abstract abstract</dcterms:abstract>
+      </rdf:Description>
+    </dc:description>
+    <dc:coverage>
+      <dcterms:period>
+        <rdf:value>start=2017-12-11T00:00:00; end=2017-12-11T00:00:00</rdf:value>
+      </dcterms:period>
+    </dc:coverage>
+    <dc:rights>
+      <rdf:Description>
+        <hsterms:rightsStatement>This resource is shared under the Creative Commons Attribution CC BY.</hsterms:rightsStatement>
+        <hsterms:URL rdf:resource="http://creativecommons.org/licenses/by/4.0/"/>
+      </rdf:Description>
+    </dc:rights>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:name>Cogswell, Clara Beth</hsterms:name>
+        <hsterms:email>ccogswell@cuahsi.org</hsterms:email>
+        <hsterms:organization>CUAHSI</hsterms:organization>
+        <hsterms:hydroshare_user_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">11139</hsterms:hydroshare_user_id>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hsterms:creatorOrder>
+      </rdf:Description>
+    </dc:creator>
+    <dc:language>eng</dc:language>
+    <dc:date>
+      <dcterms:created>
+        <rdf:value>2022-12-15T17:16:39.311963+00:00</rdf:value>
+      </dcterms:created>
+    </dc:date>
+    <dc:relation>
+      <rdf:Description>
+        <dcterms:hasPart>Ward, A., S. Herzog, J. Bales, R. Barnes, M. Ross, L. Yoder, N. Basu, A. Jefferson, E. Habib, T. Covino, J. Maertens (2021). Educational Resources for Hydrology &amp; Water Resources, HydroShare, http://www.hydroshare.org/resource/148b1ce4e308427ebf58379d48a17b91</dcterms:hasPart>
+      </rdf:Description>
+    </dc:relation>
+    <dc:type>
+      <rdf:Description rdf:about="https://www.hydroshare.org/terms/CollectionResource">
+        <rdfs:isDefinedBy rdf:resource="https://www.hydroshare.org/terms/"/>
+        <rdfs:label>Collection Resource</rdfs:label>
+      </rdf:Description>
+    </dc:type>
+    <dc:subject>water</dc:subject>
+    <dc:relation>
+      <rdf:Description>
+        <dcterms:hasPart>Castronova, A. (2018). JupyterHub Example Notebooks, HydroShare, http://www.hydroshare.org/resource/86619800f07c49d1a1e61eb7f9b95f23</dcterms:hasPart>
+      </rdf:Description>
+    </dc:relation>
+  </hsterms:CollectionResource>
+</rdf:RDF>

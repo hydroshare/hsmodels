@@ -51,6 +51,7 @@ metadata_json_input = [
     (TimeSeriesMetadataIn, 'timeseries.json'),
     (ModelProgramMetadataIn, 'modelprogram.json'),
     (ModelInstanceMetadataIn, 'modelinstance.json'),
+    (ResourceMetadataIn, 'collection.json'),
 ]
 
 

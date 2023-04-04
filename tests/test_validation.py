@@ -200,6 +200,14 @@ def test_resource_modified_readonly(res_md):
         assert '"modified" has allow_mutation set to False and cannot be assigned' in str(e)
 
 
+def test_resource_review_readonly(res_md):
+    try:
+        res_md.review_started = datetime.now()
+        assert False, "Should have thrown error"
+    except TypeError as e:
+        assert '"review_started" has allow_mutation set to False and cannot be assigned' in str(e)
+
+
 def test_resource_published_readonly(res_md):
     try:
         res_md.published = datetime.now()

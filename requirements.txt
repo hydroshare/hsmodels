@@ -1,5 +1,5 @@
 rdflib<6.0.0
-pydantic~=1.8.1
+pydantic>=1.8.1,<2.0
 email-validator
 jsonschema2md
 black

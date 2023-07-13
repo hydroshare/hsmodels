@@ -4,12 +4,12 @@ README = 'Refer to the models section of https://hydroshare.github.io/hsclient/'
 
 setup(
     name='hsmodels',
-    version='0.5.7',
+    version='0.5.8',
     packages=find_packages(include=['hsmodels', 'hsmodels.*', 'hsmodels.schemas.*', 'hsmodels.schemas.rdf.*'],
                            exclude=("tests",)),
     install_requires=[
         'rdflib<6.0.0',
-        'pydantic~=1.8.1',
+        'pydantic>=1.8.1,<2.0',
         'email-validator'
     ],
     url='https://github.com/hydroshare/hsmodels',

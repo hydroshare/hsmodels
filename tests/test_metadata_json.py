@@ -34,10 +34,10 @@ def res_md():
 
 def test_resource_additional_metadata_dictionary(res_md):
     assert res_md.additional_metadata == {"key1": "value1", "key2": "value2", "key_empty": ""}
-    res_md_in = ResourceMetadataIn(**res_md.dict())
+    res_md_in = ResourceMetadataIn(**res_md.model_dump())
     assert res_md_in.additional_metadata == {"key1": "value1", "key2": "value2", "key_empty": ""}
 
-    assert res_md_in.dict()["additional_metadata"] == {"key1": "value1", "key2": "value2", "key_empty": ""}
+    assert res_md_in.model_dump()["additional_metadata"] == {"key1": "value1", "key2": "value2", "key_empty": ""}
 
 
 metadata_json_input = [
@@ -61,8 +61,8 @@ def test_metadata_json_serialization(metadata_json_input):
     metadata_file = os.path.join('data', 'json', metadata_file)
     with open(metadata_file, 'r') as f:
         json_file_str = f.read()
-    md = in_schema.parse_raw(json_file_str)
-    from_schema = sorting(json.loads(md.json()))
+    md = in_schema.model_validate_json(json_file_str)
+    from_schema = sorting(json.loads(md.model_dump_json()))
     from_file = sorting(json.loads(json_file_str))
     for i in range(1, len(from_file)):
         assert from_file[i] == from_schema[i]

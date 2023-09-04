@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union, Literal
 
-from pydantic import AnyUrl, Field, root_validator, validator
+from pydantic import AnyUrl, Field, field_validator, model_validator
 
 from hsmodels.schemas.base_models import BaseMetadata
 from hsmodels.schemas.fields import (
@@ -82,7 +82,7 @@ class ResourceMetadataIn(BaseMetadata):
         title="Funding agency information",
         description="A list of objects containing information about the funding agencies and awards associated with a resource",
     )
-    spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
+    spatial_coverage: Optional[Union[PointCoverage, BoxCoverage]] = Field(
         default=None,
         title="Spatial coverage",
         description="An object containing information about the spatial topic of a resource, the spatial applicability of a resource, or jurisdiction under with a resource is relevant",
@@ -101,73 +101,71 @@ class ResourceMetadataIn(BaseMetadata):
         default=None, title="Citation", description="A string containing the biblilographic citation for a resource"
     )
 
-    _parse_coverages = root_validator(pre=True, allow_reuse=True)(split_coverages)
-    _parse_additional_metadata = root_validator(pre=True, allow_reuse=True)(parse_additional_metadata)
-    _parse_abstract = root_validator(pre=True)(parse_abstract)
+    _parse_coverages = model_validator(mode='before')(split_coverages)
+    _parse_additional_metadata = model_validator(mode='before')(parse_additional_metadata)
+    _parse_abstract = model_validator(mode='before')(parse_abstract)
 
-    _parse_spatial_coverage = validator("spatial_coverage", allow_reuse=True, pre=True)(parse_spatial_coverage)
+    _parse_spatial_coverage = field_validator("spatial_coverage", mode='before')(parse_spatial_coverage)
 
-    _normalize_additional_metadata = root_validator(allow_reuse=True, pre=True)(normalize_additional_metadata)
+    _normalize_additional_metadata = model_validator(mode='before')(normalize_additional_metadata)
 
-    _subjects_constraint = validator('subjects', allow_reuse=True)(subjects_constraint)
-    _language_constraint = validator('language', allow_reuse=True)(language_constraint)
-    _creators_constraint = validator('creators')(list_not_empty)
+    _subjects_constraint = field_validator('subjects')(subjects_constraint)
+    _language_constraint = field_validator('language')(language_constraint)
+    _creators_constraint = field_validator('creators')(list_not_empty)
 
 
 class BaseResourceMetadata(ResourceMetadataIn):
-    url: AnyUrl = Field(title="URL", description="An object containing the URL for a resource", allow_mutation=False)
+    url: AnyUrl = Field(title="URL", description="An object containing the URL for a resource", frozen=True)
 
     identifier: AnyUrl = Field(
         title="Identifier",
         description="An object containing the URL-encoded unique identifier for a resource",
-        allow_mutation=False,
+        frozen=True,
     )
     created: datetime = Field(
         default_factory=datetime.now,
         title="Creation date",
         description="A datetime object containing the instant associated with when a resource was created",
-        allow_mutation=False,
+        frozen=True,
     )
     modified: datetime = Field(
         default_factory=datetime.now,
         title="Modified date",
         description="A datetime object containing the instant associated with when a resource was last modified",
-        allow_mutation=False,
+        frozen=True,
     )
     review_started: datetime = Field(
         default=None,
         title="Review started date",
         description="A datetime object containing the instant associated with when metadata review started on a resource",
-        allow_mutation=False,
+        frozen=True,
     )
     published: datetime = Field(
         default=None,
         title="Published date",
         description="A datetime object containing the instant associated with when a resource was published",
-        allow_mutation=False,
+        frozen=True,
     )
 
-    _parse_dates = root_validator(pre=True, allow_reuse=True)(split_dates)
-    _parse_url = root_validator(pre=True, allow_reuse=True)(parse_url)
+    _parse_dates = model_validator(mode='before')(split_dates)
+    _parse_url = model_validator(mode='before')(parse_url)
 
-    _parse_identifier = validator("identifier", pre=True)(parse_identifier)
+    _parse_identifier = field_validator("identifier", mode='before')(parse_identifier)
 
 
 class ResourceMetadata(BaseResourceMetadata):
-    type: str = Field(
-        const=True,
+    type: Literal['CompositeResource'] = Field(
+        frozen=True,
         default="CompositeResource",
         title="Resource Type",
         description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
-        allow_mutation=False,
     )
 
 
 class CollectionMetadata(BaseResourceMetadata):
-    type: str = Field(
-        const=True,
+    type: Literal['CollectionResource'] = Field(
+        frozen=True,
         default="CollectionResource",
         title="Resource Type",
         description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
-        allow_mutation=False,
     )

@@ -28,7 +28,7 @@
     </dc:contributor>
     <dc:rights>
       <rdf:Description>
-        <hsterms:URL rdf:resource="http://studio.bakajo.com"/>
+        <hsterms:URL rdf:resource="http://studio.bakajo.com/"/>
         <hsterms:rightsStatement>my statement</hsterms:rightsStatement>
       </rdf:Description>
     </dc:rights>
@@ -43,7 +43,7 @@
         <hsterms:awardTitle>t</hsterms:awardTitle>
         <hsterms:awardNumber>n</hsterms:awardNumber>
         <hsterms:fundingAgencyName>agency1</hsterms:fundingAgencyName>
-        <hsterms:fundingAgencyURL rdf:resource="https://google.com"/>
+        <hsterms:fundingAgencyURL rdf:resource="https://google.com/"/>
       </rdf:Description>
     </hsterms:awardInfo>
     <dc:subject>Time Series</dc:subject>
@@ -54,7 +54,7 @@
     </dc:relation>
     <dc:relation>
       <rdf:Description>
-        <hsterms:isCreatedBy>https://www.google.com</hsterms:isCreatedBy>
+        <hsterms:isCreatedBy>https://www.google.com/</hsterms:isCreatedBy>
       </rdf:Description>
     </dc:relation>
     <dc:date>
@@ -86,11 +86,11 @@
         <hsterms:address>MA, US</hsterms:address>
         <hsterms:organization>CUAHSI</hsterms:organization>
         <hsterms:phone>tel:3399334127</hsterms:phone>
-        <hsterms:ORCID rdf:resource="https://orcid.org/0000-0002-1341-5681"/>
+        <hsterms:ORCID rdf:resource="https://orcid.org/0000-0002-1341-5681/"/>
         <hsterms:name>Anthony Michael Castronova</hsterms:name>
         <hsterms:GoogleScholarID rdf:resource="https://scholar.google.com/citations?user=ScWTFoQAAAAJ&amp;hl=en"/>
         <hsterms:email>castronova.anthony@gmail.com</hsterms:email>
-        <hsterms:homepage rdf:resource="http://anthonycastronova.com"/>
+        <hsterms:homepage rdf:resource="http://anthonycastronova.com/"/>
         <hsterms:ResearchGateID rdf:resource="https://www.researchgate.net/profile/Anthony_Castronova"/>
         <hsterms:hydroshare_user_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">11</hsterms:hydroshare_user_id>
       </rdf:Description>
@@ -138,7 +138,7 @@
     <dc:subject>key 1</dc:subject>
     <hsterms:awardInfo>
       <rdf:Description>
-        <hsterms:fundingAgencyURL rdf:resource="https://google.com"/>
+        <hsterms:fundingAgencyURL rdf:resource="https://google.com/"/>
         <hsterms:awardTitle>T2</hsterms:awardTitle>
         <hsterms:fundingAgencyName>agency2</hsterms:fundingAgencyName>
         <hsterms:awardNumber>TN</hsterms:awardNumber>
@@ -181,7 +181,7 @@
     <dc:publisher>
       <rdf:Description>
         <hsterms:publisherName>Consortium of Universities for the Advancement of Hydrologic Science, Inc. (CUAHSI)</hsterms:publisherName>
-        <hsterms:publisherURL rdf:resource="https://www.cuahsi.org"/>
+        <hsterms:publisherURL rdf:resource="https://www.cuahsi.org/"/>
       </rdf:Description>
     </dc:publisher>
     <dc:type rdf:resource="https://www.hydroshare.org/terms/CompositeResource"/>

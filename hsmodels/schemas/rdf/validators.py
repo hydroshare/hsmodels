@@ -1,3 +1,5 @@
+from pydantic_core import Url
+
 from hsmodels.schemas.enums import CoverageType, DateType
 from hsmodels.schemas.languages_iso import languages
 
@@ -13,7 +15,7 @@ def rdf_parse_extended_metadata(cls, value):
 
 
 def rdf_parse_identifier(cls, value):
-    if isinstance(value, str):
+    if isinstance(value, Url):
         return {"hydroshare_identifier": value}
     return value
 

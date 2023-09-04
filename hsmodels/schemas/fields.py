@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Dict
+from typing import Dict, Literal, Optional
 
-from pydantic import AnyUrl, EmailStr, Field, HttpUrl, root_validator, validator
+from pydantic import AnyUrl, EmailStr, Field, HttpUrl, field_validator, model_validator
 
 from hsmodels.schemas import base_models
 from hsmodels.schemas.base_models import BaseMetadata
@@ -25,7 +25,7 @@ class Relation(BaseMetadata):
         description="String expressing the Full text citation, URL link for, or description of the related resource",
     )
 
-    _parse_relation = root_validator(pre=True)(parse_relation)
+    _parse_relation = model_validator(mode='before')(parse_relation)
 
 
 class CellInformation(BaseMetadata):
@@ -155,6 +155,12 @@ class Creator(BaseMetadata):
         title="Homepage",
         description="An object containing the URL for website associated with the creator",
     )
+    creator_order: int = Field(
+        default=None,
+        title="Creator order",
+        description="An integer to order creators",
+        allow_mutation=False,
+    )
     hydroshare_user_id: int = Field(
         default=None,
         title="Hydroshare user id",
@@ -166,9 +172,9 @@ class Creator(BaseMetadata):
         title="Creator identifiers",
         description="A dictionary containing identifier types and URL links to alternative identifiers for the creator",
     )
-    _description_validator = validator("hydroshare_user_id", pre=True)(validate_user_id)
+    _description_validator = field_validator("hydroshare_user_id", mode='before')(validate_user_id)
 
-    _split_identifiers = root_validator(pre=True, allow_reuse=True)(group_user_identifiers)
+    _split_identifiers = model_validator(mode='before')(group_user_identifiers)
 
     @classmethod
     def from_user(cls, user):
@@ -223,7 +229,7 @@ class Contributor(BaseMetadata):
         description="A dictionary containing identifier types and URL links to alternative identiers for the contributor",
     )
 
-    _split_identifiers = root_validator(pre=True, allow_reuse=True)(group_user_identifiers)
+    _split_identifiers = model_validator(mode='before')(group_user_identifiers)
 
     @classmethod
     def from_user(cls, user):
@@ -274,37 +280,37 @@ class BandInformation(BaseMetadata):
         title = 'Raster Band Metadata'
 
     name: str = Field(max_length=500, title="Name", description="A string containing the name of the raster band")
-    variable_name: str = Field(
+    variable_name: Optional[str] = Field(
         default=None,
         max_length=100,
         title="Variable name",
         description="A string containing the name of the variable represented by the raster band",
     )
-    variable_unit: str = Field(
+    variable_unit: Optional[str] = Field(
         default=None,
         max_length=50,
         title="Variable unit",
         description="A string containing the units for the raster band variable",
     )
-    no_data_value: str = Field(
+    no_data_value: Optional[str] = Field(
         default=None,
         title="Nodata value",
         description="A string containing the numeric nodata value for the raster band",
     )
-    maximum_value: str = Field(
+    maximum_value: Optional[str] = Field(
         default=None,
         title="Maximum value",
         description="A string containing the maximum numeric value for the raster band",
     )
-    comment: str = Field(
+    comment: Optional[str] = Field(
         default=None, title="Comment", description="A string containing a comment about the raster band"
     )
-    method: str = Field(
+    method: Optional[str] = Field(
         default=None,
         title="Method",
         description="A string containing a description of the method used to create the raster band data",
     )
-    minimum_value: str = Field(
+    minimum_value: Optional[str] = Field(
         default=None,
         title="Minimum value",
         description="A string containing the minimum numerica value for the raster dataset",
@@ -532,7 +538,7 @@ class TimeSeriesMethod(BaseMetadata):
     method_link: AnyUrl = Field(
         default=None,
         title="Method link",
-        description="An object containg a URL that points to a website having a detailed description of the method",
+        description="An object containing a URL that points to a website having a detailed description of the method",
     )
 
 
@@ -671,7 +677,7 @@ class TimeSeriesResult(BaseMetadata):
         title="UTC Offset",
         description="A floating point value that represents the time offset from UTC time in hours associated with the time series result value timestamps",
     )
-    _parse_utc_offset = root_validator(pre=True, allow_reuse=True)(parse_utc_offset_value)
+    _parse_utc_offset = model_validator(mode='before')(parse_utc_offset_value)
 
 
 class BoxCoverage(base_models.BaseCoverage):
@@ -685,12 +691,11 @@ class BoxCoverage(base_models.BaseCoverage):
 
         schema_config = {'read_only': ['type']}
 
-    type: str = Field(
+    type: Literal['box'] = Field(
         default="box",
-        const=True,
+        frozen=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
-        allow_mutation=False,
     )
     name: str = Field(
         default=None,
@@ -731,12 +736,11 @@ class BoxCoverage(base_models.BaseCoverage):
         description="A string containing the name of the projection used with any parameters required, such as ellipsoid parameters, datum, standard parallels and meridians, zone, etc.",
     )
 
-    @root_validator
-    def compare_north_south(cls, values):
-        north, south = values["northlimit"], values["southlimit"]
-        if north < south:
-            raise ValueError(f"North latitude [{north}] must be greater than or equal to South latitude [{south}]")
-        return values
+    @model_validator(mode='after')
+    def compare_north_south(self):
+        if self.northlimit < self.southlimit:
+            raise ValueError(f"North latitude [{self.northlimit}] must be greater than or equal to South latitude [{self.southlimit}]")
+        return self
 
 
 class BoxSpatialReference(base_models.BaseCoverage):
@@ -750,12 +754,11 @@ class BoxSpatialReference(base_models.BaseCoverage):
 
         schema_config = {'read_only': ['type']}
 
-    type: str = Field(
+    type: Literal['box'] = Field(
         default="box",
-        const=True,
+        frozen=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
-        allow_mutation=False,
     )
     name: str = Field(
         default=None,
@@ -828,14 +831,13 @@ class PointCoverage(base_models.BaseCoverage):
 
         schema_config = {'read_only': ['type']}
 
-    type: str = Field(
+    type: Literal['point'] = Field(
         default="point",
-        const=True,
+        frozen=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
-        allow_mutation=False,
     )
-    name: str = Field(
+    name: Optional[str] = Field(
         default=None,
         title="Name",
         description="A string containing a name for the place associated with the geographic coverage",
@@ -866,12 +868,11 @@ class PointSpatialReference(base_models.BaseCoverage):
 
         schema_config = {'read_only': ['type']}
 
-    type: str = Field(
+    type: Literal['point'] = Field(
         default="point",
-        const=True,
+        frozen=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
-        allow_mutation=False,
     )
     name: str = Field(
         default=None,
@@ -931,21 +932,16 @@ class PeriodCoverage(base_models.BaseCoverage):
         description="A datetime object containing the instant corresponding to the termination of the time interval",
     )
 
-    @root_validator
-    def start_before_end(cls, values):
-        start, end = None, None
-        if "start" in values:
-            start = values["start"]
-        if "end" in values:
-            end = values["end"]
-        if start and end:
-            if start > end:
-                raise ValueError(f"start date [{start}] is after end date [{end}]")
-        elif start and not end:
-            raise ValueError(f"An end date was not included with start date [{start}]")
-        elif end and not start:
-            raise ValueError(f"A start date was not included with end date [{end}]")
-        return values
+    @model_validator(mode='after')
+    def start_before_end(self):
+        if self.start and self.end:
+            if self.start > self.end:
+                raise ValueError(f"start date [{self.start}] is after end date [{self.end}]")
+        elif self.start and not self.end:
+            raise ValueError(f"An end date was not included with start date [{self.start}]")
+        elif self.end and not self.start:
+            raise ValueError(f"A start date was not included with end date [{self.end}]")
+        return self
 
 
 class ModelProgramFile(BaseMetadata):

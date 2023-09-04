@@ -1,6 +1,12 @@
+from typing import Any, Callable, Optional
+
+from pydantic.json_schema import JsonSchemaValue
+from typing_extensions import Annotated
+
 from datetime import datetime
 
-from pydantic import AnyUrl, BaseModel, EmailStr, Field, HttpUrl, PositiveInt, root_validator
+from pydantic_core import core_schema
+from pydantic import AnyUrl, BaseModel, EmailStr, Field, GetJsonSchemaHandler, HttpUrl, PositiveInt, model_validator
 from rdflib import BNode
 from rdflib.term import Identifier as RDFIdentifier
 
@@ -26,8 +32,56 @@ from hsmodels.schemas.fields import (
 from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, rdf_parse_utc_offset, split_user_identifiers
 
 
+class _RDFIdentifierTypePydanticAnnotation:
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls,
+        _source_type: Any,
+        _handler: Callable[[Any], core_schema.CoreSchema],
+    ) -> core_schema.CoreSchema:
+        """
+        Reference: https://docs.pydantic.dev/latest/usage/types/custom/#handling-third-party-types
+        """
+
+        def validate_identifier(value: str) -> RDFIdentifier:
+            result = RDFIdentifier(value)
+            return result
+
+        from_int_schema = core_schema.chain_schema(
+            [
+                core_schema.str_schema(),
+                core_schema.no_info_plain_validator_function(validate_identifier),
+            ]
+        )
+
+        return core_schema.json_or_python_schema(
+            json_schema=from_int_schema,
+            python_schema=core_schema.union_schema(
+                [
+                    # check if it's an instance first before doing any further work
+                    core_schema.is_instance_schema(RDFIdentifier),
+                    from_int_schema,
+                ]
+            ),
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                lambda instance: instance.toPython()
+            ),
+        )
+
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, _core_schema: core_schema.CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        # Use the same schema that would be used for RDFIdentifier
+        return handler(_core_schema)
+
+
+def get_RDF_IdentifierType(field: Field):
+    return Annotated[RDFIdentifier, _RDFIdentifierTypePydanticAnnotation, field]
+
+
 class RDFBaseModel(BaseModel):
-    rdf_subject: RDFIdentifier = Field(default_factory=BNode)
+    rdf_subject: get_RDF_IdentifierType(Field(default_factory=BNode))
 
 
 class DCTypeInRDF(RDFBaseModel):
@@ -55,7 +109,7 @@ class RelationInRDF(RDFBaseModel):
     replaces: str = Field(rdf_predicate=DCTERMS.replaces, default=None)
     source: str = Field(rdf_predicate=DCTERMS.source, default=None)
 
-    _parse_relation = root_validator(pre=True)(parse_relation_rdf)
+    _parse_relation = model_validator(mode='before')(parse_relation_rdf)
 
 
 class DescriptionInRDF(RDFBaseModel):
@@ -96,17 +150,17 @@ class RightsInRDF(Rights, RDFBaseModel):
 class CreatorInRDF(RDFBaseModel):
     creator_order: PositiveInt
     name: str = Field(default=None)
-    phone: str = Field(default=None)
-    address: str = Field(default=None)
-    organization: str = Field(default=None)
-    email: EmailStr = Field(default=None)
-    homepage: HttpUrl = Field(default=None)
-    hydroshare_user_id: int = Field(default=None)
-    ORCID: AnyUrl = Field(default=None)
-    google_scholar_id: AnyUrl = Field(default=None)
-    research_gate_id: AnyUrl = Field(default=None)
+    phone: Optional[str] = Field(default=None)
+    address: Optional[str] = Field(default=None)
+    organization: Optional[str] = Field(default=None)
+    email: Optional[EmailStr] = Field(default=None)
+    homepage: Optional[HttpUrl] = Field(default=None)
+    hydroshare_user_id: Optional[int] = Field(default=None)
+    ORCID: Optional[AnyUrl] = Field(default=None)
+    google_scholar_id: Optional[AnyUrl] = Field(default=None)
+    research_gate_id: Optional[AnyUrl] = Field(default=None)
 
-    _group_identifiers = root_validator(pre=True, allow_reuse=True)(split_user_identifiers)
+    _group_identifiers = model_validator(mode='before')(split_user_identifiers)
 
     class Config:
         fields = {
@@ -136,7 +190,7 @@ class ContributorInRDF(RDFBaseModel):
     google_scholar_id: AnyUrl = Field(default=None)
     research_gate_id: AnyUrl = Field(default=None)
 
-    _group_identifiers = root_validator(pre=True, allow_reuse=True)(split_user_identifiers)
+    _group_identifiers = model_validator(mode='before')(split_user_identifiers)
 
     class Config:
         fields = {
@@ -306,4 +360,4 @@ class TimeSeriesResultInRDF(TimeSeriesResult, RDFBaseModel):
             'series_label': {"rdf_predicate": HSTERMS.SeriesLabel},
         }
 
-    _parse_utc_offset = root_validator(pre=True)(rdf_parse_utc_offset)
+    _parse_utc_offset = model_validator(mode='before')(rdf_parse_utc_offset)

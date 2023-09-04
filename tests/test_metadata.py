@@ -80,7 +80,7 @@ def test_resource_metadata(res_md):
 
     assert res_md.language == "eng"
 
-    assert res_md.identifier == "http://www.hydroshare.org/resource/84805fd615a04d63b4eada65644a1e20"
+    assert str(res_md.identifier) == "http://www.hydroshare.org/resource/84805fd615a04d63b4eada65644a1e20"
 
     assert len(res_md.additional_metadata) == 3
     assert "key2" in res_md.additional_metadata
@@ -109,19 +109,19 @@ def test_resource_metadata(res_md):
     assert contributor
     assert contributor.phone == "tel:4357973172"
     assert contributor.address == "Utah, US"
-    assert contributor.homepage == "http://hydrology.usu.edu/dtarb"
+    assert str(contributor.homepage) == "http://hydrology.usu.edu/dtarb"
     assert contributor.organization == "Utah State University"
-    assert contributor.identifiers[UserIdentifierType.ORCID] == "https://orcid.org/0000-0002-1998-3479"
+    assert str(contributor.identifiers[UserIdentifierType.ORCID]) == "https://orcid.org/0000-0002-1998-3479"
     assert contributor.name == "David Tarboton"
 
     assert len(res_md.relations) == 3
     assert any(x for x in res_md.relations if x.value == "https://sadf.com" and x.type == RelationType.isPartOf)
     assert any(
-        x for x in res_md.relations if x.value == "https://www.google.com" and x.type == RelationType.isCreatedBy
+        x for x in res_md.relations if x.value == "https://www.google.com/" and x.type == RelationType.isCreatedBy
     )
 
     assert res_md.rights.statement == "my statement"
-    assert res_md.rights.url == "http://studio.bakajo.com"
+    assert str(res_md.rights.url) == "http://studio.bakajo.com/"
 
     assert res_md.modified == datetime.fromisoformat("2020-11-13T19:40:57.276064+00:00")
     assert res_md.created == datetime.fromisoformat("2020-07-09T19:12:21.354703+00:00")
@@ -133,7 +133,7 @@ def test_resource_metadata(res_md):
     assert award
     assert award.number == "n"
     assert award.funding_agency_name == "agency1"
-    assert award.funding_agency_url == "https://google.com"
+    assert str(award.funding_agency_url) == "https://google.com/"
 
     assert res_md.period_coverage == PeriodCoverage(
         start=datetime.fromisoformat("2020-07-10T00:00:00"), end=datetime.fromisoformat("2020-07-29T00:00:00")
@@ -165,4 +165,4 @@ def test_resource_metadata(res_md):
     assert (
         res_md.publisher.name == "Consortium of Universities for the Advancement of Hydrologic Science, Inc. (CUAHSI)"
     )
-    assert res_md.publisher.url == "https://www.cuahsi.org"
+    assert str(res_md.publisher.url) == "https://www.cuahsi.org/"

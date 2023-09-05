@@ -9,7 +9,7 @@ setup(
                            exclude=("tests",)),
     install_requires=[
         'rdflib<6.0.0',
-        'pydantic>=1.8.1,<2.0',
+        'pydantic==2.*',
         'email-validator'
     ],
     url='https://github.com/hydroshare/hsmodels',
@@ -17,7 +17,7 @@ setup(
     author='Scott Black',
     author_email='sblack@cuahsi.org',
     description='Pydantic models for HydroShare metadata',
-    python_requires='>=3.6',
+    python_requires='>=3.9',
     long_description=README,
     long_description_content_type="text/markdown",
     classifiers=[

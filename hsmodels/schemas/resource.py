@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, List, Optional, Union, Literal
+from typing import Dict, List, Union, Literal
 
 from pydantic import AnyUrl, Field, field_validator, model_validator
 
@@ -41,7 +41,7 @@ class ResourceMetadataIn(BaseMetadata):
         }
 
     title: str = Field(
-        max_length=300, default=None, title="Title", description="A string containing the name given to a resource"
+        max_length=300, title="Title", description="A string containing the name given to a resource"
     )
     abstract: str = Field(default=None, title="Abstract", description="A string containing a summary of a resource")
     language: str = Field(
@@ -82,7 +82,7 @@ class ResourceMetadataIn(BaseMetadata):
         title="Funding agency information",
         description="A list of objects containing information about the funding agencies and awards associated with a resource",
     )
-    spatial_coverage: Optional[Union[PointCoverage, BoxCoverage]] = Field(
+    spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
         default=None,
         title="Spatial coverage",
         description="An object containing information about the spatial topic of a resource, the spatial applicability of a resource, or jurisdiction under with a resource is relevant",

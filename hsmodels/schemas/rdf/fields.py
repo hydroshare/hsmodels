@@ -1,4 +1,4 @@
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from pydantic.json_schema import JsonSchemaValue
 from typing_extensions import Annotated
@@ -150,15 +150,15 @@ class RightsInRDF(Rights, RDFBaseModel):
 class CreatorInRDF(RDFBaseModel):
     creator_order: PositiveInt
     name: str = Field(default=None)
-    phone: Optional[str] = Field(default=None)
-    address: Optional[str] = Field(default=None)
-    organization: Optional[str] = Field(default=None)
-    email: Optional[EmailStr] = Field(default=None)
-    homepage: Optional[HttpUrl] = Field(default=None)
-    hydroshare_user_id: Optional[int] = Field(default=None)
-    ORCID: Optional[AnyUrl] = Field(default=None)
-    google_scholar_id: Optional[AnyUrl] = Field(default=None)
-    research_gate_id: Optional[AnyUrl] = Field(default=None)
+    phone: str = Field(default=None)
+    address: str = Field(default=None)
+    organization: str = Field(default=None)
+    email: EmailStr = Field(default=None)
+    homepage: HttpUrl = Field(default=None)
+    hydroshare_user_id: int = Field(default=None)
+    ORCID: AnyUrl = Field(default=None)
+    google_scholar_id: AnyUrl = Field(default=None)
+    research_gate_id: AnyUrl = Field(default=None)
 
     _group_identifiers = model_validator(mode='before')(split_user_identifiers)
 

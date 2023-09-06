@@ -2,7 +2,6 @@ import uuid
 from typing import List, Literal
 
 from pydantic import AnyUrl, BaseModel, Field, field_validator, model_validator
-from rdflib.term import Identifier as RDFIdentifier
 
 from hsmodels.namespaces import CITOTERMS, DC, DCTERMS, HSRESOURCE, HSTERMS, ORE, RDF
 from hsmodels.schemas.rdf.fields import (

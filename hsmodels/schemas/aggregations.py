@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Dict, List, Optional, Union, Literal
+from typing import Dict, List, Union, Literal
 
 from pydantic import AnyUrl, Field, model_validator, field_validator
 
@@ -59,12 +59,12 @@ class BaseAggregationMetadataIn(BaseMetadata):
         title="Extended metadata",
         description="A list of extended metadata elements expressed as key-value pairs",
     )
-    spatial_coverage: Optional[Union[PointCoverage, BoxCoverage]] = Field(
+    spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
         default=None,
         title="Spatial coverage",
         description="An object containing the geospatial coverage for the aggregation expressed as either a bounding box or point",
     )
-    period_coverage: Optional[PeriodCoverage] = Field(
+    period_coverage: PeriodCoverage = Field(
         default=None,
         title="Temporal coverage",
         description="An object containing the temporal coverage for a aggregation expressed as a date range",
@@ -117,11 +117,10 @@ class GeographicRasterMetadata(GeographicRasterMetadataIn):
         default=_type,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
     )
 
     rights: Rights = Field(
@@ -171,11 +170,10 @@ class GeographicFeatureMetadata(GeographicFeatureMetadataIn):
         default=AggregationType.GeographicFeatureAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
     )
 
     rights: Rights = Field(
@@ -223,11 +221,10 @@ class MultidimensionalMetadata(MultidimensionalMetadataIn):
         default=AggregationType.MultidimensionalAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
     )
 
     rights: Rights = Field(
@@ -260,11 +257,10 @@ class ReferencedTimeSeriesMetadata(ReferencedTimeSeriesMetadataIn):
         default=AggregationType.ReferencedTimeSeriesAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
     )
 
     rights: Rights = Field(
@@ -297,11 +293,10 @@ class FileSetMetadata(FileSetMetadataIn):
         default=AggregationType.FileSetAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
     )
 
     rights: Rights = Field(
@@ -333,11 +328,10 @@ class SingleFileMetadata(SingleFileMetadataIn):
         default=AggregationType.SingleFileAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
     )
 
     rights: Rights = Field(
@@ -382,11 +376,10 @@ class TimeSeriesMetadata(TimeSeriesMetadataIn):
         default=AggregationType.TimeSeriesAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
     )
 
     rights: Rights = Field(
@@ -454,16 +447,6 @@ class ModelProgramMetadataIn(BaseAggregationMetadataIn):
 
     _parse_file_types = model_validator(mode='before')(parse_file_types)
 
-    # @model_validator(mode='after')
-    # def url_to_string(self):
-    #     if self.website is not None:
-    #         self.website = str(self.website)
-    #     if self.code_repository is not None:
-    #         self.code_repository = str(self.code_repository)
-    #     if self.program_schema_json is not None:
-    #         self.program_schema_json = str(self.program_schema_json)
-    #     return self
-
 
 class ModelProgramMetadata(ModelProgramMetadataIn):
     type: AggregationType = Field(
@@ -471,11 +454,10 @@ class ModelProgramMetadata(ModelProgramMetadataIn):
         default=AggregationType.ModelProgramAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
     )
 
     rights: Rights = Field(
@@ -527,11 +509,10 @@ class ModelInstanceMetadata(ModelInstanceMetadataIn):
         default=AggregationType.ModelInstanceAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
-        allow_mutation=False,
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", allow_mutation=False
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
     )
 
     rights: Rights = Field(

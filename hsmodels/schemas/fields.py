@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, Literal, Optional
+from typing import Dict, Literal
 
 from pydantic import AnyUrl, EmailStr, Field, HttpUrl, field_validator, model_validator
 
@@ -159,13 +159,13 @@ class Creator(BaseMetadata):
         default=None,
         title="Creator order",
         description="An integer to order creators",
-        allow_mutation=False,
+        frozen=True,
     )
     hydroshare_user_id: int = Field(
         default=None,
         title="Hydroshare user id",
         description="An integer containing the Hydroshare user ID",
-        allow_mutation=False,
+        frozen=True,
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
@@ -221,7 +221,7 @@ class Contributor(BaseMetadata):
         default=None,
         title="Hyroshare user id",
         description="An integer containing the Hydroshare user ID",
-        allow_mutation=False,
+        frozen=True,
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
@@ -280,37 +280,37 @@ class BandInformation(BaseMetadata):
         title = 'Raster Band Metadata'
 
     name: str = Field(max_length=500, title="Name", description="A string containing the name of the raster band")
-    variable_name: Optional[str] = Field(
+    variable_name: str = Field(
         default=None,
         max_length=100,
         title="Variable name",
         description="A string containing the name of the variable represented by the raster band",
     )
-    variable_unit: Optional[str] = Field(
+    variable_unit: str = Field(
         default=None,
         max_length=50,
         title="Variable unit",
         description="A string containing the units for the raster band variable",
     )
-    no_data_value: Optional[str] = Field(
+    no_data_value: str = Field(
         default=None,
         title="Nodata value",
         description="A string containing the numeric nodata value for the raster band",
     )
-    maximum_value: Optional[str] = Field(
+    maximum_value: str = Field(
         default=None,
         title="Maximum value",
         description="A string containing the maximum numeric value for the raster band",
     )
-    comment: Optional[str] = Field(
+    comment: str = Field(
         default=None, title="Comment", description="A string containing a comment about the raster band"
     )
-    method: Optional[str] = Field(
+    method: str = Field(
         default=None,
         title="Method",
         description="A string containing a description of the method used to create the raster band data",
     )
-    minimum_value: Optional[str] = Field(
+    minimum_value: str = Field(
         default=None,
         title="Minimum value",
         description="A string containing the minimum numerica value for the raster dataset",
@@ -837,7 +837,7 @@ class PointCoverage(base_models.BaseCoverage):
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
     )
-    name: Optional[str] = Field(
+    name: str = Field(
         default=None,
         title="Name",
         description="A string containing a name for the place associated with the geographic coverage",
@@ -956,5 +956,5 @@ class ModelProgramFile(BaseMetadata):
         title="Model program file type", description="The type of the file used by the model program"
     )
     url: AnyUrl = Field(
-        title="Model program file url", description="The url of the file used by the model program", default=None
+        title="Model program file url", description="The url of the file used by the model program"
     )

@@ -152,14 +152,13 @@ def get_args(t):
 def _parse(schema, metadata_graph, subject=None):
     def get_nested_class(field):
         origin = field.annotation
-        if origin and inspect.isclass(origin):
-            if issubclass(origin, BaseModel):  # and origin.model_fields:
+        if origin:
+            if inspect.isclass(origin) and issubclass(origin, BaseModel):
                 return origin
             if get_args(origin):
                 clazz = get_args(origin)[0]
-                if inspect.isclass(clazz):
-                    if issubclass(clazz, BaseModel):
-                        return clazz
+                if inspect.isclass(clazz) and issubclass(clazz, BaseModel):
+                    return clazz
         return None
 
     def class_rdf_type(schema):

@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Dict, List, Union, Literal
+from typing import Dict, List, Union
 
 from pydantic import AnyUrl, Field, model_validator, field_validator
 
@@ -110,11 +110,9 @@ class GeographicRasterMetadataIn(BaseAggregationMetadataIn):
 
 
 class GeographicRasterMetadata(GeographicRasterMetadataIn):
-    _type = Literal[AggregationType.GeographicRasterAggregation]
-
     type: AggregationType = Field(
         frozen=True,
-        default=_type,
+        default=AggregationType.GeographicRasterAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
     )

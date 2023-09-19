@@ -1,4 +1,4 @@
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from pydantic.json_schema import JsonSchemaValue
 from typing_extensions import Annotated
@@ -148,7 +148,7 @@ class RightsInRDF(Rights, RDFBaseModel):
 
 
 class CreatorInRDF(RDFBaseModel):
-    creator_order: PositiveInt
+    creator_order: Optional[PositiveInt] = Field(default=None)
     name: str = Field(default=None)
     phone: str = Field(default=None)
     address: str = Field(default=None)

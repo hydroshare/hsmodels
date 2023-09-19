@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, Literal
+from typing import Dict, Literal, Optional
 
 from pydantic import AnyUrl, EmailStr, Field, HttpUrl, field_validator, model_validator
 
@@ -155,7 +155,7 @@ class Creator(BaseMetadata):
         title="Homepage",
         description="An object containing the URL for website associated with the creator",
     )
-    creator_order: int = Field(
+    creator_order: Optional[int] = Field(
         default=None,
         title="Creator order",
         description="An integer to order creators",

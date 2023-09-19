@@ -75,4 +75,17 @@ def sort_creators(cls, creators):
         for index, creator in enumerate(creators):
             creator["creator_order"] = index + 1
         return creators
-    return sorted(creators, key=lambda creator: creator.creator_order)
+    else:
+        # assign creator_order to creators that don't have it
+        creator_order_numbers = [c.creator_order for c in creators if c.creator_order is not None]
+        if creator_order_numbers:
+            if len(creator_order_numbers) != len(set(creator_order_numbers)):
+                raise ValueError("creator_order values must be unique")
+            max_order_number = max(creator_order_numbers)
+        else:
+            max_order_number = 0
+
+        creators_without_order = [c for c in creators if c.creator_order is None]
+        for index, creator in enumerate(creators_without_order):
+            creator.creator_order = max_order_number + index + 1
+        return sorted(creators, key=lambda _creator: _creator.creator_order)

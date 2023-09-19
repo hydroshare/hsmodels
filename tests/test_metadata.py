@@ -87,6 +87,11 @@ def test_resource_metadata(res_md):
     assert res_md.additional_metadata["key2"] == "value2"
 
     assert len(res_md.creators) == 3
+    for cr in res_md.creators:
+        assert cr.creator_order in (1, 2, 3)
+    creator_orders = [cr.creator_order for cr in res_md.creators]
+    assert len(creator_orders) == len(set(creator_orders))
+
     creator = res_md.creators[0]
     assert creator.organization == 'Utah State University'
     assert creator.email == 'jeff.horsburgh@usu.edu'

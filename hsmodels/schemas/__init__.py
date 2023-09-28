@@ -99,11 +99,6 @@ def _rdf_fields(schema):
             predicate = None
             if finfo.json_schema_extra:
                 predicate = finfo.json_schema_extra.get('rdf_predicate', None)
-
-            if not predicate:
-                config_field_info = schema.model_config['fields'].get(fname, None)
-                if isinstance(config_field_info, dict):
-                    predicate = config_field_info.get('rdf_predicate', None)
             if not predicate:
                 raise Exception(
                     "Schema configuration error for {}, all fields must specify a rdf_predicate".format(schema)

@@ -1,7 +1,8 @@
 import uuid
 from typing import List, Literal
 
-from pydantic import AnyUrl, BaseModel, Field, field_validator, model_validator
+from pydantic import AnyUrl, BaseModel, Field, field_serializer, field_validator, model_validator
+from rdflib import URIRef
 
 from hsmodels.namespaces import CITOTERMS, DC, DCTERMS, HSRESOURCE, HSTERMS, ORE, RDF
 from hsmodels.schemas.rdf.fields import (
@@ -81,14 +82,12 @@ class BaseResource(BaseModel):
     citation: str = Field(rdf_predicate=DCTERMS.bibliographicCitation)
 
     _parse_rdf_subject = model_validator(mode='before')(rdf_parse_rdf_subject)
-
     _parse_coverages = model_validator(mode='before')(parse_coverages)
     _parse_extended_metadata = model_validator(mode='before')(parse_rdf_extended_metadata)
     _parse_rdf_dates = model_validator(mode='before')(parse_rdf_dates)
     _parse_description = model_validator(mode='before')(rdf_parse_description)
 
     _parse_identifier = field_validator("identifier", mode='before')(rdf_parse_identifier)
-
     _language_constraint = field_validator('language')(language_constraint)
     _dates_constraint = field_validator('dates')(dates_constraint)
     _coverages_constraint = field_validator('coverages')(coverages_constraint)
@@ -103,9 +102,17 @@ class ResourceMetadataInRDF(BaseResource):
     _label_literal = Literal["Composite Resource"]
     label: _label_literal = Field(default="Composite Resource", frozen=True, alias='label')
 
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
+
 
 class CollectionMetadataInRDF(BaseResource):
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.CollectionResource, frozen=True)
     rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=HSTERMS.CollectionResource)
     _label_literal = Literal["Collection Resource"]
     label: _label_literal = Field(default="Collection Resource", frozen=True, alias='label')
+
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)

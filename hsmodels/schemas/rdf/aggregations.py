@@ -1,7 +1,8 @@
 from datetime import date
 from typing import List, Literal
 
-from pydantic import AnyUrl, Field, model_validator
+from pydantic import AnyUrl, Field, field_serializer, model_validator
+from rdflib import URIRef
 
 from hsmodels.namespaces import DC, HSTERMS, RDF
 from hsmodels.schemas.rdf.fields import (
@@ -61,6 +62,10 @@ class GeographicRasterMetadataInRDF(BaseAggregationMetadataInRDF):
 
     _parse_spatial_reference = model_validator(mode='before')(parse_rdf_spatial_reference)
 
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
+
 
 class GeographicFeatureMetadataInRDF(BaseAggregationMetadataInRDF):
     rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=HSTERMS.GeographicFeatureAggregation)
@@ -76,6 +81,10 @@ class GeographicFeatureMetadataInRDF(BaseAggregationMetadataInRDF):
     spatial_reference: SpatialReferenceInRDF = Field(rdf_predicate=HSTERMS.spatialReference, default=None)
 
     _parse_spatial_reference = model_validator(mode='before')(parse_rdf_spatial_reference)
+
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
 
 
 class MultidimensionalMetadataInRDF(BaseAggregationMetadataInRDF):
@@ -95,6 +104,10 @@ class MultidimensionalMetadataInRDF(BaseAggregationMetadataInRDF):
 
     _parse_spatial_reference = model_validator(mode='before')(parse_rdf_multidimensional_spatial_reference)
 
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
+
 
 class TimeSeriesMetadataInRDF(BaseAggregationMetadataInRDF):
     rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=HSTERMS.TimeSeriesAggregation)
@@ -112,6 +125,10 @@ class TimeSeriesMetadataInRDF(BaseAggregationMetadataInRDF):
 
     _parse_description = model_validator(mode='before')(rdf_parse_description)
 
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
+
 
 class ReferencedTimeSeriesMetadataInRDF(BaseAggregationMetadataInRDF):
     rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=HSTERMS.ReferencedTimeSeriesAggregation)
@@ -124,12 +141,20 @@ class ReferencedTimeSeriesMetadataInRDF(BaseAggregationMetadataInRDF):
     )
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.ReferencedTimeSeriesAggregation, frozen=True)
 
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
+
 
 class FileSetMetadataInRDF(BaseAggregationMetadataInRDF):
     rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=HSTERMS.FileSetAggregation)
     _label_literal = Literal["File Set Content: One or more files with specific metadata"]
     label: _label_literal = Field(frozen=True, default="File Set Content: One or more files with specific metadata")
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.FileSetAggregation, frozen=True)
+
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
 
 
 class SingleFileMetadataInRDF(BaseAggregationMetadataInRDF):
@@ -138,6 +163,10 @@ class SingleFileMetadataInRDF(BaseAggregationMetadataInRDF):
     _label_literal = Literal["Single File Content: A single file with file specific metadata"]
     label: _label_literal = Field(frozen=True, default="Single File Content: A single file with file specific metadata")
     dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.SingleFileAggregation, frozen=True)
+
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
 
 
 class ModelProgramMetadataInRDF(BaseAggregationMetadataInRDF):
@@ -163,6 +192,10 @@ class ModelProgramMetadataInRDF(BaseAggregationMetadataInRDF):
 
     _parse_file_types = model_validator(mode='before')(rdf_parse_file_types)
 
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
+
 
 class ModelInstanceMetadataInRDF(BaseAggregationMetadataInRDF):
     rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=HSTERMS.ModelInstanceAggregation)
@@ -175,3 +208,7 @@ class ModelInstanceMetadataInRDF(BaseAggregationMetadataInRDF):
     executed_by: AnyUrl = Field(rdf_predicate=HSTERMS.executedByModelProgram, default=None)
     program_schema_json: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchema, default=None)
     program_schema_json_values: AnyUrl = Field(rdf_predicate=HSTERMS.modelProgramSchemaValues, default=None)
+
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)

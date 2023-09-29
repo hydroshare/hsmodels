@@ -46,7 +46,7 @@ read_only_fields = [
 @pytest.mark.parametrize("read_only_field", read_only_fields)
 def test_readonly(read_only_field):
     clazz, fields = read_only_field
-    s = clazz.schema()["properties"]
+    s = clazz.model_json_schema()["properties"]
     for field in s:
         if field in fields:
             assert "readOnly" in s[field] and s[field]["readOnly"] is True
@@ -72,7 +72,7 @@ additional_metadata_fields = [
 @pytest.mark.parametrize("additional_metadata_field", additional_metadata_fields)
 def test_dictionary_field(additional_metadata_field):
     clazz, fields = additional_metadata_field
-    s = clazz.schema()["properties"]
+    s = clazz.model_json_schema()["properties"]
 
     for field in fields:
         assert 'additionalProperties' not in s[field]

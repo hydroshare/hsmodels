@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 import pytest
-from pydantic.error_wrappers import ValidationError
+from pydantic import ValidationError
 
 from hsmodels.namespaces import DCTERMS
 from hsmodels.schemas import GeographicRasterMetadata, load_rdf

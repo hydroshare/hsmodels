@@ -42,44 +42,50 @@ def hs_uid():
 
 class FileMap(BaseModel):
     rdf_subject: get_RDF_IdentifierType(Field(default_factory=hs_uid))
-    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=ORE.Aggregation)
+    rdf_type: AnyUrl = Field(json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=ORE.Aggregation)
 
-    is_documented_by: AnyUrl = Field(rdf_predicate=CITOTERMS.isDocumentedBy)
-    files: List[AnyUrl] = Field(rdf_predicate=ORE.aggregates, default=[])
-    title: str = Field(rdf_predicate=DC.title)
-    is_described_by: AnyUrl = Field(rdf_predicate=ORE.isDescribedBy)
+    is_documented_by: AnyUrl = Field(json_schema_extra={"rdf_predicate": CITOTERMS.isDocumentedBy})
+    files: List[AnyUrl] = Field(json_schema_extra={"rdf_predicate": ORE.aggregates}, default=[])
+    title: str = Field(json_schema_extra={"rdf_predicate": DC.title})
+    is_described_by: AnyUrl = Field(json_schema_extra={"rdf_predicate": ORE.isDescribedBy})
 
 
 class ResourceMap(BaseModel):
     rdf_subject: get_RDF_IdentifierType(Field(default_factory=hs_uid))
-    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=ORE.ResourceMap)
+    rdf_type: AnyUrl = Field(json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=ORE.ResourceMap)
 
-    describes: FileMap = Field(rdf_predicate=ORE.describes)
-    identifier: str = Field(rdf_predicate=DC.identifier, default=None)
+    describes: FileMap = Field(json_schema_extra={"rdf_predicate": ORE.describes})
+    identifier: str = Field(json_schema_extra={"rdf_predicate": DC.identifier}, default=None)
     # modified: datetime = Field(rdf_predicate=DCTERMS.modified)
-    creator: str = Field(rdf_predicate=DC.creator, default=None)
+    creator: str = Field(json_schema_extra={"rdf_predicate": DC.creator}, default=None)
 
 
 class BaseResource(BaseModel):
     rdf_subject: get_RDF_IdentifierType(Field(default_factory=hs_uid, alias='rdf_subject'))
 
-    title: str = Field(rdf_predicate=DC.title)
-    description: DescriptionInRDF = Field(rdf_predicate=DC.description, default_factory=DescriptionInRDF)
-    language: str = Field(rdf_predicate=DC.language, default='eng')
-    subjects: List[str] = Field(rdf_predicate=DC.subject, default=[])
-    dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.CompositeResource, frozen=True)
-    identifier: IdentifierInRDF = Field(rdf_predicate=DC.identifier, frozen=True)
-    creators: List[CreatorInRDF] = Field(rdf_predicate=DC.creator, default=[])
+    title: str = Field(json_schema_extra={"rdf_predicate": DC.title})
+    description: DescriptionInRDF = Field(
+        json_schema_extra={"rdf_predicate": DC.description}, default_factory=DescriptionInRDF
+    )
+    language: str = Field(json_schema_extra={"rdf_predicate": DC.language}, default='eng')
+    subjects: List[str] = Field(json_schema_extra={"rdf_predicate": DC.subject}, default=[])
+    dc_type: AnyUrl = Field(
+        json_schema_extra={"rdf_predicate": DC.type}, default=HSTERMS.CompositeResource, frozen=True
+    )
+    identifier: IdentifierInRDF = Field(json_schema_extra={"rdf_predicate": DC.identifier}, frozen=True)
+    creators: List[CreatorInRDF] = Field(json_schema_extra={"rdf_predicate": DC.creator}, default=[])
 
-    contributors: List[ContributorInRDF] = Field(rdf_predicate=DC.contributor, default=[])
-    relations: List[RelationInRDF] = Field(rdf_predicate=DC.relation, default=[])
-    extended_metadata: List[ExtendedMetadataInRDF] = Field(rdf_predicate=HSTERMS.extendedMetadata, default=[])
-    rights: RightsInRDF = Field(rdf_predicate=DC.rights, default=None)
-    dates: List[DateInRDF] = Field(rdf_predicate=DC.date, default=[])
-    awards: List[AwardInfoInRDF] = Field(rdf_predicate=HSTERMS.awardInfo, default=[])
-    coverages: List[CoverageInRDF] = Field(rdf_predicate=DC.coverage, default=[])
-    publisher: PublisherInRDF = Field(rdf_predicate=DC.publisher, default=None)
-    citation: str = Field(rdf_predicate=DCTERMS.bibliographicCitation)
+    contributors: List[ContributorInRDF] = Field(json_schema_extra={"rdf_predicate": DC.contributor}, default=[])
+    relations: List[RelationInRDF] = Field(json_schema_extra={"rdf_predicate": DC.relation}, default=[])
+    extended_metadata: List[ExtendedMetadataInRDF] = Field(
+        json_schema_extra={"rdf_predicate": HSTERMS.extendedMetadata}, default=[]
+    )
+    rights: RightsInRDF = Field(json_schema_extra={"rdf_predicate": DC.rights}, default=None)
+    dates: List[DateInRDF] = Field(json_schema_extra={"rdf_predicate": DC.date}, default=[])
+    awards: List[AwardInfoInRDF] = Field(json_schema_extra={"rdf_predicate": HSTERMS.awardInfo}, default=[])
+    coverages: List[CoverageInRDF] = Field(json_schema_extra={"rdf_predicate": DC.coverage}, default=[])
+    publisher: PublisherInRDF = Field(json_schema_extra={"rdf_predicate": DC.publisher}, default=None)
+    citation: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.bibliographicCitation})
 
     _parse_rdf_subject = model_validator(mode='before')(rdf_parse_rdf_subject)
     _parse_coverages = model_validator(mode='before')(parse_coverages)
@@ -96,8 +102,12 @@ class BaseResource(BaseModel):
 
 
 class ResourceMetadataInRDF(BaseResource):
-    dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.CompositeResource, frozen=True)
-    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=HSTERMS.CompositeResource)
+    dc_type: AnyUrl = Field(
+        json_schema_extra={"rdf_predicate": DC.type}, default=HSTERMS.CompositeResource, frozen=True
+    )
+    rdf_type: AnyUrl = Field(
+        json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.CompositeResource
+    )
 
     _label_literal = Literal["Composite Resource"]
     label: _label_literal = Field(default="Composite Resource", frozen=True, alias='label')
@@ -108,8 +118,12 @@ class ResourceMetadataInRDF(BaseResource):
 
 
 class CollectionMetadataInRDF(BaseResource):
-    dc_type: AnyUrl = Field(rdf_predicate=DC.type, default=HSTERMS.CollectionResource, frozen=True)
-    rdf_type: AnyUrl = Field(rdf_predicate=RDF.type, frozen=True, default=HSTERMS.CollectionResource)
+    dc_type: AnyUrl = Field(
+        json_schema_extra={"rdf_predicate": DC.type}, default=HSTERMS.CollectionResource, frozen=True
+    )
+    rdf_type: AnyUrl = Field(
+        json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.CollectionResource
+    )
     _label_literal = Literal["Collection Resource"]
     label: _label_literal = Field(default="Collection Resource", frozen=True, alias='label')
 

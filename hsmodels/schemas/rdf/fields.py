@@ -86,44 +86,44 @@ class RDFBaseModel(BaseModel):
 
 
 class DCTypeInRDF(RDFBaseModel):
-    is_defined_by: AnyUrl = Field(rdf_predicate=RDFS.isDefinedBy)
-    label: str = Field(rdf_predicate=RDFS.label)
+    is_defined_by: AnyUrl = Field(json_schema_extra={"rdf_predicate": RDFS.isDefinedBy})
+    label: str = Field(json_schema_extra={"rdf_predicate": RDFS.label})
 
 
 class RelationInRDF(RDFBaseModel):
-    isExecutedBy: str = Field(rdf_predicate=HSTERMS.isExecutedBy, default=None)
-    isCreatedBy: str = Field(rdf_predicate=HSTERMS.isCreatedBy, default=None)
-    isDescribedBy: str = Field(rdf_predicate=HSTERMS.isDescribedBy, default=None)
-    isSimilarTo: str = Field(rdf_predicate=HSTERMS.isSimilarTo, default=None)
+    isExecutedBy: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.isExecutedBy}, default=None)
+    isCreatedBy: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.isCreatedBy}, default=None)
+    isDescribedBy: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.isDescribedBy}, default=None)
+    isSimilarTo: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.isSimilarTo}, default=None)
 
-    isPartOf: str = Field(rdf_predicate=DCTERMS.isPartOf, default=None)
-    hasPart: str = Field(rdf_predicate=DCTERMS.hasPart, default=None)
-    isVersionOf: str = Field(rdf_predicate=DCTERMS.isVersionOf, default=None)
-    isReplacedBy: str = Field(rdf_predicate=DCTERMS.isReplacedBy, default=None)
-    conformsTo: str = Field(rdf_predicate=DCTERMS.conformsTo, default=None)
-    hasFormat: str = Field(rdf_predicate=DCTERMS.hasFormat, default=None)
-    isFormatOf: str = Field(rdf_predicate=DCTERMS.isFormatOf, default=None)
-    isRequiredBy: str = Field(rdf_predicate=DCTERMS.isRequiredBy, default=None)
-    requires: str = Field(rdf_predicate=DCTERMS.requires, default=None)
-    isReferencedBy: str = Field(rdf_predicate=DCTERMS.isReferencedBy, default=None)
-    references: str = Field(rdf_predicate=DCTERMS.references, default=None)
-    replaces: str = Field(rdf_predicate=DCTERMS.replaces, default=None)
-    source: str = Field(rdf_predicate=DCTERMS.source, default=None)
+    isPartOf: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.isPartOf}, default=None)
+    hasPart: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.hasPart}, default=None)
+    isVersionOf: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.isVersionOf}, default=None)
+    isReplacedBy: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.isReplacedBy}, default=None)
+    conformsTo: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.conformsTo}, default=None)
+    hasFormat: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.hasFormat}, default=None)
+    isFormatOf: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.isFormatOf}, default=None)
+    isRequiredBy: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.isRequiredBy}, default=None)
+    requires: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.requires}, default=None)
+    isReferencedBy: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.isReferencedBy}, default=None)
+    references: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.references}, default=None)
+    replaces: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.replaces}, default=None)
+    source: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.source}, default=None)
 
     _parse_relation = model_validator(mode='before')(parse_relation_rdf)
 
 
 class DescriptionInRDF(RDFBaseModel):
-    abstract: str = Field(rdf_predicate=DCTERMS.abstract, default=None)
+    abstract: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.abstract}, default=None)
 
 
 class IdentifierInRDF(RDFBaseModel):
-    hydroshare_identifier: AnyUrl = Field(rdf_predicate=HSTERMS.hydroShareIdentifier)
+    hydroshare_identifier: AnyUrl = Field(json_schema_extra={"rdf_predicate": HSTERMS.hydroShareIdentifier})
 
 
 class ExtendedMetadataInRDF(RDFBaseModel):
-    value: str = Field(rdf_predicate=HSTERMS.value, default="")
-    key: str = Field(rdf_predicate=HSTERMS.key)
+    value: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.value}, default="")
+    key: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.key})
 
 
 class CellInformationInRDF(CellInformation, RDFBaseModel):
@@ -131,8 +131,8 @@ class CellInformationInRDF(CellInformation, RDFBaseModel):
 
 
 class DateInRDF(RDFBaseModel):
-    type: DateType = Field(rdf_predicate=RDF.type)
-    value: datetime = Field(rdf_predicate=RDF.value)
+    type: DateType = Field(json_schema_extra={"rdf_predicate": RDF.type})
+    value: datetime = Field(json_schema_extra={"rdf_predicate": RDF.value})
 
 
 class RightsInRDF(Rights, RDFBaseModel):
@@ -140,32 +140,34 @@ class RightsInRDF(Rights, RDFBaseModel):
 
 
 class CreatorInRDF(RDFBaseModel):
-    creator_order: Optional[PositiveInt] = Field(default=None, rdf_predicate=HSTERMS.creatorOrder)
-    name: str = Field(default=None, rdf_predicate=HSTERMS.name)
-    phone: str = Field(default=None, rdf_predicate=HSTERMS.phone)
-    address: str = Field(default=None, rdf_predicate=HSTERMS.address)
-    organization: str = Field(default=None, rdf_predicate=HSTERMS.organization)
-    email: EmailStr = Field(default=None, rdf_predicate=HSTERMS.email)
-    homepage: HttpUrl = Field(default=None, rdf_predicate=HSTERMS.homepage)
-    hydroshare_user_id: int = Field(default=None, rdf_predicate=HSTERMS.hydroshare_user_id)
-    ORCID: AnyUrl = Field(default=None, rdf_predicate=HSTERMS.ORCID)
-    google_scholar_id: AnyUrl = Field(default=None, rdf_predicate=HSTERMS.GoogleScholarID)
-    research_gate_id: AnyUrl = Field(default=None, rdf_predicate=HSTERMS.ResearchGateID)
+    creator_order: Optional[PositiveInt] = Field(
+        default=None, json_schema_extra={"rdf_predicate": HSTERMS.creatorOrder}
+    )
+    name: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.name})
+    phone: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.phone})
+    address: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.address})
+    organization: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.organization})
+    email: EmailStr = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.email})
+    homepage: HttpUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.homepage})
+    hydroshare_user_id: int = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.hydroshare_user_id})
+    ORCID: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.ORCID})
+    google_scholar_id: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.GoogleScholarID})
+    research_gate_id: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.ResearchGateID})
 
     _group_identifiers = model_validator(mode='before')(split_user_identifiers)
 
 
 class ContributorInRDF(RDFBaseModel):
-    name: str = Field(default=None, rdf_predicate=HSTERMS.name)
-    phone: str = Field(default=None, rdf_predicate=HSTERMS.phone)
-    address: str = Field(default=None, rdf_predicate=HSTERMS.address)
-    organization: str = Field(default=None, rdf_predicate=HSTERMS.organization)
-    email: EmailStr = Field(default=None, rdf_predicate=HSTERMS.email)
-    homepage: HttpUrl = Field(default=None, rdf_predicate=HSTERMS.homepage)
-    hydroshare_user_id: int = Field(default=None, rdf_predicate=HSTERMS.hydroshare_user_id)
-    ORCID: AnyUrl = Field(default=None, rdf_predicate=HSTERMS.ORCID)
-    google_scholar_id: AnyUrl = Field(default=None, rdf_predicate=HSTERMS.GoogleScholarID)
-    research_gate_id: AnyUrl = Field(default=None, rdf_predicate=HSTERMS.ResearchGateID)
+    name: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.name})
+    phone: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.phone})
+    address: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.address})
+    organization: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.organization})
+    email: EmailStr = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.email})
+    homepage: HttpUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.homepage})
+    hydroshare_user_id: int = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.hydroshare_user_id})
+    ORCID: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.ORCID})
+    google_scholar_id: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.GoogleScholarID})
+    research_gate_id: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.ResearchGateID})
 
     _group_identifiers = model_validator(mode='before')(split_user_identifiers)
 
@@ -179,18 +181,18 @@ class BandInformationInRDF(BandInformation, RDFBaseModel):
 
 
 class CoverageInRDF(RDFBaseModel):
-    type: CoverageType = Field(rdf_predicate=RDF.type)
-    value: str = Field(rdf_predicate=RDF.value)
+    type: CoverageType = Field(json_schema_extra={"rdf_predicate": RDF.type})
+    value: str = Field(json_schema_extra={"rdf_predicate": RDF.value})
 
 
 class SpatialReferenceInRDF(RDFBaseModel):
-    type: SpatialReferenceType = Field(rdf_predicate=RDF.type)
-    value: str = Field(rdf_predicate=RDF.value)
+    type: SpatialReferenceType = Field(json_schema_extra={"rdf_predicate": RDF.type})
+    value: str = Field(json_schema_extra={"rdf_predicate": RDF.value})
 
 
 class MultidimensionalSpatialReferenceInRDF(RDFBaseModel):
-    type: MultidimensionalSpatialReferenceType = Field(rdf_predicate=RDF.type)
-    value: str = Field(rdf_predicate=RDF.value)
+    type: MultidimensionalSpatialReferenceType = Field(json_schema_extra={"rdf_predicate": RDF.type})
+    value: str = Field(json_schema_extra={"rdf_predicate": RDF.value})
 
 
 class FieldInformationInRDF(FieldInformation, RDFBaseModel):
@@ -234,11 +236,11 @@ class UTCOffSetInRDF(UTCOffSet, RDFBaseModel):
 
 
 class TimeSeriesResultInRDF(TimeSeriesResult, RDFBaseModel):
-    unit: UnitInRDF = Field(rdf_predicate=HSTERMS.unit, default=None)
-    site: TimeSeriesSiteInRDF = Field(rdf_predicate=HSTERMS.site)
-    variable: TimeSeriesVariableInRDF = Field(rdf_predicate=HSTERMS.variable)
-    method: TimeSeriesMethodInRDF = Field(rdf_predicate=HSTERMS.method)
-    processing_level: ProcessingLevelInRDF = Field(rdf_predicate=HSTERMS.processingLevel)
-    utc_offset: UTCOffSetInRDF = Field(rdf_predicate=HSTERMS.UTCOffSet, default=None)
+    unit: UnitInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.unit}, default=None)
+    site: TimeSeriesSiteInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.site})
+    variable: TimeSeriesVariableInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.variable})
+    method: TimeSeriesMethodInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.method})
+    processing_level: ProcessingLevelInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.processingLevel})
+    utc_offset: UTCOffSetInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.UTCOffSet}, default=None)
 
     _parse_utc_offset = model_validator(mode='before')(rdf_parse_utc_offset)

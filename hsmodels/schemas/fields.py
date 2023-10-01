@@ -37,29 +37,29 @@ class CellInformation(BaseMetadata):
 
     # TODO: Is there such a thing as "name" for CellInformation?
     name: str = Field(default=None, max_length=500, title="Name", description="Name of the cell information",
-                      rdf_predicate=HSTERMS.name)
+                      json_schema_extra={"rdf_predicate": HSTERMS.name})
     rows: int = Field(default=None, title="Rows",
                       description="The integer number of rows in the raster dataset",
-                      rdf_predicate=HSTERMS.rows)
+                      json_schema_extra={"rdf_predicate": HSTERMS.rows})
     columns: int = Field(
         default=None, title="Columns", description="The integer number of columns in the raster dataset",
-        rdf_predicate=HSTERMS.columns
+        json_schema_extra={"rdf_predicate": HSTERMS.columns}
     )
     cell_size_x_value: float = Field(
         default=None,
         title="Cell size x value",
         description="The size of the raster grid cell in the x-direction expressed as a float",
-        rdf_predicate=HSTERMS.cellSizeXValue
+        json_schema_extra={"rdf_predicate": HSTERMS.cellSizeXValue}
     )
     cell_data_type: str = Field(
         default=None, max_length=50, title="Cell data type", description="The data type of the raster grid cell values",
-        rdf_predicate=HSTERMS.cellDataType
+        json_schema_extra={"rdf_predicate": HSTERMS.cellDataType}
     )
     cell_size_y_value: float = Field(
         default=None,
         title="Cell size y value",
         description="The size of the raster grid cell in the y-direction expressed as a float",
-        rdf_predicate=HSTERMS.cellSizeYValue
+        json_schema_extra={"rdf_predicate": HSTERMS.cellSizeYValue}
     )
 
 
@@ -72,12 +72,12 @@ class Rights(BaseMetadata):
 
     statement: str = Field(
         title="Statement", description="A string containing the text of the license or rights statement",
-        rdf_predicate=HSTERMS.rightsStatement
+        json_schema_extra={"rdf_predicate": HSTERMS.rightsStatement}
     )
     url: AnyUrl = Field(
         title="URL",
         description="An object containing the URL pointing to a description of the license or rights statement",
-        rdf_predicate=HSTERMS.URL
+        json_schema_extra={"rdf_predicate": HSTERMS.URL}
     )
 
     @classmethod
@@ -259,21 +259,21 @@ class AwardInfo(BaseMetadata):
 
     funding_agency_name: str = Field(
         title="Agency name", description="A string containing the name of the funding agency or organization",
-        rdf_predicate=HSTERMS.fundingAgencyName
+        json_schema_extra={"rdf_predicate": HSTERMS.fundingAgencyName}
     )
     title: str = Field(
         default=None, title="Award title", description="A string containing the title of the project or award",
-        rdf_predicate=HSTERMS.awardTitle
+        json_schema_extra={"rdf_predicate": HSTERMS.awardTitle}
     )
     number: str = Field(
         default=None, title="Award number", description="A string containing the award number or other identifier",
-        rdf_predicate=HSTERMS.awardNumber
+        json_schema_extra={"rdf_predicate": HSTERMS.awardNumber}
     )
     funding_agency_url: AnyUrl = Field(
         default=None,
         title="Agency URL",
         description="An object containing a URL pointing to a website describing the funding award",
-        rdf_predicate=HSTERMS.fundingAgencyURL
+        json_schema_extra={"rdf_predicate": HSTERMS.fundingAgencyURL}
     )
 
 
@@ -285,49 +285,49 @@ class BandInformation(BaseMetadata):
     model_config = ConfigDict(title='Raster Band Metadata')
 
     name: str = Field(max_length=500, title="Name", description="A string containing the name of the raster band",
-                      rdf_predicate=HSTERMS.name
+                      json_schema_extra={"rdf_predicate": HSTERMS.name}
                       )
     variable_name: str = Field(
         default=None,
         max_length=100,
         title="Variable name",
         description="A string containing the name of the variable represented by the raster band",
-        rdf_predicate=HSTERMS.variableName
+        json_schema_extra={"rdf_predicate": HSTERMS.variableName}
     )
     variable_unit: str = Field(
         default=None,
         max_length=50,
         title="Variable unit",
         description="A string containing the units for the raster band variable",
-        rdf_predicate=HSTERMS.variableUnit
+        json_schema_extra={"rdf_predicate": HSTERMS.variableUnit}
     )
     no_data_value: str = Field(
         default=None,
         title="Nodata value",
         description="A string containing the numeric nodata value for the raster band",
-        rdf_predicate=HSTERMS.noDataValue
+        json_schema_extra={"rdf_predicate": HSTERMS.noDataValue}
     )
     maximum_value: str = Field(
         default=None,
         title="Maximum value",
         description="A string containing the maximum numeric value for the raster band",
-        rdf_predicate=HSTERMS.maximumValue
+        json_schema_extra={"rdf_predicate": HSTERMS.maximumValue}
     )
     comment: str = Field(
         default=None, title="Comment", description="A string containing a comment about the raster band",
-        rdf_predicate=HSTERMS.comment
+        json_schema_extra={"rdf_predicate": HSTERMS.comment}
     )
     method: str = Field(
         default=None,
         title="Method",
         description="A string containing a description of the method used to create the raster band data",
-        rdf_predicate=HSTERMS.method
+        json_schema_extra={"rdf_predicate": HSTERMS.method}
     )
     minimum_value: str = Field(
         default=None,
         title="Minimum value",
         description="A string containing the minimum numerica value for the raster dataset",
-        rdf_predicate=HSTERMS.minimumValue
+        json_schema_extra={"rdf_predicate": HSTERMS.minimumValue}
     )
 
 
@@ -341,11 +341,11 @@ class FieldInformation(BaseMetadata):
 
     field_name: str = Field(
         max_length=128, title="Field name", description="A string containing the name of the attribute table field",
-        rdf_predicate=HSTERMS.fieldName
+        json_schema_extra={"rdf_predicate": HSTERMS.fieldName}
     )
     field_type: str = Field(
         max_length=128, title="Field type", description="A string containing the data type of the values in the field",
-        rdf_predicate=HSTERMS.fieldType
+        json_schema_extra={"rdf_predicate": HSTERMS.fieldType}
     )
     # TODO: What is the "field_type_code"? It's not displayed on the resource landing page, but it's encoded in the
     #  aggregation metadata as an integer value.
@@ -354,17 +354,17 @@ class FieldInformation(BaseMetadata):
         max_length=50,
         title="Field type code",
         description="A string value containing a code that indicates the field type",
-        rdf_predicate=HSTERMS.fieldTypeCode
+        json_schema_extra={"rdf_predicate": HSTERMS.fieldTypeCode}
     )
     field_width: int = Field(
         default=None, title="Field width", description="An integer value containing the width of the attribute field",
-        rdf_predicate=HSTERMS.fieldWidth
+        json_schema_extra={"rdf_predicate": HSTERMS.fieldWidth}
     )
     field_precision: int = Field(
         default=None,
         title="Field precision",
         description="An integer value containing the precision of the attribute field",
-        rdf_predicate=HSTERMS.fieldPrecision
+        json_schema_extra={"rdf_predicate": HSTERMS.fieldPrecision}
     )
 
 
@@ -379,13 +379,13 @@ class GeometryInformation(BaseMetadata):
         default=0,
         title="Feature count",
         description="An integer containing the number of features in the geographic feature aggregation",
-        rdf_predicate=HSTERMS.featureCount
+        json_schema_extra={"rdf_predicate": HSTERMS.featureCount}
     )
     geometry_type: str = Field(
         max_length=128,
         title="Geometry type",
         description="A string containing the type of features in the geographic feature aggregation",
-        rdf_predicate=HSTERMS.geometryType
+        json_schema_extra={"rdf_predicate": HSTERMS.geometryType}
     )
 
 
@@ -398,42 +398,42 @@ class Variable(BaseMetadata):
 
     name: str = Field(
         max_length=1000, title="Variable name", description="A string containing the name of the variable",
-        rdf_predicate=HSTERMS.name
+        json_schema_extra={"rdf_predicate": HSTERMS.name}
     )
     unit: str = Field(
         max_length=1000,
         title="Units",
         description="A string containing the units in which the values for the variable are expressed",
-        rdf_predicate=HSTERMS.unit
+        json_schema_extra={"rdf_predicate": HSTERMS.unit}
     )
     type: VariableType = Field(title="Type", description="The data type of the values for the variable",
-                               rdf_predicate=HSTERMS.type
+                               json_schema_extra={"rdf_predicate": HSTERMS.type}
                                )
     shape: str = Field(
         max_length=1000,
         title="Shape",
         description="A string containing the shape of the variable expressed as a list of dimensions",
-        rdf_predicate=HSTERMS.shape
+        json_schema_extra={"rdf_predicate": HSTERMS.shape}
     )
     descriptive_name: str = Field(
         default=None,
         max_length=1000,
         title="Descriptive name",
         description="A string containing a descriptive name for the variable",
-        rdf_predicate=HSTERMS.descriptive_name
+        json_schema_extra={"rdf_predicate": HSTERMS.descriptive_name}
     )
     method: str = Field(
         default=None,
         title="Method",
         description="A string containing a description of the method used to create the values for the variable",
-        rdf_predicate=HSTERMS.method
+        json_schema_extra={"rdf_predicate": HSTERMS.method}
     )
     missing_value: str = Field(
         default=None,
         max_length=1000,
         title="Missing value",
         description="A string containing the value used to indicate missing values for the variable",
-        rdf_predicate=HSTERMS.missing_value
+        json_schema_extra={"rdf_predicate": HSTERMS.missing_value}
     )
 
 
@@ -446,11 +446,11 @@ class Publisher(BaseMetadata):
 
     name: str = Field(
         max_length=200, title="Publisher name", description="A string containing the name of the publisher",
-        rdf_predicate=HSTERMS.publisherName
+        json_schema_extra={"rdf_predicate": HSTERMS.publisherName}
     )
     url: AnyUrl = Field(
         title="Publisher URL", description="An object containing a URL that points to the publisher website",
-        rdf_predicate=HSTERMS.publisherURL
+        json_schema_extra={"rdf_predicate": HSTERMS.publisherURL}
     )
 
 
@@ -465,37 +465,37 @@ class TimeSeriesVariable(BaseMetadata):
         max_length=50,
         title="Variable code",
         description="A string containing a short but meaningful code that identifies a variable",
-        rdf_predicate=HSTERMS.VariableCode
+        json_schema_extra={"rdf_predicate": HSTERMS.VariableCode}
     )
     variable_name: str = Field(
         max_length=100, title="Variable name", description="A string containing the name of the variable",
-        rdf_predicate=HSTERMS.VariableName
+        json_schema_extra={"rdf_predicate": HSTERMS.VariableName}
     )
     variable_type: str = Field(
         max_length=100,
         title="Variable type",
         description="A string containing the type of variable from the ODM2 VariableType controlled vocabulary",
-        rdf_predicate=HSTERMS.VariableType
+        json_schema_extra={"rdf_predicate": HSTERMS.VariableType}
     )
     # TODO: The NoData value for a variable in an ODM2 database is not always an integer.
     #  It could be a floating point value. We might want to change this to a string or a floating point value
     #  It is an integer in the HydroShare database, so will have to be updated there as well if changed
     no_data_value: int = Field(title="NoData value", description="The NoData value for the variable",
-                               rdf_predicate=HSTERMS.NoDataValue
+                               json_schema_extra={"rdf_predicate": HSTERMS.NoDataValue}
                                )
     variable_definition: str = Field(
         default=None,
         max_length=255,
         title="Variable definition",
         description="A string containing a detailed description of the variable",
-        rdf_predicate=HSTERMS.VariableDefinition
+        json_schema_extra={"rdf_predicate": HSTERMS.VariableDefinition}
     )
     speciation: str = Field(
         default=None,
         max_length=255,
         title="Speciation",
         description="A string containing the speciation for the variable from the ODM2 Speciation control vocabulary",
-        rdf_predicate=HSTERMS.Speciation
+        json_schema_extra={"rdf_predicate": HSTERMS.Speciation}
     )
 
 
@@ -510,43 +510,43 @@ class TimeSeriesSite(BaseMetadata):
         max_length=200,
         title="Site code",
         description="A string containing a short but meaningful code identifying the site",
-        rdf_predicate=HSTERMS.SiteCode
+        json_schema_extra={"rdf_predicate": HSTERMS.SiteCode}
     )
     site_name: str = Field(
         default=None, max_length=255, title="Site name", description="A string containing the name of the site",
-        rdf_predicate=HSTERMS.SiteName
+        json_schema_extra={"rdf_predicate": HSTERMS.SiteName}
     )
     elevation_m: float = Field(
         default=None,
         title="Elevation",
         description="A floating point number expressing the elevation of the site in meters",
-        rdf_predicate=HSTERMS.Elevation_m
+        json_schema_extra={"rdf_predicate": HSTERMS.Elevation_m}
     )
     elevation_datum: str = Field(
         default=None,
         max_length=50,
         title="Elevation datum",
         description="A string expressing the elevation datum used from the ODM2 Elevation Datum controlled vocabulary",
-        rdf_predicate=HSTERMS.ElevationDatum
+        json_schema_extra={"rdf_predicate": HSTERMS.ElevationDatum}
     )
     site_type: str = Field(
         default=None,
         max_length=100,
         title="Site type",
         description="A string containing the type of site from the ODM2 Sampling Feature Type controlled vocabulary ",
-        rdf_predicate=HSTERMS.SiteType
+        json_schema_extra={"rdf_predicate": HSTERMS.SiteType}
     )
     latitude: float = Field(
         default=None,
         title="Latitude",
         description="A floating point value expressing the latitude coordinate of the site",
-        rdf_predicate=HSTERMS.Latitude
+        json_schema_extra={"rdf_predicate": HSTERMS.Latitude}
     )
     longitude: float = Field(
         default=None,
         title="Longitude",
         description="A floating point value expressing the longitude coordinate of the site",
-        rdf_predicate=HSTERMS.Longitude
+        json_schema_extra={"rdf_predicate": HSTERMS.Longitude}
     )
 
 
@@ -561,28 +561,28 @@ class TimeSeriesMethod(BaseMetadata):
         max_length=50,
         title="Method code",
         description="A string containing a short but meaningful code identifying the method",
-        rdf_predicate=HSTERMS.MethodCode
+        json_schema_extra={"rdf_predicate": HSTERMS.MethodCode}
     )
     method_name: str = Field(
         max_length=200, title="Method name", description="A string containing the name of the method",
-        rdf_predicate=HSTERMS.MethodName
+        json_schema_extra={"rdf_predicate": HSTERMS.MethodName}
     )
     method_type: str = Field(
         max_length=200,
         title="Method type",
         description="A string containing the method type from the ODM2 Method Type controlled vocabulary",
-        rdf_predicate=HSTERMS.MethodType
+        json_schema_extra={"rdf_predicate": HSTERMS.MethodType}
     )
     method_description: str = Field(
         default=None, title="Method description",
         description="A string containing a detailed description of the method",
-        rdf_predicate=HSTERMS.MethodDescription
+        json_schema_extra={"rdf_predicate": HSTERMS.MethodDescription}
     )
     method_link: AnyUrl = Field(
         default=None,
         title="Method link",
         description="An object containing a URL that points to a website having a detailed description of the method",
-        rdf_predicate=HSTERMS.MethodLink
+        json_schema_extra={"rdf_predicate": HSTERMS.MethodLink}
     )
 
 
@@ -598,20 +598,20 @@ class ProcessingLevel(BaseMetadata):
         max_length=50,
         title="Processing level code",
         description="A string containing a short but meaningful code identifying the processing level",
-        rdf_predicate=HSTERMS.ProcessingLevelCode
+        json_schema_extra={"rdf_predicate": HSTERMS.ProcessingLevelCode}
     )
     definition: str = Field(
         default=None,
         max_length=200,
         title="Definition",
         description="A string containing a description of the processing level",
-        rdf_predicate=HSTERMS.Definition
+        json_schema_extra={"rdf_predicate": HSTERMS.Definition}
     )
     explanation: str = Field(
         default=None,
         title="Explanation",
         description="A string containing a more extensive explanation of the meaning of the processing level",
-        rdf_predicate=HSTERMS.Explanation
+        json_schema_extra={"rdf_predicate": HSTERMS.Explanation}
     )
 
 
@@ -626,19 +626,19 @@ class Unit(BaseMetadata):
         max_length=255,
         title="Unit type",
         description="A string containing the type of unit from the ODM2 Units Type controlled vocabulary",
-        rdf_predicate=HSTERMS.UnitsType
+        json_schema_extra={"rdf_predicate": HSTERMS.UnitsType}
     )
     name: str = Field(
         max_length=255,
         title="Unit name",
         description="A string containing the name of the unit from the ODM2 units list",
-        rdf_predicate=HSTERMS.UnitsName
+        json_schema_extra={"rdf_predicate": HSTERMS.UnitsName}
     )
     abbreviation: str = Field(
         max_length=20,
         title="Unit abbreviation",
         description="A string containing an abbreviation for the unit from the ODM2 units list",
-        rdf_predicate=HSTERMS.UnitsAbbreviation
+        json_schema_extra={"rdf_predicate": HSTERMS.UnitsAbbreviation}
     )
 
 
@@ -653,7 +653,7 @@ class UTCOffSet(BaseMetadata):
         default=0,
         title="UTC offset value",
         description="A floating point number containing the UTC time offset associated with the data values expressed in hours",
-        rdf_predicate=HSTERMS.value
+        json_schema_extra={"rdf_predicate": HSTERMS.value}
     )
 
 
@@ -668,7 +668,7 @@ class TimeSeriesResult(BaseMetadata):
         max_length=36,
         title="Series ID",
         description="A string containing a unique identifier for the time series result",
-        rdf_predicate=HSTERMS.timeSeriesResultUUID
+        json_schema_extra={"rdf_predicate": HSTERMS.timeSeriesResultUUID}
     )
     unit: Unit = Field(
         default=None,
@@ -681,24 +681,24 @@ class TimeSeriesResult(BaseMetadata):
         max_length=255,
         title="Status",
         description="A string containing the status of the time series result chosen from the ODM2 Status controlled vocabulary",
-        rdf_predicate=HSTERMS.Status
+        json_schema_extra={"rdf_predicate": HSTERMS.Status}
     )
     sample_medium: str = Field(
         max_length=255,
         title="Sample medium",
         description="A string containing the sample medium in which the time series result was measured chosen from the ODM2 Medium controlled vocabulary",
-        rdf_predicate=HSTERMS.SampleMedium
+        json_schema_extra={"rdf_predicate": HSTERMS.SampleMedium}
     )
     value_count: int = Field(
         title="Value count",
         description="An integer value containing the number of data values contained within the time series result",
-        rdf_predicate=HSTERMS.ValueCount
+        json_schema_extra={"rdf_predicate": HSTERMS.ValueCount}
     )
     aggregation_statistic: str = Field(
         max_length=255,
         title="Aggregation statistic",
         description="A string containing the aggregation statistic associated with the values of the time series result chosen from the ODM2 Aggregation Statistic controlled vocabulary",
-        rdf_predicate=HSTERMS.AggregationStatistic
+        json_schema_extra={"rdf_predicate": HSTERMS.AggregationStatistic}
     )
     # TODO: Not sure what "series_label" is. It's not an ODM2 thing
     # in HydroShare it is generated with this format
@@ -708,7 +708,7 @@ class TimeSeriesResult(BaseMetadata):
         max_length=255,
         title="Series label",
         description="A string containing a label for the time series result",
-        rdf_predicate=HSTERMS.SeriesLabel
+        json_schema_extra={"rdf_predicate": HSTERMS.SeriesLabel}
     )
     site: TimeSeriesSite = Field(
         title="Site",

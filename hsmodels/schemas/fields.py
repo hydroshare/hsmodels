@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Dict, Literal, Optional
 
-from pydantic import AnyUrl, EmailStr, Field, HttpUrl, field_validator, model_validator
+from pydantic import AnyUrl, ConfigDict, EmailStr, Field, HttpUrl, field_validator, model_validator
 
 from hsmodels.namespaces import HSTERMS
 from hsmodels.schemas import base_models
@@ -16,8 +16,7 @@ class Relation(BaseMetadata):
     A class used to represent the metadata associated with a resource related to the resource being described
     """
 
-    class Config:
-        title = 'Related Resource Metadata'
+    model_config = ConfigDict(title='Related Resource Metadata')
 
     type: RelationType = Field(title="Relation type", description="The type of relationship with the related resource")
     value: str = Field(
@@ -34,8 +33,7 @@ class CellInformation(BaseMetadata):
     A class used to represent the metadata associated with raster grid cells in geographic raster aggregations
     """
 
-    class Config:
-        title = 'Raster Cell Metadata'
+    model_config = ConfigDict(title='Raster Cell Metadata')
 
     # TODO: Is there such a thing as "name" for CellInformation?
     name: str = Field(default=None, max_length=500, title="Name", description="Name of the cell information",
@@ -70,8 +68,7 @@ class Rights(BaseMetadata):
     A class used to represent the rights statement metadata associated with a resource
     """
 
-    class Config:
-        title = 'Rights Metadata'
+    model_config = ConfigDict(title='Rights Metadata')
 
     statement: str = Field(
         title="Statement", description="A string containing the text of the license or rights statement",
@@ -137,10 +134,7 @@ class Creator(BaseMetadata):
     A class used to represent the metadata associated with a creator of a resource
     """
 
-    class Config:
-        title = 'Creator Metadata'
-
-        schema_config = {'read_only': ['hydroshare_user_id']}
+    model_config = ConfigDict(title='Creator Metadata')
 
     name: str = Field(
         default=None, max_length=100, title="Name", description="A string containing the name of the creator"
@@ -176,6 +170,7 @@ class Creator(BaseMetadata):
         title="Hydroshare user id",
         description="An integer containing the Hydroshare user ID",
         frozen=True,
+        json_schema_extra={"readOnly": True},
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
@@ -202,10 +197,7 @@ class Contributor(BaseMetadata):
     A class used to represent the metadata associated with a contributor to a resource
     """
 
-    class Config:
-        title = 'Contributor Metadata'
-
-        schema_config = {'read_only': ['hydroshare_user_id']}
+    model_config = ConfigDict(title='Contributor Metadata')
 
     name: str = Field(default=None, title="Name", description="A string containing the name of the contributor")
     phone: str = Field(
@@ -232,6 +224,7 @@ class Contributor(BaseMetadata):
         title="Hyroshare user id",
         description="An integer containing the Hydroshare user ID",
         frozen=True,
+        json_schema_extra={"readOnly": True},
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
@@ -262,8 +255,7 @@ class AwardInfo(BaseMetadata):
     A class used to represent the metadata associated with funding agency credits for a resource
     """
 
-    class Config:
-        title = 'Funding Agency Metadata'
+    model_config = ConfigDict(title='Funding Agency Metadata')
 
     funding_agency_name: str = Field(
         title="Agency name", description="A string containing the name of the funding agency or organization",
@@ -290,8 +282,7 @@ class BandInformation(BaseMetadata):
     A class used to represent the metadata associated with the raster bands of a geographic raster aggregation
     """
 
-    class Config:
-        title = 'Raster Band Metadata'
+    model_config = ConfigDict(title='Raster Band Metadata')
 
     name: str = Field(max_length=500, title="Name", description="A string containing the name of the raster band",
                       rdf_predicate=HSTERMS.name
@@ -346,8 +337,7 @@ class FieldInformation(BaseMetadata):
     feature aggregation
     """
 
-    class Config:
-        title = 'Geographic Feature Field Metadata'
+    model_config = ConfigDict(title='Geographic Feature Field Metadata')
 
     field_name: str = Field(
         max_length=128, title="Field name", description="A string containing the name of the attribute table field",
@@ -383,8 +373,7 @@ class GeometryInformation(BaseMetadata):
     A class used to represent the metadata associated with the geometry of a geographic feature aggregation
     """
 
-    class Config:
-        title = 'Geographic Feature Geometry Metadata'
+    model_config = ConfigDict(title='Geographic Feature Geometry Metadata')
 
     feature_count: int = Field(
         default=0,
@@ -405,8 +394,7 @@ class Variable(BaseMetadata):
     A class used to represent the metadata associated with a variable contained within a multidimensional aggregation
     """
 
-    class Config:
-        title = 'Multidimensional Variable Metadata'
+    model_config = ConfigDict(title='Multidimensional Variable Metadata')
 
     name: str = Field(
         max_length=1000, title="Variable name", description="A string containing the name of the variable",
@@ -454,8 +442,7 @@ class Publisher(BaseMetadata):
     A class used to represent the metadata associated with the publisher of a resource
     """
 
-    class Config:
-        title = 'Publisher Metadata'
+    model_config = ConfigDict(title='Publisher Metadata')
 
     name: str = Field(
         max_length=200, title="Publisher name", description="A string containing the name of the publisher",
@@ -472,8 +459,7 @@ class TimeSeriesVariable(BaseMetadata):
     A class used to represent the metadata associated with a variable contained within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Variable Metadata'
+    model_config = ConfigDict(title='Time Series Variable Metadata')
 
     variable_code: str = Field(
         max_length=50,
@@ -518,8 +504,7 @@ class TimeSeriesSite(BaseMetadata):
     A class used to represent the metadata associated with a site contained within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Site Metadata'
+    model_config = ConfigDict(title='Time Series Site Metadata')
 
     site_code: str = Field(
         max_length=200,
@@ -570,8 +555,7 @@ class TimeSeriesMethod(BaseMetadata):
     A class used to represent the metadata associated with a method contained within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Method Metadata'
+    model_config = ConfigDict(title='Time Series Method Metadata')
 
     method_code: str = Field(
         max_length=50,
@@ -608,8 +592,7 @@ class ProcessingLevel(BaseMetadata):
     aggregation
     """
 
-    class Config:
-        title = 'Time Series Processing Level Metadata'
+    model_config = ConfigDict(title='Time Series Processing Level Metadata')
 
     processing_level_code: str = Field(
         max_length=50,
@@ -637,8 +620,7 @@ class Unit(BaseMetadata):
     A class used to represent the metadata associated with a dimensional unit within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Units Metadata'
+    model_config = ConfigDict(title='Time Series Units Metadata')
 
     type: str = Field(
         max_length=255,
@@ -665,8 +647,7 @@ class UTCOffSet(BaseMetadata):
     A class used to represent the metadata associated with a UTC time offset within a time series aggregation)
     """
 
-    class Config:
-        title = 'Time Series UTC Offset Metadata'
+    model_config = ConfigDict(title='Time Series UTC Offset Metadata')
 
     value: float = Field(
         default=0,
@@ -681,8 +662,7 @@ class TimeSeriesResult(BaseMetadata):
     A class used to represent the metadata associated with a time series result within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Result Metadata'
+    model_config = ConfigDict(title='Time Series Result Metadata')
 
     series_id: str = Field(
         max_length=36,
@@ -760,16 +740,14 @@ class BoxCoverage(base_models.BaseCoverage):
     latitude-longitude bounding box
     """
 
-    class Config:
-        title = 'Box Coverage Metadata'
-
-        schema_config = {'read_only': ['type']}
+    model_config = ConfigDict(title='Box Coverage Metadata')
 
     type: Literal['box'] = Field(
         default="box",
         frozen=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
+        json_schema_extra={"readOnly": True},
     )
     name: str = Field(
         default=None,
@@ -823,16 +801,14 @@ class BoxSpatialReference(base_models.BaseCoverage):
     feature or raster aggregation expressed as a bounding box
     """
 
-    class Config:
-        title = 'Box Spatial Reference Metadata'
-
-        schema_config = {'read_only': ['type']}
+    model_config = ConfigDict(title='Box Spatial Reference Metadata')
 
     type: Literal['box'] = Field(
         default="box",
         frozen=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
+        json_schema_extra={'readOnly': True},
     )
     name: str = Field(
         default=None,
@@ -890,8 +866,7 @@ class MultidimensionalBoxSpatialReference(BoxSpatialReference):
     aggregation expressed as a bounding box
     """
 
-    class Config:
-        title = 'Multidimensional Box Spatial Reference Metadata'
+    model_config = ConfigDict(title='Multidimensional Box Spatial Reference Metadata')
 
 
 class PointCoverage(base_models.BaseCoverage):
@@ -900,16 +875,14 @@ class PointCoverage(base_models.BaseCoverage):
     point location
     """
 
-    class Config:
-        title = 'Point Coverage Metadata'
-
-        schema_config = {'read_only': ['type']}
+    model_config = ConfigDict(title='Point Coverage Metadata')
 
     type: Literal['point'] = Field(
         default="point",
         frozen=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
+        json_schema_extra={"readOnly": True},
     )
     name: str = Field(
         default=None,
@@ -937,16 +910,14 @@ class PointSpatialReference(base_models.BaseCoverage):
     feature or raster aggregation expressed as a point
     """
 
-    class Config:
-        title = 'Point Spatial Reference Metadata'
-
-        schema_config = {'read_only': ['type']}
+    model_config = ConfigDict(title='Point Spatial Reference Metadata')
 
     type: Literal['point'] = Field(
         default="point",
         frozen=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
+        json_schema_extra={'readOnly': True},
     )
     name: str = Field(
         default=None,
@@ -984,8 +955,7 @@ class MultidimensionalPointSpatialReference(PointSpatialReference):
     aggregation expressed as a point
     """
 
-    class Config:
-        title = 'Multidimensional Point Spatial Reference Metadata'
+    model_config = ConfigDict(title='Multidimensional Point Spatial Reference Metadata')
 
 
 class PeriodCoverage(base_models.BaseCoverage):
@@ -993,8 +963,7 @@ class PeriodCoverage(base_models.BaseCoverage):
     A class used to represent temporal coverage metadata for a resource or aggregation
     """
 
-    class Config:
-        title = 'Period Coverage Metadata'
+    model_config = ConfigDict(title='Period Coverage Metadata')
 
     name: str = Field(default=None, title="Name", description="A string containing a name for the time interval")
     start: datetime = Field(
@@ -1023,8 +992,7 @@ class ModelProgramFile(BaseMetadata):
     A class used to represent the metadata associated with a file used by a model program aggregation
     """
 
-    class Config:
-        title = "Model program file metadata"
+    model_config = ConfigDict(title='Model Program File Metadata')
 
     type: ModelProgramFileType = Field(
         title="Model program file type", description="The type of the file used by the model program"

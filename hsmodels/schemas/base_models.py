@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Dict, Union
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class BaseMetadata(BaseModel):
@@ -37,13 +37,10 @@ class BaseMetadata(BaseModel):
             round_trip=round_trip,
             warnings=warnings,
         )
+        if to_rdf and "additional_metadata" in d:
+            additional_metadata = d["additional_metadata"]
+            d["additional_metadata"] = [{"key": key, "value": value} for key, value in additional_metadata.items()]
 
-        if to_rdf and hasattr(self.Config, "schema_config"):
-            schema_config = self.Config.schema_config
-            if "dictionary_field" in schema_config:
-                for field in schema_config["dictionary_field"]:
-                    field_value = d[field]
-                    d[field] = [{"key": key, "value": value} for key, value in field_value.items()]
         return d
 
     def model_dump_json(
@@ -78,32 +75,7 @@ class BaseMetadata(BaseModel):
             warnings=warnings,
         )
 
-    class Config:
-        validate_assignment = True
-
-        @staticmethod
-        def json_schema_extra(schema: Dict[str, Any], model) -> None:
-            if hasattr(model.Config, "schema_config"):
-                schema_config = model.Config.schema_config
-                if "read_only" in schema_config:
-                    # set readOnly in json schema
-                    for field in schema_config["read_only"]:
-                        if field in schema['properties']:  # ignore unknown properties for inheritance
-                            schema['properties'][field]['readOnly'] = True
-                if "dictionary_field" in schema_config:
-                    for field in schema_config["dictionary_field"]:
-                        if field in schema['properties']:  # ignore unknown properties for inheritance
-                            prop = schema["properties"][field]
-                            prop.pop('default', None)
-                            prop.pop('additionalProperties', None)
-                            prop['type'] = "array"
-                            prop['items'] = {
-                                "type": "object",
-                                "title": "Key-Value",
-                                "description": "A key-value pair",
-                                "default": [],
-                                "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
-                            }
+    model_config = ConfigDict(validate_assignment=True)
 
 
 class BaseCoverage(BaseMetadata):

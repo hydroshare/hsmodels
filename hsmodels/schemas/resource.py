@@ -1,7 +1,9 @@
 from datetime import datetime
 from typing import Dict, List, Union, Literal
 
-from pydantic import AnyUrl, Field, field_validator, model_validator
+from pydantic import AnyUrl, ConfigDict, Field, GetJsonSchemaHandler, field_validator, model_validator
+from pydantic.json_schema import JsonSchemaValue
+from pydantic_core import CoreSchema
 
 from hsmodels.schemas.base_models import BaseMetadata
 from hsmodels.schemas.fields import (
@@ -32,13 +34,7 @@ class ResourceMetadataIn(BaseMetadata):
     A class used to represent the metadata for a resource
     """
 
-    class Config:
-        title = 'Resource Metadata'
-
-        schema_config = {
-            'read_only': ['type', 'identifier', 'created', 'modified', 'review_started', 'published', 'url'],
-            'dictionary_field': ['additional_metadata'],
-        }
+    model_config = ConfigDict(title="Resource Metadata")
 
     title: str = Field(
         max_length=300, title="Title", description="A string containing the name given to a resource"
@@ -113,38 +109,67 @@ class ResourceMetadataIn(BaseMetadata):
     _language_constraint = field_validator('language')(language_constraint)
     _creators_constraint = field_validator('creators')(list_not_empty)
 
+    @classmethod
+    def __get_pydantic_json_schema__(
+            cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        json_schema = handler(core_schema)
+        json_schema = handler.resolve_ref_schema(json_schema)
+        prop = json_schema['properties']['additional_metadata']
+        prop.pop('default', None)
+        prop.pop('additionalProperties', None)
+        prop['type'] = 'array'
+        prop['items'] = {
+            "type": "object",
+            "title": "Key-Value",
+            "description": "A key-value pair",
+            "default": [],
+            "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
+        }
+
+        return json_schema
+
 
 class BaseResourceMetadata(ResourceMetadataIn):
-    url: AnyUrl = Field(title="URL", description="An object containing the URL for a resource", frozen=True)
+    url: AnyUrl = Field(
+        title="URL",
+        description="An object containing the URL for a resource",
+        frozen=True, json_schema_extra={"readOnly": True},
+    )
 
     identifier: AnyUrl = Field(
         title="Identifier",
         description="An object containing the URL-encoded unique identifier for a resource",
         frozen=True,
+        json_schema_extra={"readOnly": True},
     )
     created: datetime = Field(
         default_factory=datetime.now,
         title="Creation date",
         description="A datetime object containing the instant associated with when a resource was created",
         frozen=True,
+        json_schema_extra={"readOnly": True},
     )
     modified: datetime = Field(
         default_factory=datetime.now,
         title="Modified date",
         description="A datetime object containing the instant associated with when a resource was last modified",
         frozen=True,
+        json_schema_extra={"readOnly": True},
     )
     review_started: datetime = Field(
         default=None,
         title="Review started date",
         description="A datetime object containing the instant associated with when metadata review started on a resource",
         frozen=True,
+        json_schema_extra={"readOnly": True},
     )
     published: datetime = Field(
         default=None,
         title="Published date",
         description="A datetime object containing the instant associated with when a resource was published",
         frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     _parse_dates = model_validator(mode='before')(split_dates)
@@ -159,6 +184,7 @@ class ResourceMetadata(BaseResourceMetadata):
         default="CompositeResource",
         title="Resource Type",
         description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
+        json_schema_extra={"readOnly": True},
     )
 
 
@@ -168,4 +194,5 @@ class CollectionMetadata(BaseResourceMetadata):
         default="CollectionResource",
         title="Resource Type",
         description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
+        json_schema_extra={"readOnly": True},
     )

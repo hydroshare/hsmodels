@@ -1,7 +1,9 @@
 from datetime import date
 from typing import Dict, List, Union
 
-from pydantic import AnyUrl, Field, model_validator, field_validator
+from pydantic import AnyUrl, ConfigDict, Field, GetJsonSchemaHandler, model_validator, field_validator
+from pydantic.json_schema import JsonSchemaValue
+from pydantic_core import CoreSchema
 
 from hsmodels.schemas.base_models import BaseMetadata
 from hsmodels.schemas.enums import AggregationType
@@ -56,8 +58,8 @@ class BaseAggregationMetadataIn(BaseMetadata):
     )
     additional_metadata: Dict[str, str] = Field(
         default={},
-        title="Extended metadata",
-        description="A list of extended metadata elements expressed as key-value pairs",
+        title="Additional metadata",
+        description="A dictionary of additional metadata elements expressed as key-value pairs",
     )
     spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
         default=None,
@@ -78,6 +80,26 @@ class BaseAggregationMetadataIn(BaseMetadata):
     _parse_spatial_coverage = field_validator("spatial_coverage", mode='before')(parse_spatial_coverage)
     _normalize_additional_metadata = model_validator(mode='before')(normalize_additional_metadata)
 
+    @classmethod
+    def __get_pydantic_json_schema__(
+            cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        json_schema = handler(core_schema)
+        json_schema = handler.resolve_ref_schema(json_schema)
+        prop = json_schema['properties']['additional_metadata']
+        prop.pop('default', None)
+        prop.pop('additionalProperties', None)
+        prop['type'] = 'array'
+        prop['items'] = {
+            "type": "object",
+            "title": "Key-Value",
+            "description": "A key-value pair",
+            "default": [],
+            "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
+        }
+
+        return json_schema
+
 
 class GeographicRasterMetadataIn(BaseAggregationMetadataIn):
     """
@@ -88,10 +110,7 @@ class GeographicRasterMetadataIn(BaseAggregationMetadataIn):
     may have multiple files and multiple bands and are stored in HydroShare as GeoTIFF files.
     """
 
-    class Config:
-        title = 'Geographic Raster Aggregation Metadata'
-
-        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+    model_config = ConfigDict(title="Geographic Raster Aggregation Metadata")
 
     band_information: BandInformation = Field(
         title="Band information",
@@ -115,10 +134,12 @@ class GeographicRasterMetadata(GeographicRasterMetadataIn):
         default=AggregationType.GeographicRasterAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     rights: Rights = Field(
@@ -139,10 +160,7 @@ class GeographicFeatureMetadataIn(BaseAggregationMetadataIn):
     metadata have been added.
     """
 
-    class Config:
-        title = 'Geographic Feature Aggregation Metadata'
-
-        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+    model_config = ConfigDict(title="Geographic Feature Aggregation Metadata")
 
     field_information: List[FieldInformation] = Field(
         default=[],
@@ -168,10 +186,12 @@ class GeographicFeatureMetadata(GeographicFeatureMetadataIn):
         default=AggregationType.GeographicFeatureAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     rights: Rights = Field(
@@ -187,15 +207,11 @@ class MultidimensionalMetadataIn(BaseAggregationMetadataIn):
     """
     A class used to represent the metadata associated with a multidimensional space-time aggregation
 
-    An multidimensional aggregation consists of a Network Common Data Form (NetCDF) file that
+    A multidimensional aggregation consists of a Network Common Data Form (NetCDF) file that
     makes up a multidimensional space-time dataset to which aggregation-level metadata have
     been added.
     """
-
-    class Config:
-        title = 'Multidimensional Aggregation Metadata'
-
-        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+    model_config = ConfigDict(title="Multidimensional Aggregation Metadata")
 
     variables: List[Variable] = Field(
         default=[],
@@ -219,10 +235,12 @@ class MultidimensionalMetadata(MultidimensionalMetadataIn):
         default=AggregationType.MultidimensionalAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     rights: Rights = Field(
@@ -243,10 +261,7 @@ class ReferencedTimeSeriesMetadataIn(BaseAggregationMetadataIn):
     been added.
     """
 
-    class Config:
-        title = 'Referenced Time Series Aggregation Metadata'
-
-        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+    model_config = ConfigDict(title="Referenced Time Series Aggregation Metadata")
 
 
 class ReferencedTimeSeriesMetadata(ReferencedTimeSeriesMetadataIn):
@@ -255,10 +270,12 @@ class ReferencedTimeSeriesMetadata(ReferencedTimeSeriesMetadataIn):
         default=AggregationType.ReferencedTimeSeriesAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     rights: Rights = Field(
@@ -279,10 +296,7 @@ class FileSetMetadataIn(BaseAggregationMetadataIn):
     added. There may be any number of files in the aggregation, and files may be of any type.
     """
 
-    class Config:
-        title = 'File Set Aggregation Metadata'
-
-        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+    model_config = ConfigDict(title="File Set Aggregation Metadata")
 
 
 class FileSetMetadata(FileSetMetadataIn):
@@ -291,10 +305,12 @@ class FileSetMetadata(FileSetMetadataIn):
         default=AggregationType.FileSetAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     rights: Rights = Field(
@@ -314,10 +330,7 @@ class SingleFileMetadataIn(BaseAggregationMetadataIn):
     metadata have been added.
     """
 
-    class Config:
-        title = 'Single File Aggregation Metadata'
-
-        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+    model_config = ConfigDict(title="Single File Aggregation Metadata")
 
 
 class SingleFileMetadata(SingleFileMetadataIn):
@@ -326,10 +339,12 @@ class SingleFileMetadata(SingleFileMetadataIn):
         default=AggregationType.SingleFileAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     rights: Rights = Field(
@@ -352,10 +367,7 @@ class TimeSeriesMetadataIn(BaseAggregationMetadataIn):
     ODM2 SQLite database files.
     """
 
-    class Config:
-        title = 'Time Series Aggregation Metadata'
-
-        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+    model_config = ConfigDict(title="Time Series Aggregation Metadata")
 
     time_series_results: List[TimeSeriesResult] = Field(
         default=[],
@@ -374,10 +386,12 @@ class TimeSeriesMetadata(TimeSeriesMetadataIn):
         default=AggregationType.TimeSeriesAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     rights: Rights = Field(
@@ -394,10 +408,7 @@ class ModelProgramMetadataIn(BaseAggregationMetadataIn):
     A class used to represent the metadata associated with a model program aggregation
     """
 
-    class Config:
-        title = 'Model Program Aggregation Metadata'
-
-        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+    model_config = ConfigDict(title="Model Program Aggregation Metadata")
 
     version: str = Field(
         default=None, title="Version", description="The software version or build number of the model", max_length=255
@@ -452,10 +463,12 @@ class ModelProgramMetadata(ModelProgramMetadataIn):
         default=AggregationType.ModelProgramAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     rights: Rights = Field(
@@ -472,10 +485,7 @@ class ModelInstanceMetadataIn(BaseAggregationMetadataIn):
     A class used to represent the metadata associated with a model instance aggregation
     """
 
-    class Config:
-        title = 'Model Instance Aggregation Metadata'
-
-        schema_config = {'read_only': ['type', 'url'], 'dictionary_field': ['additional_metadata']}
+    model_config = ConfigDict(title="Model Instance Aggregation Metadata")
 
     includes_model_output: bool = Field(
         title="Includes Model Output",
@@ -507,10 +517,12 @@ class ModelInstanceMetadata(ModelInstanceMetadataIn):
         default=AggregationType.ModelInstanceAggregation,
         title="Aggregation type",
         description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
     )
 
     url: AnyUrl = Field(
-        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
     )
 
     rights: Rights = Field(

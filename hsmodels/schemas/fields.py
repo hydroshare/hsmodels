@@ -183,7 +183,7 @@ class Creator(BaseMetadata):
 
     @classmethod
     def from_user(cls, user):
-        user_dict = user.dict()
+        user_dict = user.model_dump()
         hydroshare_user_id = user.url.path.split("/")[-2]
         user_dict["hydroshare_user_id"] = hydroshare_user_id
         if user.website:
@@ -241,7 +241,7 @@ class Contributor(BaseMetadata):
         :param user: a User
         :return: a Contributor
         """
-        user_dict = user.dict()
+        user_dict = user.model_dump()
         hydroshare_user_id = user.url.path.split("/")[-2]
         user_dict["hydroshare_user_id"] = hydroshare_user_id
         if user.website:

@@ -27,11 +27,11 @@
     "name": "Band_1",
     "variable_name": "variablename",
     "variable_unit": "variableunit",
-    "no_data_value": "-3.4028234663852886E+38",
-    "maximum_value": "6.9103932008822E-310",
+    "no_data_value": -3.4028234663852886E+38,
+    "maximum_value": 6.9103932008822E-310,
     "comment": "comment",
     "method": "method",
-    "minimum_value": "2.67393466E-316"
+    "minimum_value": 2.67393466E-316
   },
   "spatial_reference": {
     "type": "box",

@@ -26,39 +26,39 @@
     {
       "field_name": "Id",
       "field_type": "Integer64",
-      "field_type_code": "12",
+      "field_type_code": 12,
       "field_width": 10
     },
     {
       "field_name": "Shape_Area",
       "field_type": "Real",
-      "field_type_code": "2",
+      "field_type_code": 2,
       "field_width": 19,
       "field_precision": 11
     },
     {
       "field_name": "Area_km2",
       "field_type": "Real",
-      "field_type_code": "2",
+      "field_type_code": 2,
       "field_width": 19,
       "field_precision": 11
     },
     {
       "field_name": "OBJECTID",
       "field_type": "Integer64",
-      "field_type_code": "12",
+      "field_type_code": 12,
       "field_width": 10
     },
     {
       "field_name": "gridcode",
       "field_type": "Integer64",
-      "field_type_code": "12",
+      "field_type_code": 12,
       "field_width": 10
     },
     {
       "field_name": "Shape_Leng",
       "field_type": "Real",
-      "field_type_code": "2",
+      "field_type_code": 2,
       "field_width": 19,
       "field_precision": 11
     }

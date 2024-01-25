@@ -13,23 +13,6 @@ from rdflib.term import Identifier as RDFIdentifier
 
 from hsmodels.namespaces import DCTERMS, HSTERMS, RDF, RDFS
 from hsmodels.schemas.enums import CoverageType, DateType, MultidimensionalSpatialReferenceType, SpatialReferenceType
-from hsmodels.schemas.fields import (
-    AwardInfo,
-    BandInformation,
-    CellInformation,
-    FieldInformation,
-    GeometryInformation,
-    ProcessingLevel,
-    Publisher,
-    Rights,
-    TimeSeriesMethod,
-    TimeSeriesResult,
-    TimeSeriesSite,
-    TimeSeriesVariable,
-    Unit,
-    UTCOffSet,
-    Variable,
-)
 from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, rdf_parse_utc_offset, split_user_identifiers
 
 
@@ -126,8 +109,13 @@ class ExtendedMetadataInRDF(RDFBaseModel):
     key: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.key})
 
 
-class CellInformationInRDF(CellInformation, RDFBaseModel):
-    pass
+class CellInformationInRDF(RDFBaseModel):
+    name: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.name})
+    rows: int = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.rows})
+    columns: int = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.columns})
+    cell_size_x_value: float = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.cellSizeXValue})
+    cell_size_y_value: float = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.cellSizeYValue})
+    cell_data_type: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.cellDataType})
 
 
 class DateInRDF(RDFBaseModel):
@@ -135,8 +123,9 @@ class DateInRDF(RDFBaseModel):
     value: datetime = Field(json_schema_extra={"rdf_predicate": RDF.value})
 
 
-class RightsInRDF(Rights, RDFBaseModel):
-    pass
+class RightsInRDF(RDFBaseModel):
+    statement: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.rightsStatement})
+    url: AnyUrl = Field(json_schema_extra={"rdf_predicate": HSTERMS.URL})
 
 
 class CreatorInRDF(RDFBaseModel):
@@ -172,12 +161,22 @@ class ContributorInRDF(RDFBaseModel):
     _group_identifiers = model_validator(mode='before')(split_user_identifiers)
 
 
-class AwardInfoInRDF(AwardInfo, RDFBaseModel):
-    pass
+class AwardInfoInRDF(RDFBaseModel):
+    funding_agency_name: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.fundingAgencyName})
+    title: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.awardTitle})
+    number: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.awardNumber})
+    funding_agency_url: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.fundingAgencyURL})
 
 
-class BandInformationInRDF(BandInformation, RDFBaseModel):
-    pass
+class BandInformationInRDF(RDFBaseModel):
+    name: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.name})
+    variable_name: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.variableName})
+    variable_unit: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.variableUnit})
+    no_data_value: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.noDataValue})
+    maximum_value: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.maximumValue})
+    comment: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.comment})
+    method: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.method})
+    minimum_value: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.minimumValue})
 
 
 class CoverageInRDF(RDFBaseModel):
@@ -195,48 +194,85 @@ class MultidimensionalSpatialReferenceInRDF(RDFBaseModel):
     value: str = Field(json_schema_extra={"rdf_predicate": RDF.value})
 
 
-class FieldInformationInRDF(FieldInformation, RDFBaseModel):
-    pass
+class FieldInformationInRDF(RDFBaseModel):
+    field_name: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.fieldName})
+    field_type: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.fieldType})
+    field_type_code: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.fieldTypeCode})
+    field_width: int = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.fieldWidth})
+    field_precision: int = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.fieldPrecision})
 
 
-class GeometryInformationInRDF(GeometryInformation, RDFBaseModel):
-    pass
+class GeometryInformationInRDF(RDFBaseModel):
+    feature_count: int = Field(default=0, json_schema_extra={"rdf_predicate": HSTERMS.featureCount})
+    geometry_type: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.geometryType})
 
 
-class VariableInRDF(Variable, RDFBaseModel):
-    pass
+class VariableInRDF(RDFBaseModel):
+    name: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.name})
+    unit: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.unit})
+    type: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.type})
+    shape: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.shape})
+    descriptive_name: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.descriptive_name})
+    method: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.method})
+    missing_value: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.missing_value})
 
 
-class PublisherInRDF(Publisher, RDFBaseModel):
-    pass
+class PublisherInRDF(RDFBaseModel):
+    name: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.publisherName})
+    url: AnyUrl = Field(json_schema_extra={"rdf_predicate": HSTERMS.publisherURL})
 
 
-class TimeSeriesVariableInRDF(TimeSeriesVariable, RDFBaseModel):
-    pass
+class TimeSeriesVariableInRDF(RDFBaseModel):
+    variable_code: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.VariableCode})
+    variable_name: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.VariableName})
+    variable_type: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.VariableType})
+    no_data_value: int = Field(json_schema_extra={"rdf_predicate": HSTERMS.NoDataValue})
+    variable_definition: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.VariableDefinition})
+    speciation: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.Speciation})
+    
+
+class TimeSeriesSiteInRDF(RDFBaseModel):
+    site_code: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.SiteCode})
+    site_name: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.SiteName})
+    elevation_m: float = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.Elevation_m})
+    elevation_datum: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.ElevationDatum})
+    site_type: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.SiteType})
+    latitude: float = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.Latitude})
+    longitude: float = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.Longitude})
 
 
-class TimeSeriesSiteInRDF(TimeSeriesSite, RDFBaseModel):
-    pass
+class TimeSeriesMethodInRDF(RDFBaseModel):
+    method_code: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.MethodCode})
+    method_name: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.MethodName})
+    method_type: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.MethodType})
+    method_description: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.MethodDescription})
+    method_link: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.MethodLink})
 
 
-class TimeSeriesMethodInRDF(TimeSeriesMethod, RDFBaseModel):
-    pass
+class ProcessingLevelInRDF(RDFBaseModel):
+    processing_level_code: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.ProcessingLevelCode})
+    definition: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.Definition})
+    explanation: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.Explanation})
 
 
-class ProcessingLevelInRDF(ProcessingLevel, RDFBaseModel):
-    pass
+class UnitInRDF(RDFBaseModel):
+    type: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.UnitsType})
+    name: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.UnitsName})
+    abbreviation: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.UnitsAbbreviation})
 
 
-class UnitInRDF(Unit, RDFBaseModel):
-    pass
+class UTCOffSetInRDF(RDFBaseModel):
+    value: float = Field(json_schema_extra={"rdf_predicate": HSTERMS.value})
 
 
-class UTCOffSetInRDF(UTCOffSet, RDFBaseModel):
-    pass
-
-
-class TimeSeriesResultInRDF(TimeSeriesResult, RDFBaseModel):
+class TimeSeriesResultInRDF(RDFBaseModel):
+    series_id: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.timeSeriesResultUUID})
     unit: UnitInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.unit}, default=None)
+    status: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.Status}, default=None)
+    sample_medium: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.SampleMedium})
+    value_count: int = Field(json_schema_extra={"rdf_predicate": HSTERMS.ValueCount})
+    aggregation_statistic: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.AggregationStatistic})
+    series_label: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.SeriesLabel}, default=None)
     site: TimeSeriesSiteInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.site})
     variable: TimeSeriesVariableInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.variable})
     method: TimeSeriesMethodInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.method})

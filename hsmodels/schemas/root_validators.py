@@ -1,3 +1,6 @@
+from pydantic_core import Url
+from rdflib import URIRef
+
 from hsmodels.schemas.enums import CoverageType, DateType, ModelProgramFileType, RelationType, UserIdentifierType
 from hsmodels.utils import to_coverage_dict
 
@@ -68,6 +71,11 @@ def parse_url(cls, values):
         if value:
             values["url"] = values["rdf_subject"]
             del values["rdf_subject"]
+
+    for key, value in values.items():
+        if isinstance(value, URIRef):
+            values[key] = Url(str(value))
+
     return values
 
 

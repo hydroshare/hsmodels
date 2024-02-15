@@ -1,22 +1,23 @@
 from datetime import datetime
-from typing import Any, Callable, Dict, Optional, Union
+from typing import Any, Dict, Union
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class BaseMetadata(BaseModel):
-    def dict(
+    def model_dump(
         self,
         *,
         include: Union['AbstractSetIntStr', 'MappingIntStrAny'] = None,
         exclude: Union['AbstractSetIntStr', 'MappingIntStrAny'] = None,
         by_alias: bool = False,
-        skip_defaults: bool = None,
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = True,
+        round_trip: bool = False,
+        warnings: bool = False,
         to_rdf: bool = False,
-    ) -> 'DictStrAny':
+    ) -> dict[str, Any]:
         """
         Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
 
@@ -26,36 +27,34 @@ class BaseMetadata(BaseModel):
 
         Override the default of exclude_none to True
         """
-        d = super().dict(
+        d = super().model_dump(
             include=include,
             exclude=exclude,
             by_alias=by_alias,
-            skip_defaults=skip_defaults,
             exclude_unset=exclude_unset,
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
+            round_trip=round_trip,
+            warnings=warnings,
         )
+        if to_rdf and "additional_metadata" in d:
+            additional_metadata = d["additional_metadata"]
+            d["additional_metadata"] = [{"key": key, "value": value} for key, value in additional_metadata.items()]
 
-        if to_rdf and hasattr(self.Config, "schema_config"):
-            schema_config = self.Config.schema_config
-            if "dictionary_field" in schema_config:
-                for field in schema_config["dictionary_field"]:
-                    field_value = d[field]
-                    d[field] = [{"key": key, "value": value} for key, value in field_value.items()]
         return d
 
-    def json(
+    def model_dump_json(
         self,
         *,
+        indent: Union[int, None] = None,
         include: Union['AbstractSetIntStr', 'MappingIntStrAny'] = None,
         exclude: Union['AbstractSetIntStr', 'MappingIntStrAny'] = None,
         by_alias: bool = False,
-        skip_defaults: bool = None,
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = True,
-        encoder: Optional[Callable[[Any], Any]] = None,
-        **dumps_kwargs: Any,
+        round_trip: bool = False,
+        warnings: bool = False,
     ) -> str:
         """
         Generate a JSON representation of the model, `include` and `exclude` arguments as per `dict()`.
@@ -64,44 +63,19 @@ class BaseMetadata(BaseModel):
 
         Override the default of exclude_none to True
         """
-        return super().json(
+        return super().model_dump_json(
+            indent=indent,
             include=include,
             exclude=exclude,
             by_alias=by_alias,
-            skip_defaults=skip_defaults,
             exclude_unset=exclude_unset,
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
-            encoder=encoder,
-            **dumps_kwargs,
+            round_trip=round_trip,
+            warnings=warnings,
         )
 
-    class Config:
-        validate_assignment = True
-
-        @staticmethod
-        def schema_extra(schema: Dict[str, Any], model) -> None:
-            if hasattr(model.Config, "schema_config"):
-                schema_config = model.Config.schema_config
-                if "read_only" in schema_config:
-                    # set readOnly in json schema
-                    for field in schema_config["read_only"]:
-                        if field in schema['properties']:  # ignore unknown properties for inheritance
-                            schema['properties'][field]['readOnly'] = True
-                if "dictionary_field" in schema_config:
-                    for field in schema_config["dictionary_field"]:
-                        if field in schema['properties']:  # ignore unknown properties for inheritance
-                            prop = schema["properties"][field]
-                            prop.pop('default', None)
-                            prop.pop('additionalProperties', None)
-                            prop['type'] = "array"
-                            prop['items'] = {
-                                "type": "object",
-                                "title": "Key-Value",
-                                "description": "A key-value pair",
-                                "default": [],
-                                "properties": {"key": {"type": "string"}, "value": {"type": "string"}},
-                            }
+    model_config = ConfigDict(validate_assignment=True)
 
 
 class BaseCoverage(BaseMetadata):

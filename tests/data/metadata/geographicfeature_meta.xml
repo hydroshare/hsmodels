@@ -39,7 +39,7 @@
     <dc:rights>
       <rdf:Description>
         <hsterms:rightsStatement>my statement</hsterms:rightsStatement>
-        <hsterms:URL rdf:resource="http://studio.bakajo.com"/>
+        <hsterms:URL rdf:resource="http://studio.bakajo.com/"/>
       </rdf:Description>
     </dc:rights>
     <hsterms:GeometryInformation>

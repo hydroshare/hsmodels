@@ -27,7 +27,7 @@
     </hsterms:extendedMetadata>
     <dc:rights>
       <rdf:Description>
-        <hsterms:URL rdf:resource="http://studio.bakajo.com"/>
+        <hsterms:URL rdf:resource="http://studio.bakajo.com/"/>
         <hsterms:rightsStatement>my statement</hsterms:rightsStatement>
       </rdf:Description>
     </dc:rights>

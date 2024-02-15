@@ -1,5 +1,4 @@
 import pytest
-from pydantic.schema import schema
 
 from hsmodels.schemas import (
     CollectionMetadata,
@@ -47,13 +46,12 @@ read_only_fields = [
 @pytest.mark.parametrize("read_only_field", read_only_fields)
 def test_readonly(read_only_field):
     clazz, fields = read_only_field
-    s = schema([clazz])["definitions"][clazz.__name__]
-
-    for prop in s["properties"]:
-        if prop in fields:
-            assert "readOnly" in s["properties"][prop] and s["properties"][prop]["readOnly"] is True
+    s = clazz.model_json_schema()["properties"]
+    for field in s:
+        if field in fields:
+            assert "readOnly" in s[field] and s[field]["readOnly"] is True
         else:
-            assert "readOnly" not in s["properties"][prop]
+            assert "readOnly" not in s[field]
 
 
 additional_metadata_fields = [
@@ -74,12 +72,12 @@ additional_metadata_fields = [
 @pytest.mark.parametrize("additional_metadata_field", additional_metadata_fields)
 def test_dictionary_field(additional_metadata_field):
     clazz, fields = additional_metadata_field
-    s = schema([clazz])["definitions"][clazz.__name__]
+    s = clazz.model_json_schema()["properties"]
 
     for field in fields:
-        assert 'additionalProperties' not in s["properties"][field]
-        assert 'default' not in s["properties"][field]
-        assert s["properties"][field]['items'] == {
+        assert 'additionalProperties' not in s[field]
+        assert 'default' not in s[field]
+        assert s[field]['items'] == {
             "type": "object",
             "title": "Key-Value",
             "description": "A key-value pair",

@@ -1,3 +1,5 @@
+from typing import get_origin
+
 import pytest
 
 from hsmodels.schemas.aggregations import (
@@ -51,16 +53,12 @@ schema_list_count = [
 ]
 
 
-def get_origin(t):
-    return getattr(t, '__origin__', None)
-
-
 @pytest.mark.parametrize("schema_list_count", schema_list_count)
 def test_lists_default_empty(schema_list_count):
     schema, number_of_lists = schema_list_count
     list_count = 0
-    for f in schema.__fields__.values():
-        origin = get_origin(f.outer_type_)
+    for f in schema.model_fields.values():
+        origin = get_origin(f.annotation)
         if origin is list:
             assert f.default == []
             list_count = list_count + 1

@@ -4,12 +4,12 @@ README = 'Refer to the models section of https://hydroshare.github.io/hsclient/'
 
 setup(
     name='hsmodels',
-    version='0.5.8',
+    version='1.0.0',
     packages=find_packages(include=['hsmodels', 'hsmodels.*', 'hsmodels.schemas.*', 'hsmodels.schemas.rdf.*'],
                            exclude=("tests",)),
     install_requires=[
         'rdflib<6.0.0',
-        'pydantic>=1.8.1,<2.0',
+        'pydantic==2.*',
         'email-validator'
     ],
     url='https://github.com/hydroshare/hsmodels',
@@ -17,7 +17,7 @@ setup(
     author='Scott Black',
     author_email='sblack@cuahsi.org',
     description='Pydantic models for HydroShare metadata',
-    python_requires='>=3.6',
+    python_requires='>=3.9',
     long_description=README,
     long_description_content_type="text/markdown",
     classifiers=[

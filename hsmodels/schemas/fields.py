@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Dict
+from typing import Dict, Literal, Optional
 
-from pydantic import AnyUrl, EmailStr, Field, HttpUrl, root_validator, validator
+from pydantic import AnyUrl, ConfigDict, EmailStr, Field, HttpUrl, field_validator, model_validator
 
 from hsmodels.schemas import base_models
 from hsmodels.schemas.base_models import BaseMetadata
@@ -15,8 +15,7 @@ class Relation(BaseMetadata):
     A class used to represent the metadata associated with a resource related to the resource being described
     """
 
-    class Config:
-        title = 'Related Resource Metadata'
+    model_config = ConfigDict(title='Related Resource Metadata')
 
     type: RelationType = Field(title="Relation type", description="The type of relationship with the related resource")
     value: str = Field(
@@ -25,7 +24,7 @@ class Relation(BaseMetadata):
         description="String expressing the Full text citation, URL link for, or description of the related resource",
     )
 
-    _parse_relation = root_validator(pre=True)(parse_relation)
+    _parse_relation = model_validator(mode='before')(parse_relation)
 
 
 class CellInformation(BaseMetadata):
@@ -33,14 +32,14 @@ class CellInformation(BaseMetadata):
     A class used to represent the metadata associated with raster grid cells in geographic raster aggregations
     """
 
-    class Config:
-        title = 'Raster Cell Metadata'
+    model_config = ConfigDict(title='Raster Cell Metadata')
 
     # TODO: Is there such a thing as "name" for CellInformation?
-    name: str = Field(default=None, max_length=500, title="Name", description="Name of the cell information")
-    rows: int = Field(default=None, title="Rows", description="The integer number of rows in the raster dataset")
+    name: str = Field(default=None, max_length=500, title="Name", description="Name of the cell information",)
+    rows: int = Field(default=None, title="Rows",
+                      description="The integer number of rows in the raster dataset",)
     columns: int = Field(
-        default=None, title="Columns", description="The integer number of columns in the raster dataset"
+        default=None, title="Columns", description="The integer number of columns in the raster dataset",
     )
     cell_size_x_value: float = Field(
         default=None,
@@ -48,7 +47,7 @@ class CellInformation(BaseMetadata):
         description="The size of the raster grid cell in the x-direction expressed as a float",
     )
     cell_data_type: str = Field(
-        default=None, max_length=50, title="Cell data type", description="The data type of the raster grid cell values"
+        default=None, max_length=50, title="Cell data type", description="The data type of the raster grid cell values",
     )
     cell_size_y_value: float = Field(
         default=None,
@@ -62,11 +61,10 @@ class Rights(BaseMetadata):
     A class used to represent the rights statement metadata associated with a resource
     """
 
-    class Config:
-        title = 'Rights Metadata'
+    model_config = ConfigDict(title='Rights Metadata')
 
     statement: str = Field(
-        title="Statement", description="A string containing the text of the license or rights statement"
+        title="Statement", description="A string containing the text of the license or rights statement",
     )
     url: AnyUrl = Field(
         title="URL",
@@ -127,10 +125,7 @@ class Creator(BaseMetadata):
     A class used to represent the metadata associated with a creator of a resource
     """
 
-    class Config:
-        title = 'Creator Metadata'
-
-        schema_config = {'read_only': ['hydroshare_user_id']}
+    model_config = ConfigDict(title='Creator Metadata')
 
     name: str = Field(
         default=None, max_length=100, title="Name", description="A string containing the name of the creator"
@@ -155,24 +150,31 @@ class Creator(BaseMetadata):
         title="Homepage",
         description="An object containing the URL for website associated with the creator",
     )
+    creator_order: Optional[int] = Field(
+        default=None,
+        title="Creator order",
+        description="An integer to order creators",
+        frozen=True,
+    )
     hydroshare_user_id: int = Field(
         default=None,
         title="Hydroshare user id",
         description="An integer containing the Hydroshare user ID",
-        allow_mutation=False,
+        frozen=True,
+        json_schema_extra={"readOnly": True},
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
         title="Creator identifiers",
         description="A dictionary containing identifier types and URL links to alternative identifiers for the creator",
     )
-    _description_validator = validator("hydroshare_user_id", pre=True)(validate_user_id)
+    _description_validator = field_validator("hydroshare_user_id", mode='before')(validate_user_id)
 
-    _split_identifiers = root_validator(pre=True, allow_reuse=True)(group_user_identifiers)
+    _split_identifiers = model_validator(mode='before')(group_user_identifiers)
 
     @classmethod
     def from_user(cls, user):
-        user_dict = user.dict()
+        user_dict = user.model_dump()
         hydroshare_user_id = user.url.path.split("/")[-2]
         user_dict["hydroshare_user_id"] = hydroshare_user_id
         if user.website:
@@ -186,10 +188,7 @@ class Contributor(BaseMetadata):
     A class used to represent the metadata associated with a contributor to a resource
     """
 
-    class Config:
-        title = 'Contributor Metadata'
-
-        schema_config = {'read_only': ['hydroshare_user_id']}
+    model_config = ConfigDict(title='Contributor Metadata')
 
     name: str = Field(default=None, title="Name", description="A string containing the name of the contributor")
     phone: str = Field(
@@ -215,7 +214,8 @@ class Contributor(BaseMetadata):
         default=None,
         title="Hyroshare user id",
         description="An integer containing the Hydroshare user ID",
-        allow_mutation=False,
+        frozen=True,
+        json_schema_extra={"readOnly": True},
     )
     identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
         default={},
@@ -223,7 +223,7 @@ class Contributor(BaseMetadata):
         description="A dictionary containing identifier types and URL links to alternative identiers for the contributor",
     )
 
-    _split_identifiers = root_validator(pre=True, allow_reuse=True)(group_user_identifiers)
+    _split_identifiers = model_validator(mode='before')(group_user_identifiers)
 
     @classmethod
     def from_user(cls, user):
@@ -232,7 +232,7 @@ class Contributor(BaseMetadata):
         :param user: a User
         :return: a Contributor
         """
-        user_dict = user.dict()
+        user_dict = user.model_dump()
         hydroshare_user_id = user.url.path.split("/")[-2]
         user_dict["hydroshare_user_id"] = hydroshare_user_id
         if user.website:
@@ -246,17 +246,16 @@ class AwardInfo(BaseMetadata):
     A class used to represent the metadata associated with funding agency credits for a resource
     """
 
-    class Config:
-        title = 'Funding Agency Metadata'
+    model_config = ConfigDict(title='Funding Agency Metadata')
 
     funding_agency_name: str = Field(
-        title="Agency name", description="A string containing the name of the funding agency or organization"
+        title="Agency name", description="A string containing the name of the funding agency or organization",
     )
     title: str = Field(
-        default=None, title="Award title", description="A string containing the title of the project or award"
+        default=None, title="Award title", description="A string containing the title of the project or award",
     )
     number: str = Field(
-        default=None, title="Award number", description="A string containing the award number or other identifier"
+        default=None, title="Award number", description="A string containing the award number or other identifier",
     )
     funding_agency_url: AnyUrl = Field(
         default=None,
@@ -270,10 +269,10 @@ class BandInformation(BaseMetadata):
     A class used to represent the metadata associated with the raster bands of a geographic raster aggregation
     """
 
-    class Config:
-        title = 'Raster Band Metadata'
+    model_config = ConfigDict(title='Raster Band Metadata')
 
-    name: str = Field(max_length=500, title="Name", description="A string containing the name of the raster band")
+    name: str = Field(max_length=500, title="Name", description="A string containing the name of the raster band",
+                      )
     variable_name: str = Field(
         default=None,
         max_length=100,
@@ -297,7 +296,7 @@ class BandInformation(BaseMetadata):
         description="A string containing the maximum numeric value for the raster band",
     )
     comment: str = Field(
-        default=None, title="Comment", description="A string containing a comment about the raster band"
+        default=None, title="Comment", description="A string containing a comment about the raster band",
     )
     method: str = Field(
         default=None,
@@ -317,14 +316,13 @@ class FieldInformation(BaseMetadata):
     feature aggregation
     """
 
-    class Config:
-        title = 'Geographic Feature Field Metadata'
+    model_config = ConfigDict(title='Geographic Feature Field Metadata')
 
     field_name: str = Field(
-        max_length=128, title="Field name", description="A string containing the name of the attribute table field"
+        max_length=128, title="Field name", description="A string containing the name of the attribute table field",
     )
     field_type: str = Field(
-        max_length=128, title="Field type", description="A string containing the data type of the values in the field"
+        max_length=128, title="Field type", description="A string containing the data type of the values in the field",
     )
     # TODO: What is the "field_type_code"? It's not displayed on the resource landing page, but it's encoded in the
     #  aggregation metadata as an integer value.
@@ -335,7 +333,7 @@ class FieldInformation(BaseMetadata):
         description="A string value containing a code that indicates the field type",
     )
     field_width: int = Field(
-        default=None, title="Field width", description="An integer value containing the width of the attribute field"
+        default=None, title="Field width", description="An integer value containing the width of the attribute field",
     )
     field_precision: int = Field(
         default=None,
@@ -349,8 +347,7 @@ class GeometryInformation(BaseMetadata):
     A class used to represent the metadata associated with the geometry of a geographic feature aggregation
     """
 
-    class Config:
-        title = 'Geographic Feature Geometry Metadata'
+    model_config = ConfigDict(title='Geographic Feature Geometry Metadata')
 
     feature_count: int = Field(
         default=0,
@@ -369,18 +366,18 @@ class Variable(BaseMetadata):
     A class used to represent the metadata associated with a variable contained within a multidimensional aggregation
     """
 
-    class Config:
-        title = 'Multidimensional Variable Metadata'
+    model_config = ConfigDict(title='Multidimensional Variable Metadata')
 
     name: str = Field(
-        max_length=1000, title="Variable name", description="A string containing the name of the variable"
+        max_length=1000, title="Variable name", description="A string containing the name of the variable",
     )
     unit: str = Field(
         max_length=1000,
         title="Units",
         description="A string containing the units in which the values for the variable are expressed",
     )
-    type: VariableType = Field(title="Type", description="The data type of the values for the variable")
+    type: VariableType = Field(title="Type", description="The data type of the values for the variable",
+                               )
     shape: str = Field(
         max_length=1000,
         title="Shape",
@@ -410,14 +407,13 @@ class Publisher(BaseMetadata):
     A class used to represent the metadata associated with the publisher of a resource
     """
 
-    class Config:
-        title = 'Publisher Metadata'
+    model_config = ConfigDict(title='Publisher Metadata')
 
     name: str = Field(
-        max_length=200, title="Publisher name", description="A string containing the name of the publisher"
+        max_length=200, title="Publisher name", description="A string containing the name of the publisher",
     )
     url: AnyUrl = Field(
-        title="Publisher URL", description="An object containing a URL that points to the publisher website"
+        title="Publisher URL", description="An object containing a URL that points to the publisher website",
     )
 
 
@@ -426,8 +422,7 @@ class TimeSeriesVariable(BaseMetadata):
     A class used to represent the metadata associated with a variable contained within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Variable Metadata'
+    model_config = ConfigDict(title='Time Series Variable Metadata')
 
     variable_code: str = Field(
         max_length=50,
@@ -435,7 +430,7 @@ class TimeSeriesVariable(BaseMetadata):
         description="A string containing a short but meaningful code that identifies a variable",
     )
     variable_name: str = Field(
-        max_length=100, title="Variable name", description="A string containing the name of the variable"
+        max_length=100, title="Variable name", description="A string containing the name of the variable",
     )
     variable_type: str = Field(
         max_length=100,
@@ -445,7 +440,8 @@ class TimeSeriesVariable(BaseMetadata):
     # TODO: The NoData value for a variable in an ODM2 database is not always an integer.
     #  It could be a floating point value. We might want to change this to a string or a floating point value
     #  It is an integer in the HydroShare database, so will have to be updated there as well if changed
-    no_data_value: int = Field(title="NoData value", description="The NoData value for the variable")
+    no_data_value: int = Field(title="NoData value", description="The NoData value for the variable",
+                               )
     variable_definition: str = Field(
         default=None,
         max_length=255,
@@ -456,7 +452,7 @@ class TimeSeriesVariable(BaseMetadata):
         default=None,
         max_length=255,
         title="Speciation",
-        description="A string containing the speciation for the variable from the ODM2 Speciation controllec vocabulary",
+        description="A string containing the speciation for the variable from the ODM2 Speciation control vocabulary",
     )
 
 
@@ -465,8 +461,7 @@ class TimeSeriesSite(BaseMetadata):
     A class used to represent the metadata associated with a site contained within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Site Metadata'
+    model_config = ConfigDict(title='Time Series Site Metadata')
 
     site_code: str = Field(
         max_length=200,
@@ -474,7 +469,7 @@ class TimeSeriesSite(BaseMetadata):
         description="A string containing a short but meaningful code identifying the site",
     )
     site_name: str = Field(
-        default=None, max_length=255, title="Site name", description="A string containing the name of the site"
+        default=None, max_length=255, title="Site name", description="A string containing the name of the site",
     )
     elevation_m: float = Field(
         default=None,
@@ -510,8 +505,7 @@ class TimeSeriesMethod(BaseMetadata):
     A class used to represent the metadata associated with a method contained within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Method Metadata'
+    model_config = ConfigDict(title='Time Series Method Metadata')
 
     method_code: str = Field(
         max_length=50,
@@ -519,7 +513,7 @@ class TimeSeriesMethod(BaseMetadata):
         description="A string containing a short but meaningful code identifying the method",
     )
     method_name: str = Field(
-        max_length=200, title="Method name", description="A string containing the name of the method"
+        max_length=200, title="Method name", description="A string containing the name of the method",
     )
     method_type: str = Field(
         max_length=200,
@@ -527,12 +521,13 @@ class TimeSeriesMethod(BaseMetadata):
         description="A string containing the method type from the ODM2 Method Type controlled vocabulary",
     )
     method_description: str = Field(
-        default=None, title="Method description", description="A string containing a detailed description of the method"
+        default=None, title="Method description",
+        description="A string containing a detailed description of the method",
     )
     method_link: AnyUrl = Field(
         default=None,
         title="Method link",
-        description="An object containg a URL that points to a website having a detailed description of the method",
+        description="An object containing a URL that points to a website having a detailed description of the method",
     )
 
 
@@ -542,8 +537,7 @@ class ProcessingLevel(BaseMetadata):
     aggregation
     """
 
-    class Config:
-        title = 'Time Series Processing Level Metadata'
+    model_config = ConfigDict(title='Time Series Processing Level Metadata')
 
     processing_level_code: str = Field(
         max_length=50,
@@ -568,8 +562,7 @@ class Unit(BaseMetadata):
     A class used to represent the metadata associated with a dimensional unit within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Units Metadata'
+    model_config = ConfigDict(title='Time Series Units Metadata')
 
     type: str = Field(
         max_length=255,
@@ -593,8 +586,7 @@ class UTCOffSet(BaseMetadata):
     A class used to represent the metadata associated with a UTC time offset within a time series aggregation)
     """
 
-    class Config:
-        title = 'Time Series UTC Offset Metadata'
+    model_config = ConfigDict(title='Time Series UTC Offset Metadata')
 
     value: float = Field(
         default=0,
@@ -608,8 +600,7 @@ class TimeSeriesResult(BaseMetadata):
     A class used to represent the metadata associated with a time series result within a time series aggregation
     """
 
-    class Config:
-        title = 'Time Series Result Metadata'
+    model_config = ConfigDict(title='Time Series Result Metadata')
 
     series_id: str = Field(
         max_length=36,
@@ -671,7 +662,7 @@ class TimeSeriesResult(BaseMetadata):
         title="UTC Offset",
         description="A floating point value that represents the time offset from UTC time in hours associated with the time series result value timestamps",
     )
-    _parse_utc_offset = root_validator(pre=True, allow_reuse=True)(parse_utc_offset_value)
+    _parse_utc_offset = model_validator(mode='before')(parse_utc_offset_value)
 
 
 class BoxCoverage(base_models.BaseCoverage):
@@ -680,17 +671,14 @@ class BoxCoverage(base_models.BaseCoverage):
     latitude-longitude bounding box
     """
 
-    class Config:
-        title = 'Box Coverage Metadata'
+    model_config = ConfigDict(title='Box Coverage Metadata')
 
-        schema_config = {'read_only': ['type']}
-
-    type: str = Field(
+    type: Literal['box'] = Field(
         default="box",
-        const=True,
+        frozen=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
-        allow_mutation=False,
+        json_schema_extra={"readOnly": True},
     )
     name: str = Field(
         default=None,
@@ -731,12 +719,11 @@ class BoxCoverage(base_models.BaseCoverage):
         description="A string containing the name of the projection used with any parameters required, such as ellipsoid parameters, datum, standard parallels and meridians, zone, etc.",
     )
 
-    @root_validator
-    def compare_north_south(cls, values):
-        north, south = values["northlimit"], values["southlimit"]
-        if north < south:
-            raise ValueError(f"North latitude [{north}] must be greater than or equal to South latitude [{south}]")
-        return values
+    @model_validator(mode='after')
+    def compare_north_south(self):
+        if self.northlimit < self.southlimit:
+            raise ValueError(f"North latitude [{self.northlimit}] must be greater than or equal to South latitude [{self.southlimit}]")
+        return self
 
 
 class BoxSpatialReference(base_models.BaseCoverage):
@@ -745,17 +732,14 @@ class BoxSpatialReference(base_models.BaseCoverage):
     feature or raster aggregation expressed as a bounding box
     """
 
-    class Config:
-        title = 'Box Spatial Reference Metadata'
+    model_config = ConfigDict(title='Box Spatial Reference Metadata')
 
-        schema_config = {'read_only': ['type']}
-
-    type: str = Field(
+    type: Literal['box'] = Field(
         default="box",
-        const=True,
+        frozen=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
-        allow_mutation=False,
+        json_schema_extra={'readOnly': True},
     )
     name: str = Field(
         default=None,
@@ -813,8 +797,7 @@ class MultidimensionalBoxSpatialReference(BoxSpatialReference):
     aggregation expressed as a bounding box
     """
 
-    class Config:
-        title = 'Multidimensional Box Spatial Reference Metadata'
+    model_config = ConfigDict(title='Multidimensional Box Spatial Reference Metadata')
 
 
 class PointCoverage(base_models.BaseCoverage):
@@ -823,17 +806,14 @@ class PointCoverage(base_models.BaseCoverage):
     point location
     """
 
-    class Config:
-        title = 'Point Coverage Metadata'
+    model_config = ConfigDict(title='Point Coverage Metadata')
 
-        schema_config = {'read_only': ['type']}
-
-    type: str = Field(
+    type: Literal['point'] = Field(
         default="point",
-        const=True,
+        frozen=True,
         title="Geographic coverage type",
         description="A string containing the type of geographic coverage",
-        allow_mutation=False,
+        json_schema_extra={"readOnly": True},
     )
     name: str = Field(
         default=None,
@@ -861,17 +841,14 @@ class PointSpatialReference(base_models.BaseCoverage):
     feature or raster aggregation expressed as a point
     """
 
-    class Config:
-        title = 'Point Spatial Reference Metadata'
+    model_config = ConfigDict(title='Point Spatial Reference Metadata')
 
-        schema_config = {'read_only': ['type']}
-
-    type: str = Field(
+    type: Literal['point'] = Field(
         default="point",
-        const=True,
+        frozen=True,
         title="Spatial reference type",
         description="A string containing the type of spatial reference",
-        allow_mutation=False,
+        json_schema_extra={'readOnly': True},
     )
     name: str = Field(
         default=None,
@@ -909,8 +886,7 @@ class MultidimensionalPointSpatialReference(PointSpatialReference):
     aggregation expressed as a point
     """
 
-    class Config:
-        title = 'Multidimensional Point Spatial Reference Metadata'
+    model_config = ConfigDict(title='Multidimensional Point Spatial Reference Metadata')
 
 
 class PeriodCoverage(base_models.BaseCoverage):
@@ -918,8 +894,7 @@ class PeriodCoverage(base_models.BaseCoverage):
     A class used to represent temporal coverage metadata for a resource or aggregation
     """
 
-    class Config:
-        title = 'Period Coverage Metadata'
+    model_config = ConfigDict(title='Period Coverage Metadata')
 
     name: str = Field(default=None, title="Name", description="A string containing a name for the time interval")
     start: datetime = Field(
@@ -931,21 +906,16 @@ class PeriodCoverage(base_models.BaseCoverage):
         description="A datetime object containing the instant corresponding to the termination of the time interval",
     )
 
-    @root_validator
-    def start_before_end(cls, values):
-        start, end = None, None
-        if "start" in values:
-            start = values["start"]
-        if "end" in values:
-            end = values["end"]
-        if start and end:
-            if start > end:
-                raise ValueError(f"start date [{start}] is after end date [{end}]")
-        elif start and not end:
-            raise ValueError(f"An end date was not included with start date [{start}]")
-        elif end and not start:
-            raise ValueError(f"A start date was not included with end date [{end}]")
-        return values
+    @model_validator(mode='after')
+    def start_before_end(self):
+        if self.start and self.end:
+            if self.start > self.end:
+                raise ValueError(f"start date [{self.start}] is after end date [{self.end}]")
+        elif self.start and not self.end:
+            raise ValueError(f"An end date was not included with start date [{self.start}]")
+        elif self.end and not self.start:
+            raise ValueError(f"A start date was not included with end date [{self.end}]")
+        return self
 
 
 class ModelProgramFile(BaseMetadata):
@@ -953,12 +923,11 @@ class ModelProgramFile(BaseMetadata):
     A class used to represent the metadata associated with a file used by a model program aggregation
     """
 
-    class Config:
-        title = "Model program file metadata"
+    model_config = ConfigDict(title='Model Program File Metadata')
 
     type: ModelProgramFileType = Field(
         title="Model program file type", description="The type of the file used by the model program"
     )
     url: AnyUrl = Field(
-        title="Model program file url", description="The url of the file used by the model program", default=None
+        title="Model program file url", description="The url of the file used by the model program"
     )

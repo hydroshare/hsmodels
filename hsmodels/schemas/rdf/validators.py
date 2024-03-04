@@ -1,5 +1,4 @@
-from pydantic_core import Url
-
+from hsmodels import Url
 from hsmodels.schemas.enums import CoverageType, DateType
 from hsmodels.schemas.languages_iso import languages
 

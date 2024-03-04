@@ -171,3 +171,9 @@ def test_resource_metadata(res_md):
         res_md.publisher.name == "Consortium of Universities for the Advancement of Hydrologic Science, Inc. (CUAHSI)"
     )
     assert str(res_md.publisher.url) == "https://www.cuahsi.org/"
+
+
+def test_resource_metadata_url_str_concat(res_md):
+    assert (
+        "concat test " + res_md.url == "concat test http://www.hydroshare.org/resource/84805fd615a04d63b4eada65644a1e20"
+    )

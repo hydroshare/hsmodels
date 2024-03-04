@@ -2,9 +2,9 @@ import inspect
 from enum import Enum
 
 from pydantic import BaseModel
+from pydantic_core import Url
 from rdflib import Graph, Literal, URIRef
 
-from hsmodels import Url
 from hsmodels.namespaces import DC, HSTERMS, ORE, RDF, RDFS1
 from hsmodels.schemas.aggregations import (
     FileSetMetadata,

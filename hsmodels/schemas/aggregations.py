@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Dict, List, Union
 
-from pydantic import AnyUrl, ConfigDict, Field, GetJsonSchemaHandler, model_validator, field_validator
+from pydantic import ConfigDict, Field, GetJsonSchemaHandler, model_validator, field_validator
 from pydantic.json_schema import JsonSchemaValue
 from pydantic_core import CoreSchema
 
@@ -38,6 +38,7 @@ from hsmodels.schemas.validators import (
     parse_spatial_coverage,
     parse_spatial_reference,
 )
+from hsmodels.schemas.utils import AnyUrlStr
 
 
 class BaseAggregationMetadataIn(BaseMetadata):
@@ -137,7 +138,7 @@ class GeographicRasterMetadata(GeographicRasterMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
         json_schema_extra={"readOnly": True},
     )
@@ -189,7 +190,7 @@ class GeographicFeatureMetadata(GeographicFeatureMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
         json_schema_extra={"readOnly": True},
     )
@@ -238,7 +239,7 @@ class MultidimensionalMetadata(MultidimensionalMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
         json_schema_extra={"readOnly": True},
     )
@@ -273,7 +274,7 @@ class ReferencedTimeSeriesMetadata(ReferencedTimeSeriesMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
         json_schema_extra={"readOnly": True},
     )
@@ -308,7 +309,7 @@ class FileSetMetadata(FileSetMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
         json_schema_extra={"readOnly": True},
     )
@@ -342,7 +343,7 @@ class SingleFileMetadata(SingleFileMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
         json_schema_extra={"readOnly": True},
     )
@@ -389,7 +390,7 @@ class TimeSeriesMetadata(TimeSeriesMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
         json_schema_extra={"readOnly": True},
     )
@@ -432,13 +433,13 @@ class ModelProgramMetadataIn(BaseAggregationMetadataIn):
         default=None, title="Release Date", description="The date that this version of the model was released"
     )
 
-    website: AnyUrl = Field(
+    website: AnyUrlStr = Field(
         default=None,
         title='Website',
         description='A URL to a website describing the model that is maintained by the model developers',
     )
 
-    code_repository: AnyUrl = Field(
+    code_repository: AnyUrlStr = Field(
         default=None,
         title='Software Repository',
         description='A URL to the source code repository for the model code (e.g., git, mercurial, svn, etc.)',
@@ -448,7 +449,7 @@ class ModelProgramMetadataIn(BaseAggregationMetadataIn):
         default=[], title='File Types', description='File types used by the model program'
     )
 
-    program_schema_json: AnyUrl = Field(
+    program_schema_json: AnyUrlStr = Field(
         default=None,
         title='Model program schema',
         description='A url to the JSON metadata schema for the model program',
@@ -466,7 +467,7 @@ class ModelProgramMetadata(ModelProgramMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
         json_schema_extra={"readOnly": True},
     )
@@ -492,19 +493,19 @@ class ModelInstanceMetadataIn(BaseAggregationMetadataIn):
         description="Indicates whether model output files are included in the aggregation",
     )
 
-    executed_by: AnyUrl = Field(
+    executed_by: AnyUrlStr = Field(
         default=None,
         title="Executed By",
         description="A URL to the Model Program that can be used to execute this model instance",
     )
 
-    program_schema_json: AnyUrl = Field(
+    program_schema_json: AnyUrlStr = Field(
         default=None,
         title="JSON Metadata schema URL",
         description="A URL to the JSON metadata schema for the related model program",
     )
 
-    program_schema_json_values: AnyUrl = Field(
+    program_schema_json_values: AnyUrlStr = Field(
         default=None,
         title="JSON metadata schema values URL",
         description="A URL to a JSON file containing the metadata values conforming to the JSON metadata schema for the related model program",
@@ -520,7 +521,7 @@ class ModelInstanceMetadata(ModelInstanceMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
         json_schema_extra={"readOnly": True},
     )

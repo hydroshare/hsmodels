@@ -305,9 +305,10 @@ def test_resource_metadata_from_form():
         "awards": [],
         "citation": "Black, S. S. (2021). asdf, HydroShare, http://www.hydroshare.org/resource/5885512838ab4faabbbdafcea0f9dbd1",
     }
-    res = ResourceMetadata(**md)
-    assert res.title == "asdf"
-    assert res.spatial_coverage.type == "point"
+    res_meta = ResourceMetadata(**md)
+    assert res_meta.title == "asdf"
+    assert res_meta.spatial_coverage.type == "point"
+    assert res_meta.url == "http://www.hydroshare.org/resource/5885512838ab4faabbbdafcea0f9dbd1"
 
 
 def test_aggregation_metadata_from_form():
@@ -371,6 +372,7 @@ def test_aggregation_metadata_from_form():
     assert agg.spatial_coverage.type == "box"
     assert agg.additional_metadata["key1"] == "value1"
     assert agg.additional_metadata["another key"] == "another value"
+    assert agg.url == "http://www.hydroshare.org/resource/1248abc1afc6454199e65c8f642b99a0/data/contents/logan_resmap.xml#aggregation"
 
 
 def test_subjects_resource(res_md):

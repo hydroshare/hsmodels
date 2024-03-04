@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Dict, List, Union, Literal
 
-from pydantic import AnyUrl, ConfigDict, Field, GetJsonSchemaHandler, field_validator, model_validator
+from pydantic import ConfigDict, Field, GetJsonSchemaHandler, field_validator, model_validator
 from pydantic.json_schema import JsonSchemaValue
 from pydantic_core import CoreSchema
 
@@ -27,6 +27,7 @@ from hsmodels.schemas.root_validators import (
     split_dates,
 )
 from hsmodels.schemas.validators import list_not_empty, parse_identifier, parse_spatial_coverage
+from hsmodels.schemas.utils import AnyUrlStr
 
 
 class ResourceMetadataIn(BaseMetadata):
@@ -131,13 +132,13 @@ class ResourceMetadataIn(BaseMetadata):
 
 
 class BaseResourceMetadata(ResourceMetadataIn):
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="URL",
         description="An object containing the URL for a resource",
         frozen=True, json_schema_extra={"readOnly": True},
     )
 
-    identifier: AnyUrl = Field(
+    identifier: AnyUrlStr = Field(
         title="Identifier",
         description="An object containing the URL-encoded unique identifier for a resource",
         frozen=True,

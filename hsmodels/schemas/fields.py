@@ -1,13 +1,14 @@
 from datetime import datetime
 from typing import Dict, Literal, Optional
 
-from pydantic import AnyUrl, ConfigDict, EmailStr, Field, HttpUrl, field_validator, model_validator
+from pydantic import ConfigDict, EmailStr, Field, field_validator, model_validator
 
 from hsmodels.schemas import base_models
 from hsmodels.schemas.base_models import BaseMetadata
 from hsmodels.schemas.enums import ModelProgramFileType, RelationType, UserIdentifierType, VariableType
 from hsmodels.schemas.root_validators import group_user_identifiers, parse_relation, parse_utc_offset_value
 from hsmodels.schemas.validators import validate_user_id
+from hsmodels.schemas.utils import AnyUrlStr, HttpUrlStr
 
 
 class Relation(BaseMetadata):
@@ -66,7 +67,7 @@ class Rights(BaseMetadata):
     statement: str = Field(
         title="Statement", description="A string containing the text of the license or rights statement",
     )
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="URL",
         description="An object containing the URL pointing to a description of the license or rights statement",
     )
@@ -116,7 +117,7 @@ class Rights(BaseMetadata):
         )
 
     @classmethod
-    def Other(cls, statement: str, url: AnyUrl):
+    def Other(cls, statement: str, url: AnyUrlStr):
         return Rights(statement=statement, url=url)
 
 
@@ -145,7 +146,7 @@ class Creator(BaseMetadata):
     email: EmailStr = Field(
         default=None, title="Email", description="A string containing an email address for the creator"
     )
-    homepage: HttpUrl = Field(
+    homepage: HttpUrlStr = Field(
         default=None,
         title="Homepage",
         description="An object containing the URL for website associated with the creator",
@@ -163,7 +164,7 @@ class Creator(BaseMetadata):
         frozen=True,
         json_schema_extra={"readOnly": True},
     )
-    identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
+    identifiers: Dict[UserIdentifierType, AnyUrlStr] = Field(
         default={},
         title="Creator identifiers",
         description="A dictionary containing identifier types and URL links to alternative identifiers for the creator",
@@ -205,7 +206,7 @@ class Contributor(BaseMetadata):
     email: EmailStr = Field(
         default=None, title="Email", description="A string containing an email address for the contributor"
     )
-    homepage: HttpUrl = Field(
+    homepage: HttpUrlStr = Field(
         default=None,
         title="Homepage",
         description="An object containing the URL for website associated with the contributor",
@@ -217,7 +218,7 @@ class Contributor(BaseMetadata):
         frozen=True,
         json_schema_extra={"readOnly": True},
     )
-    identifiers: Dict[UserIdentifierType, AnyUrl] = Field(
+    identifiers: Dict[UserIdentifierType, AnyUrlStr] = Field(
         default={},
         title="Contributor identifiers",
         description="A dictionary containing identifier types and URL links to alternative identiers for the contributor",
@@ -257,7 +258,7 @@ class AwardInfo(BaseMetadata):
     number: str = Field(
         default=None, title="Award number", description="A string containing the award number or other identifier",
     )
-    funding_agency_url: AnyUrl = Field(
+    funding_agency_url: AnyUrlStr = Field(
         default=None,
         title="Agency URL",
         description="An object containing a URL pointing to a website describing the funding award",
@@ -412,7 +413,7 @@ class Publisher(BaseMetadata):
     name: str = Field(
         max_length=200, title="Publisher name", description="A string containing the name of the publisher",
     )
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Publisher URL", description="An object containing a URL that points to the publisher website",
     )
 
@@ -524,7 +525,7 @@ class TimeSeriesMethod(BaseMetadata):
         default=None, title="Method description",
         description="A string containing a detailed description of the method",
     )
-    method_link: AnyUrl = Field(
+    method_link: AnyUrlStr = Field(
         default=None,
         title="Method link",
         description="An object containing a URL that points to a website having a detailed description of the method",
@@ -928,6 +929,6 @@ class ModelProgramFile(BaseMetadata):
     type: ModelProgramFileType = Field(
         title="Model program file type", description="The type of the file used by the model program"
     )
-    url: AnyUrl = Field(
+    url: AnyUrlStr = Field(
         title="Model program file url", description="The url of the file used by the model program"
     )

@@ -9,7 +9,7 @@ setup(
                            exclude=("tests",)),
     install_requires=[
         'rdflib<6.0.0',
-        'pydantic==2.*',
+        'pydantic==2.7.*',
         'email-validator'
     ],
     url='https://github.com/hydroshare/hsmodels',

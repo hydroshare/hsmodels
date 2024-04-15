@@ -130,22 +130,22 @@ class Creator(BaseMetadata):
     name: str = Field(
         default=None, max_length=100, title="Name", description="A string containing the name of the creator"
     )
-    phone: str = Field(
+    phone: Optional[str] = Field(
         default=None, max_length=25, title="Phone", description="A string containing a phone number for the creator"
     )
-    address: str = Field(
+    address: Optional[str] = Field(
         default=None, max_length=250, title="Address", description="A string containing an address for the creator"
     )
-    organization: str = Field(
+    organization: Optional[str] = Field(
         default=None,
         max_length=200,
         title="Organization",
         description="A string containing the name of the organization with which the creator is affiliated",
     )
-    email: EmailStr = Field(
+    email: Optional[EmailStr] = Field(
         default=None, title="Email", description="A string containing an email address for the creator"
     )
-    homepage: HttpUrl = Field(
+    homepage: Optional[HttpUrl] = Field(
         default=None,
         title="Homepage",
         description="An object containing the URL for website associated with the creator",
@@ -156,7 +156,7 @@ class Creator(BaseMetadata):
         description="An integer to order creators",
         frozen=True,
     )
-    hydroshare_user_id: int = Field(
+    hydroshare_user_id: Optional[int] = Field(
         default=None,
         title="Hydroshare user id",
         description="An integer containing the Hydroshare user ID",
@@ -191,26 +191,26 @@ class Contributor(BaseMetadata):
     model_config = ConfigDict(title='Contributor Metadata')
 
     name: str = Field(default=None, title="Name", description="A string containing the name of the contributor")
-    phone: str = Field(
+    phone: Optional[str] = Field(
         default=None, title="Phone", description="A string containing a phone number for the contributor"
     )
-    address: str = Field(
+    address: Optional[str] = Field(
         default=None, title="Address", description="A string containing an address for the contributor"
     )
-    organization: str = Field(
+    organization: Optional[str] = Field(
         default=None,
         title="Organization",
         description="A string containing the name of the organization with which the contributor is affiliated",
     )
-    email: EmailStr = Field(
+    email: Optional[EmailStr] = Field(
         default=None, title="Email", description="A string containing an email address for the contributor"
     )
-    homepage: HttpUrl = Field(
+    homepage: Optional[HttpUrl] = Field(
         default=None,
         title="Homepage",
         description="An object containing the URL for website associated with the contributor",
     )
-    hydroshare_user_id: int = Field(
+    hydroshare_user_id: Optional[int] = Field(
         default=None,
         title="Hyroshare user id",
         description="An integer containing the Hydroshare user ID",
@@ -251,13 +251,13 @@ class AwardInfo(BaseMetadata):
     funding_agency_name: str = Field(
         title="Agency name", description="A string containing the name of the funding agency or organization",
     )
-    title: str = Field(
+    title: Optional[str] = Field(
         default=None, title="Award title", description="A string containing the title of the project or award",
     )
-    number: str = Field(
+    number: Optional[str] = Field(
         default=None, title="Award number", description="A string containing the award number or other identifier",
     )
-    funding_agency_url: AnyUrl = Field(
+    funding_agency_url: Optional[AnyUrl] = Field(
         default=None,
         title="Agency URL",
         description="An object containing a URL pointing to a website describing the funding award",
@@ -273,37 +273,37 @@ class BandInformation(BaseMetadata):
 
     name: str = Field(max_length=500, title="Name", description="A string containing the name of the raster band",
                       )
-    variable_name: str = Field(
+    variable_name: Optional[str] = Field(
         default=None,
         max_length=100,
         title="Variable name",
         description="A string containing the name of the variable represented by the raster band",
     )
-    variable_unit: str = Field(
+    variable_unit: Optional[str] = Field(
         default=None,
         max_length=50,
         title="Variable unit",
         description="A string containing the units for the raster band variable",
     )
-    no_data_value: str = Field(
+    no_data_value: Optional[str] = Field(
         default=None,
         title="Nodata value",
         description="A string containing the numeric nodata value for the raster band",
     )
-    maximum_value: str = Field(
+    maximum_value: Optional[str] = Field(
         default=None,
         title="Maximum value",
         description="A string containing the maximum numeric value for the raster band",
     )
-    comment: str = Field(
+    comment: Optional[str] = Field(
         default=None, title="Comment", description="A string containing a comment about the raster band",
     )
-    method: str = Field(
+    method: Optional[str] = Field(
         default=None,
         title="Method",
         description="A string containing a description of the method used to create the raster band data",
     )
-    minimum_value: str = Field(
+    minimum_value: Optional[str] = Field(
         default=None,
         title="Minimum value",
         description="A string containing the minimum numerica value for the raster dataset",
@@ -326,16 +326,16 @@ class FieldInformation(BaseMetadata):
     )
     # TODO: What is the "field_type_code"? It's not displayed on the resource landing page, but it's encoded in the
     #  aggregation metadata as an integer value.
-    field_type_code: str = Field(
+    field_type_code: Optional[str] = Field(
         default=None,
         max_length=50,
         title="Field type code",
         description="A string value containing a code that indicates the field type",
     )
-    field_width: int = Field(
+    field_width: Optional[int] = Field(
         default=None, title="Field width", description="An integer value containing the width of the attribute field",
     )
-    field_precision: int = Field(
+    field_precision: Optional[int] = Field(
         default=None,
         title="Field precision",
         description="An integer value containing the precision of the attribute field",
@@ -383,18 +383,18 @@ class Variable(BaseMetadata):
         title="Shape",
         description="A string containing the shape of the variable expressed as a list of dimensions",
     )
-    descriptive_name: str = Field(
+    descriptive_name: Optional[str] = Field(
         default=None,
         max_length=1000,
         title="Descriptive name",
         description="A string containing a descriptive name for the variable",
     )
-    method: str = Field(
+    method: Optional[str] = Field(
         default=None,
         title="Method",
         description="A string containing a description of the method used to create the values for the variable",
     )
-    missing_value: str = Field(
+    missing_value: Optional[str] = Field(
         default=None,
         max_length=1000,
         title="Missing value",
@@ -442,13 +442,13 @@ class TimeSeriesVariable(BaseMetadata):
     #  It is an integer in the HydroShare database, so will have to be updated there as well if changed
     no_data_value: int = Field(title="NoData value", description="The NoData value for the variable",
                                )
-    variable_definition: str = Field(
+    variable_definition: Optional[str] = Field(
         default=None,
         max_length=255,
         title="Variable definition",
         description="A string containing a detailed description of the variable",
     )
-    speciation: str = Field(
+    speciation: Optional[str] = Field(
         default=None,
         max_length=255,
         title="Speciation",
@@ -468,32 +468,32 @@ class TimeSeriesSite(BaseMetadata):
         title="Site code",
         description="A string containing a short but meaningful code identifying the site",
     )
-    site_name: str = Field(
+    site_name: Optional[str] = Field(
         default=None, max_length=255, title="Site name", description="A string containing the name of the site",
     )
-    elevation_m: float = Field(
+    elevation_m: Optional[float] = Field(
         default=None,
         title="Elevation",
         description="A floating point number expressing the elevation of the site in meters",
     )
-    elevation_datum: str = Field(
+    elevation_datum: Optional[str] = Field(
         default=None,
         max_length=50,
         title="Elevation datum",
         description="A string expressing the elevation datum used from the ODM2 Elevation Datum controlled vocabulary",
     )
-    site_type: str = Field(
+    site_type: Optional[str] = Field(
         default=None,
         max_length=100,
         title="Site type",
         description="A string containing the type of site from the ODM2 Sampling Feature Type controlled vocabulary ",
     )
-    latitude: float = Field(
+    latitude: Optional[float] = Field(
         default=None,
         title="Latitude",
         description="A floating point value expressing the latitude coordinate of the site",
     )
-    longitude: float = Field(
+    longitude: Optional[float] = Field(
         default=None,
         title="Longitude",
         description="A floating point value expressing the longitude coordinate of the site",
@@ -520,11 +520,11 @@ class TimeSeriesMethod(BaseMetadata):
         title="Method type",
         description="A string containing the method type from the ODM2 Method Type controlled vocabulary",
     )
-    method_description: str = Field(
+    method_description: Optional[str] = Field(
         default=None, title="Method description",
         description="A string containing a detailed description of the method",
     )
-    method_link: AnyUrl = Field(
+    method_link: Optional[AnyUrl] = Field(
         default=None,
         title="Method link",
         description="An object containing a URL that points to a website having a detailed description of the method",
@@ -544,13 +544,13 @@ class ProcessingLevel(BaseMetadata):
         title="Processing level code",
         description="A string containing a short but meaningful code identifying the processing level",
     )
-    definition: str = Field(
+    definition: Optional[str] = Field(
         default=None,
         max_length=200,
         title="Definition",
         description="A string containing a description of the processing level",
     )
-    explanation: str = Field(
+    explanation: Optional[str] = Field(
         default=None,
         title="Explanation",
         description="A string containing a more extensive explanation of the meaning of the processing level",
@@ -612,7 +612,7 @@ class TimeSeriesResult(BaseMetadata):
         title="Units",
         description="An object containing the units in which the values of the time series are expressed",
     )
-    status: str = Field(
+    status: Optional[str] = Field(
         default=None,
         max_length=255,
         title="Status",
@@ -646,7 +646,7 @@ class TimeSeriesResult(BaseMetadata):
         description="An object containing metadata about the site at which the time series result was created",
     )
     variable: TimeSeriesVariable = Field(
-        title="Variablef",
+        title="Variable",
         description="An object containing metadata about the observed variable associated with the time series result values",
     )
     method: TimeSeriesMethod = Field(
@@ -657,7 +657,7 @@ class TimeSeriesResult(BaseMetadata):
         title="Processing level",
         description="An object containing metadata about the processing level or level of quality control to which the time series result values have been subjected",
     )
-    utc_offset: float = Field(
+    utc_offset: Optional[float] = Field(
         default=None,
         title="UTC Offset",
         description="A floating point value that represents the time offset from UTC time in hours associated with the time series result value timestamps",

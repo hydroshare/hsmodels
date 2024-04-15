@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 from pydantic import AnyUrl, ConfigDict, Field, GetJsonSchemaHandler, model_validator, field_validator
 from pydantic.json_schema import JsonSchemaValue
@@ -61,12 +61,12 @@ class BaseAggregationMetadataIn(BaseMetadata):
         title="Additional metadata",
         description="A dictionary of additional metadata elements expressed as key-value pairs",
     )
-    spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
+    spatial_coverage: Optional[Union[PointCoverage, BoxCoverage]] = Field(
         default=None,
         title="Spatial coverage",
         description="An object containing the geospatial coverage for the aggregation expressed as either a bounding box or point",
     )
-    period_coverage: PeriodCoverage = Field(
+    period_coverage: Optional[PeriodCoverage] = Field(
         default=None,
         title="Temporal coverage",
         description="An object containing the temporal coverage for a aggregation expressed as a date range",
@@ -116,6 +116,11 @@ class GeographicRasterMetadataIn(BaseAggregationMetadataIn):
         title="Band information",
         description="An object containing information about the bands contained in the raster dataset",
     )
+    spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
+        default=None,
+        title="Spatial coverage",
+        description="An object containing the geospatial coverage for the aggregation expressed as either a bounding box or point",
+    )
     spatial_reference: Union[BoxSpatialReference, PointSpatialReference] = Field(
         default=None,
         title="Spatial reference",
@@ -142,7 +147,7 @@ class GeographicRasterMetadata(GeographicRasterMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    rights: Rights = Field(
+    rights: Optional[Rights] = Field(
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
@@ -171,6 +176,11 @@ class GeographicFeatureMetadataIn(BaseAggregationMetadataIn):
         title="Geometry information",
         description="An object containing information about the geometry of the features in the dataset",
     )
+    spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
+        default=None,
+        title="Spatial coverage",
+        description="An object containing the geospatial coverage for the aggregation expressed as either a bounding box or point",
+    )
     spatial_reference: Union[BoxSpatialReference, PointSpatialReference] = Field(
         default=None,
         title="Spatial reference",
@@ -194,7 +204,7 @@ class GeographicFeatureMetadata(GeographicFeatureMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    rights: Rights = Field(
+    rights: Optional[Rights] = Field(
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
@@ -218,12 +228,21 @@ class MultidimensionalMetadataIn(BaseAggregationMetadataIn):
         title="Variables",
         description="A list containing information about the variables for which data are stored in the dataset",
     )
+    spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
+        default=None,
+        title="Spatial coverage",
+        description="An object containing the geospatial coverage for the aggregation expressed as either a bounding box or point",
+    )
     spatial_reference: Union[MultidimensionalBoxSpatialReference, MultidimensionalPointSpatialReference] = Field(
         default=None,
         title="Spatial reference",
         description="An object containing spatial reference information for the dataset",
     )
-
+    period_coverage: PeriodCoverage = Field(
+        default=None,
+        title="Temporal coverage",
+        description="An object containing the temporal coverage for a aggregation expressed as a date range",
+    )
     _parse_spatial_reference = field_validator("spatial_reference", mode='before')(
         parse_multidimensional_spatial_reference
     )
@@ -243,7 +262,7 @@ class MultidimensionalMetadata(MultidimensionalMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    rights: Rights = Field(
+    rights: Optional[Rights] = Field(
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
@@ -278,7 +297,7 @@ class ReferencedTimeSeriesMetadata(ReferencedTimeSeriesMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    rights: Rights = Field(
+    rights: Optional[Rights] = Field(
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
@@ -313,7 +332,7 @@ class FileSetMetadata(FileSetMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    rights: Rights = Field(
+    rights: Optional[Rights] = Field(
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
@@ -347,7 +366,7 @@ class SingleFileMetadata(SingleFileMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    rights: Rights = Field(
+    rights: Optional[Rights] = Field(
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
@@ -375,7 +394,17 @@ class TimeSeriesMetadataIn(BaseAggregationMetadataIn):
         description="A list of time series results contained within the time series aggregation",
     )
 
-    abstract: str = Field(default=None, title="Abstract", description="A string containing a summary of a aggregation")
+    abstract: Optional[str] = Field(default=None, title="Abstract", description="A string containing a summary of a aggregation")
+    spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
+        default=None,
+        title="Spatial coverage",
+        description="An object containing the geospatial coverage for the aggregation expressed as either a bounding box or point",
+    )
+    period_coverage: PeriodCoverage = Field(
+        default=None,
+        title="Temporal coverage",
+        description="An object containing the temporal coverage for a aggregation expressed as a date range",
+    )
 
     _parse_abstract = model_validator(mode='before')(parse_abstract)
 
@@ -394,7 +423,7 @@ class TimeSeriesMetadata(TimeSeriesMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    rights: Rights = Field(
+    rights: Optional[Rights] = Field(
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
@@ -410,7 +439,7 @@ class ModelProgramMetadataIn(BaseAggregationMetadataIn):
 
     model_config = ConfigDict(title="Model Program Aggregation Metadata")
 
-    version: str = Field(
+    version: Optional[str] = Field(
         default=None, title="Version", description="The software version or build number of the model", max_length=255
     )
 
@@ -428,17 +457,17 @@ class ModelProgramMetadataIn(BaseAggregationMetadataIn):
         description="Compatible operating systems to setup and run the model",
     )
 
-    release_date: date = Field(
+    release_date: Optional[date] = Field(
         default=None, title="Release Date", description="The date that this version of the model was released"
     )
 
-    website: AnyUrl = Field(
+    website: Optional[AnyUrl] = Field(
         default=None,
         title='Website',
         description='A URL to a website describing the model that is maintained by the model developers',
     )
 
-    code_repository: AnyUrl = Field(
+    code_repository: Optional[AnyUrl] = Field(
         default=None,
         title='Software Repository',
         description='A URL to the source code repository for the model code (e.g., git, mercurial, svn, etc.)',
@@ -448,7 +477,7 @@ class ModelProgramMetadataIn(BaseAggregationMetadataIn):
         default=[], title='File Types', description='File types used by the model program'
     )
 
-    program_schema_json: AnyUrl = Field(
+    program_schema_json: Optional[AnyUrl] = Field(
         default=None,
         title='Model program schema',
         description='A url to the JSON metadata schema for the model program',
@@ -471,7 +500,7 @@ class ModelProgramMetadata(ModelProgramMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    rights: Rights = Field(
+    rights: Optional[Rights] = Field(
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
@@ -492,19 +521,19 @@ class ModelInstanceMetadataIn(BaseAggregationMetadataIn):
         description="Indicates whether model output files are included in the aggregation",
     )
 
-    executed_by: AnyUrl = Field(
+    executed_by: Optional[AnyUrl] = Field(
         default=None,
         title="Executed By",
         description="A URL to the Model Program that can be used to execute this model instance",
     )
 
-    program_schema_json: AnyUrl = Field(
+    program_schema_json: Optional[AnyUrl] = Field(
         default=None,
         title="JSON Metadata schema URL",
         description="A URL to the JSON metadata schema for the related model program",
     )
 
-    program_schema_json_values: AnyUrl = Field(
+    program_schema_json_values: Optional[AnyUrl] = Field(
         default=None,
         title="JSON metadata schema values URL",
         description="A URL to a JSON file containing the metadata values conforming to the JSON metadata schema for the related model program",
@@ -525,7 +554,7 @@ class ModelInstanceMetadata(ModelInstanceMetadataIn):
         json_schema_extra={"readOnly": True},
     )
 
-    rights: Rights = Field(
+    rights: Optional[Rights] = Field(
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",

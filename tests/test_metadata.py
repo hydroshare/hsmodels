@@ -86,6 +86,9 @@ def test_resource_metadata(res_md):
     assert "key2" in res_md.additional_metadata
     assert res_md.additional_metadata["key2"] == "value2"
 
+    # test additional_metadata can be optional
+    res_md.additional_metadata = {}
+
     assert len(res_md.creators) == 3
     for cr in res_md.creators:
         assert cr.creator_order in (1, 2, 3)
@@ -119,11 +122,17 @@ def test_resource_metadata(res_md):
     assert str(contributor.identifiers[UserIdentifierType.ORCID]) == "https://orcid.org/0000-0002-1998-3479"
     assert contributor.name == "David Tarboton"
 
+    # test contributor can be optional
+    res_md.contributors = []
+
     assert len(res_md.relations) == 3
     assert any(x for x in res_md.relations if x.value == "https://sadf.com" and x.type == RelationType.isPartOf)
     assert any(
         x for x in res_md.relations if x.value == "https://www.google.com/" and x.type == RelationType.isCreatedBy
     )
+
+    # test relation can be optional
+    res_md.relations = []
 
     assert res_md.rights.statement == "my statement"
     assert str(res_md.rights.url) == "http://studio.bakajo.com/"
@@ -139,10 +148,14 @@ def test_resource_metadata(res_md):
     assert award.number == "n"
     assert award.funding_agency_name == "agency1"
     assert str(award.funding_agency_url) == "https://google.com/"
+    # test awards can be optional
+    res_md.awards = []
 
     assert res_md.period_coverage == PeriodCoverage(
         start=datetime.fromisoformat("2020-07-10T00:00:00"), end=datetime.fromisoformat("2020-07-29T00:00:00")
     )
+    # test period_coverage can be optional
+    res_md.period_coverage = None
 
     assert res_md.spatial_coverage == BoxCoverage(
         name="asdfsadf",
@@ -165,6 +178,8 @@ def test_resource_metadata(res_md):
     )
 
     res_md.spatial_coverage = pc
+    # test spatial_coverage can be optional
+    res_md.spatial_coverage = None
 
     assert res_md.publisher
     assert (

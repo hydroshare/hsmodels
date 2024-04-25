@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, List, Union, Literal
+from typing import Dict, List, Union, Literal, Optional
 
 from pydantic import AnyUrl, ConfigDict, Field, GetJsonSchemaHandler, field_validator, model_validator
 from pydantic.json_schema import JsonSchemaValue
@@ -78,12 +78,12 @@ class ResourceMetadataIn(BaseMetadata):
         title="Funding agency information",
         description="A list of objects containing information about the funding agencies and awards associated with a resource",
     )
-    spatial_coverage: Union[PointCoverage, BoxCoverage] = Field(
+    spatial_coverage: Optional[Union[PointCoverage, BoxCoverage]] = Field(
         default=None,
         title="Spatial coverage",
         description="An object containing information about the spatial topic of a resource, the spatial applicability of a resource, or jurisdiction under with a resource is relevant",
     )
-    period_coverage: PeriodCoverage = Field(
+    period_coverage: Optional[PeriodCoverage] = Field(
         default=None,
         title="Temporal coverage",
         description="An object containing information about the temporal topic or applicability of a resource",

@@ -80,6 +80,7 @@ class AggregationType(StringEnum):
     TimeSeriesAggregation = "TimeSeries"
     ModelProgramAggregation = "ModelProgram"
     ModelInstanceAggregation = "ModelInstance"
+    CSVFileAggregation = "CSV"
 
 
 class DateType(TermEnum):

@@ -16,6 +16,7 @@ from hsmodels.schemas.aggregations import (
     ReferencedTimeSeriesMetadata,
     SingleFileMetadata,
     TimeSeriesMetadata,
+    CSVFileMetadata,
 )
 from hsmodels.schemas.enums import TermEnum
 from hsmodels.schemas.rdf.aggregations import (
@@ -28,6 +29,7 @@ from hsmodels.schemas.rdf.aggregations import (
     ReferencedTimeSeriesMetadataInRDF,
     SingleFileMetadataInRDF,
     TimeSeriesMetadataInRDF,
+    CSVFileMetadataInRDF,
 )
 from hsmodels.schemas.rdf.resource import CollectionMetadataInRDF, ResourceMap, ResourceMetadataInRDF
 from hsmodels.schemas.resource import CollectionMetadata, ResourceMetadata
@@ -45,6 +47,7 @@ rdf_schemas = {
     HSTERMS.TimeSeriesAggregation: TimeSeriesMetadataInRDF,
     HSTERMS.ModelProgramAggregation: ModelProgramMetadataInRDF,
     HSTERMS.ModelInstanceAggregation: ModelInstanceMetadataInRDF,
+    HSTERMS.CSVFileAggregation: CSVFileMetadataInRDF,
 }
 
 user_schemas = {
@@ -59,6 +62,7 @@ user_schemas = {
     TimeSeriesMetadataInRDF: TimeSeriesMetadata,
     ModelProgramMetadataInRDF: ModelProgramMetadata,
     ModelInstanceMetadataInRDF: ModelInstanceMetadata,
+    CSVFileMetadataInRDF: CSVFileMetadata,
 }
 
 

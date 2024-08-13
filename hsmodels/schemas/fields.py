@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, Literal, Optional
+from typing import Dict, Literal, Optional, List
 
 from pydantic import AnyUrl, ConfigDict, EmailStr, Field, HttpUrl, field_validator, model_validator
 
@@ -931,3 +931,33 @@ class ModelProgramFile(BaseMetadata):
     url: AnyUrl = Field(
         title="Model program file url", description="The url of the file used by the model program"
     )
+
+
+class _CSVColumnSchema(BaseMetadata):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    datatype: Literal["string", "number", "datetime", "boolean"]
+
+
+class CSVTableSchema(BaseMetadata):
+    rows: int = 0
+    columns: List[_CSVColumnSchema]
+
+    @field_validator("rows")
+    def rows_validator(cls, v: int) -> int:
+        if v < 1:
+            raise ValueError("rows must be a positive integer")
+        return v
+
+    @field_validator("columns")
+    def columns_validator(cls, v: List[_CSVColumnSchema]) -> List[_CSVColumnSchema]:
+        # check either all titles are empty or no title is empty
+        titles = [col.title for col in v]
+        if all(title == "" for title in titles):
+            return v
+        if any(title == "" for title in titles):
+            raise ValueError("All column titles must be empty or no column title must be empty")
+        # check each column title is unique
+        if len(titles) != len(set(titles)):
+            raise ValueError("Column titles must be unique")
+        return v

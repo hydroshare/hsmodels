@@ -23,6 +23,7 @@ from hsmodels.schemas.fields import (
     Rights,
     TimeSeriesResult,
     Variable,
+    CSVTableSchema,
 )
 from hsmodels.schemas.rdf.validators import language_constraint, subjects_constraint
 from hsmodels.schemas.root_validators import (
@@ -558,6 +559,43 @@ class ModelInstanceMetadata(ModelInstanceMetadataIn):
         default=None,
         title="Rights statement",
         description="An object containing information about the rights held in and over the aggregation and the license under which a aggregation is shared",
+    )
+
+    _parse_url = model_validator(mode='before')(parse_url)
+
+
+class CSVFileMetadataIn(BaseAggregationMetadataIn):
+    """
+    A class used to represent the metadata associated with a CSV aggregation
+    """
+
+    model_config = ConfigDict(title="CSV File Aggregation Metadata")
+
+    tableSchema: CSVTableSchema = Field(
+        title="CSV File Table Schema",
+        description="An object containing the table schema for the CSV file content type",
+    )
+
+
+class CSVFileMetadata(CSVFileMetadataIn):
+    type: AggregationType = Field(
+        frozen=True,
+        default=AggregationType.CSVFileAggregation,
+        title="Aggregation type",
+        description="A string expressing the aggregation type from the list of HydroShare aggregation types",
+        json_schema_extra={"readOnly": True},
+    )
+
+    url: AnyUrl = Field(
+        title="Aggregation URL", description="An object containing the URL of the aggregation", frozen=True,
+        json_schema_extra={"readOnly": True},
+    )
+
+    rights: Optional[Rights] = Field(
+        default=None,
+        title="Rights statement",
+        description="An object containing information about the rights held in and over the aggregation and the "
+                    "license under which a aggregation is shared",
     )
 
     _parse_url = model_validator(mode='before')(parse_url)

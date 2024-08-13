@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:hsterms="https://www.hydroshare.org/terms/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <hsterms:CSVFileAggregation rdf:about="http://www.hydroshare.org/resource/84805fd615a04d63b4eada65644a1e20/data/contents/test_resmap.xml#aggregation">
+    <dc:type rdf:resource="https://www.hydroshare.org/terms/CSVFileAggregation"/>
+    <dc:coverage>
+      <dcterms:point>
+        <rdf:value>name=point coverage; projection=WGS 84 EPSG:4326; east=-92.3961; north=38.3556; units=Decimal degrees</rdf:value>
+      </dcterms:point>
+    </dc:coverage>
+    <dc:rights>
+      <rdf:Description>
+        <hsterms:rightsStatement>my statement</hsterms:rightsStatement>
+        <hsterms:URL rdf:resource="http://studio.bakajo.com/"/>
+      </rdf:Description>
+    </dc:rights>
+    <dc:subject>key1</dc:subject>
+    <dc:title>testa</dc:title>
+    <dc:language>eng</dc:language>
+    <dc:subject>key2</dc:subject>
+    <hsterms:extendedMetadata>
+      <rdf:Description>
+        <hsterms:key>key2</hsterms:key>
+        <hsterms:value>value2</hsterms:value>
+      </rdf:Description>
+    </hsterms:extendedMetadata>
+    <hsterms:extendedMetadata>
+      <rdf:Description>
+        <hsterms:key>key1</hsterms:key>
+        <hsterms:value>value1</hsterms:value>
+      </rdf:Description>
+    </hsterms:extendedMetadata>
+    <dc:coverage>
+      <dcterms:period>
+        <rdf:value>start=2020-11-03T00:00:00; end=2020-11-19T00:00:00</rdf:value>
+      </dcterms:period>
+    </dc:coverage>
+    <hsterms:tableSchema>
+      <rdf:Description>
+        <hsterms:column>
+          <rdf:Description>
+            <hsterms:dataType>number</hsterms:dataType>
+              <dc:title>lat</dc:title>
+          </rdf:Description>
+        </hsterms:column>
+        <hsterms:column>
+          <rdf:Description>
+            <dc:title>lon</dc:title>
+            <hsterms:dataType>number</hsterms:dataType>
+            <dc:description>longitude</dc:description>
+          </rdf:Description>
+        </hsterms:column>
+        <hsterms:column>
+          <rdf:Description>
+            <dc:title>id</dc:title>
+              <hsterms:dataType>number</hsterms:dataType>
+              <dc:description>ID</dc:description>
+            </rdf:Description>
+        </hsterms:column>
+          <hsterms:column>
+            <rdf:Description>
+              <dc:title>ecoregion</dc:title>
+                <hsterms:dataType>string</hsterms:dataType>
+                <dc:description>Eco Region</dc:description>
+              </rdf:Description>
+        </hsterms:column>
+        <hsterms:numberOfDataRows rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2923</hsterms:numberOfDataRows>
+      </rdf:Description>
+    </hsterms:tableSchema>
+  </hsterms:CSVFileAggregation>
+  <rdf:Description rdf:about="https://www.hydroshare.org/terms/CSVFileAggregation">
+    <rdfs:isDefinedBy rdf:resource="https://www.hydroshare.org/terms/"/>
+    <rdfs:label>CSV File Content: A CSV file with file specific metadata</rdfs:label>
+  </rdf:Description>
+</rdf:RDF>

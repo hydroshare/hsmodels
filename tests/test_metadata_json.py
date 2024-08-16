@@ -202,7 +202,7 @@ def test_optional_fields_csvfile_aggr():
     # test period_coverage is optional
     md.period_coverage = None
     # test table column title amd description are optional
-    for col in md.tableSchema.columns:
+    for col in md.tableSchema.table.columns:
         col.title = None
         col.description = None
 

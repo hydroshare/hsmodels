@@ -7,13 +7,14 @@ from datetime import datetime
 
 from pydantic_core import core_schema
 from pydantic import AnyUrl, BaseModel, EmailStr, Field, GetJsonSchemaHandler, HttpUrl, PositiveInt, \
-    model_validator
+    model_validator, field_validator
 from rdflib import BNode
 from rdflib.term import Identifier as RDFIdentifier
 
 from hsmodels.namespaces import DCTERMS, HSTERMS, RDF, RDFS, DC
 from hsmodels.schemas.enums import CoverageType, DateType, MultidimensionalSpatialReferenceType, SpatialReferenceType
 from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, rdf_parse_utc_offset, split_user_identifiers
+from hsmodels.schemas.rdf.validators import sort_columns
 
 
 class _RDFIdentifierTypePydanticAnnotation:
@@ -283,11 +284,18 @@ class TimeSeriesResultInRDF(RDFBaseModel):
 
 
 class CSVColumnSchemaInRDF(RDFBaseModel):
+    column_number: PositiveInt = Field(json_schema_extra={"rdf_predicate": HSTERMS.columnNumber})
     title: str = Field(json_schema_extra={"rdf_predicate": DC.title}, default=None)
     description: str = Field(json_schema_extra={"rdf_predicate": DC.description}, default=None)
     datatype: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.dataType})
 
 
-class CSVTableSchemaInRDF(RDFBaseModel):
-    rows: int = Field(json_schema_extra={"rdf_predicate": HSTERMS.numberOfDataRows})
+class CSVColumnsSchemaInRDF(RDFBaseModel):
     columns: List[CSVColumnSchemaInRDF] = Field(json_schema_extra={"rdf_predicate": HSTERMS.column})
+
+
+class CSVTableSchemaInRDF(RDFBaseModel):
+    rows: PositiveInt = Field(json_schema_extra={"rdf_predicate": HSTERMS.numberOfDataRows})
+    table: CSVColumnsSchemaInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.columns})
+    _sort_columns = field_validator("table")(sort_columns)
+

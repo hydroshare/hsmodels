@@ -23,32 +23,39 @@
   },
   "tableSchema": {
     "rows": 1000,
-    "columns": [
-      {
-        "title": "Precipitation",
-        "datatype": "number",
-        "description": "Precipitation in inches per month"
-      },
-      {
-        "title": "Month",
-        "datatype": "string",
-        "description": "Month name"
-      },
-      {
-        "title": "Year",
-        "datatype": "number",
-        "description": "Year in which data was collected"
-      },
-      {
-        "title": "Data entry date",
-        "datatype": "datetime",
-        "description": "Date on which data was entered into the system"
-      },
-      {
-        "title": "Station",
-        "datatype": "boolean",
-        "description": "Was data collected at this station?"
-      }
-    ]
+    "table": {
+      "columns": [
+        {
+          "column_number": 1,
+          "title": "Precipitation",
+          "datatype": "number",
+          "description": "Precipitation in inches per month"
+        },
+        {
+          "column_number": 2,
+          "title": "Month",
+          "datatype": "string",
+          "description": "Month name"
+        },
+        {
+          "column_number": 3,
+          "title": "Year",
+          "datatype": "number",
+          "description": "Year in which data was collected"
+        },
+        {
+          "column_number": 4,
+          "title": "Data entry date",
+          "datatype": "datetime",
+          "description": "Date on which data was entered into the system"
+        },
+        {
+          "column_number": 5,
+          "title": "Station",
+          "datatype": "boolean",
+          "description": "Was data collected at this station?"
+        }
+      ]
+    }
   }
 }

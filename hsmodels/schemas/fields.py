@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Dict, Literal, Optional, List
 
-from pydantic import AnyUrl, ConfigDict, EmailStr, Field, HttpUrl, field_validator, model_validator
+from pydantic import AnyUrl, ConfigDict, EmailStr, Field, HttpUrl, field_validator, model_validator, PositiveInt
 
 from hsmodels.schemas import base_models
 from hsmodels.schemas.base_models import BaseMetadata
@@ -934,30 +934,37 @@ class ModelProgramFile(BaseMetadata):
 
 
 class _CSVColumnSchema(BaseMetadata):
+    column_number: PositiveInt
     title: Optional[str] = None
     description: Optional[str] = None
     datatype: Literal["string", "number", "datetime", "boolean"]
 
 
-class CSVTableSchema(BaseMetadata):
-    rows: int = 0
+class _CSVColumnsSchema(BaseMetadata):
     columns: List[_CSVColumnSchema]
 
-    @field_validator("rows")
-    def rows_validator(cls, v: int) -> int:
-        if v < 1:
-            raise ValueError("rows must be a positive integer")
-        return v
 
-    @field_validator("columns")
-    def columns_validator(cls, v: List[_CSVColumnSchema]) -> List[_CSVColumnSchema]:
+class CSVTableSchema(BaseMetadata):
+    rows: PositiveInt
+    table: _CSVColumnsSchema
+
+    @field_validator("table")
+    def columns_validator(cls, table: _CSVColumnsSchema) -> _CSVColumnsSchema:
         # check either all titles are empty or no title is empty
-        titles = [col.title for col in v]
+        titles = [col.title for col in table.columns]
         if all(title == "" for title in titles):
-            return v
+            return table
         if any(title == "" for title in titles):
             raise ValueError("All column titles must be empty or no column title must be empty")
         # check each column title is unique
         if len(titles) != len(set(titles)):
             raise ValueError("Column titles must be unique")
-        return v
+        # validate column_number values
+        column_numbers = [col.column_number for col in table.columns]
+        if any(c < 1 or c > len(table.columns) for c in column_numbers):
+            raise ValueError("column_number values must be between 1 and number of columns")
+        # check for duplicate column numbers
+        if len(column_numbers) != len(set(column_numbers)):
+            raise ValueError("column_number values must be unique")
+
+        return table

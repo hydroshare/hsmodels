@@ -42,33 +42,41 @@
     </dc:coverage>
     <hsterms:tableSchema>
       <rdf:Description>
-        <hsterms:column>
+        <hsterms:columns>
           <rdf:Description>
-            <hsterms:dataType>number</hsterms:dataType>
-              <dc:title>lat</dc:title>
-          </rdf:Description>
-        </hsterms:column>
-        <hsterms:column>
-          <rdf:Description>
-            <dc:title>lon</dc:title>
-            <hsterms:dataType>number</hsterms:dataType>
-            <dc:description>longitude</dc:description>
-          </rdf:Description>
-        </hsterms:column>
-        <hsterms:column>
-          <rdf:Description>
-            <dc:title>id</dc:title>
-              <hsterms:dataType>number</hsterms:dataType>
-              <dc:description>ID</dc:description>
-            </rdf:Description>
-        </hsterms:column>
-          <hsterms:column>
-            <rdf:Description>
-              <dc:title>ecoregion</dc:title>
-                <hsterms:dataType>string</hsterms:dataType>
-                <dc:description>Eco Region</dc:description>
+            <hsterms:column>
+              <rdf:Description>
+                <hsterms:columnNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hsterms:columnNumber>
+                <dc:title>id</dc:title>
+                <hsterms:dataType>number</hsterms:dataType>
+                <dc:description>ID</dc:description>
+                </rdf:Description>
+            </hsterms:column>
+            <hsterms:column>
+              <rdf:Description>
+                <hsterms:columnNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hsterms:columnNumber>
+                <hsterms:dataType>number</hsterms:dataType>
+                <dc:title>lat</dc:title>
               </rdf:Description>
-        </hsterms:column>
+            </hsterms:column>
+            <hsterms:column>
+              <rdf:Description>
+                <hsterms:columnNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</hsterms:columnNumber>
+                <dc:title>lon</dc:title>
+                <hsterms:dataType>number</hsterms:dataType>
+                <dc:description>longitude</dc:description>
+              </rdf:Description>
+            </hsterms:column>
+            <hsterms:column>
+                <rdf:Description>
+                  <hsterms:columnNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</hsterms:columnNumber>
+                  <dc:title>ecoregion</dc:title>
+                  <hsterms:dataType>string</hsterms:dataType>
+                  <dc:description>Eco Region</dc:description>
+                </rdf:Description>
+            </hsterms:column>
+          </rdf:Description>
+        </hsterms:columns>
         <hsterms:numberOfDataRows rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2923</hsterms:numberOfDataRows>
       </rdf:Description>
     </hsterms:tableSchema>

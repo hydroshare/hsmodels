@@ -89,3 +89,30 @@ def sort_creators(cls, creators):
         for index, creator in enumerate(creators_without_order):
             creator.creator_order = max_order_number + index + 1
         return sorted(creators, key=lambda _creator: _creator.creator_order)
+
+
+def sort_columns(table):
+    if not table:
+        raise ValueError("columns list must have at least one column")
+    if "columns" in table and isinstance(next(iter(table["columns"])), dict):
+        column_numbers = [col['column_number'] for col in table['columns']]
+        # check that column number is in the range of 1 to the length of columns
+        if any(c < 1 or c > len(table["columns"]) for c in column_numbers):
+            raise ValueError("column_number values must be between 1 and the number of columns")
+        # check no duplicate column numbers
+        if len(column_numbers) != len(set(column_numbers)):
+            raise ValueError("column_number values must be unique")
+        table['columns'] = sorted(table['columns'], key=lambda _column: _column['column_number'])
+    else:
+        # assign column_order to columns that don't have it
+        column_numbers = [c.column_number for c in table.columns]
+        print(column_numbers, flush=True)
+        # check that column number is in the range of 1 to the length of columns
+        if any(c < 1 or c > len(table.columns) for c in column_numbers):
+            raise ValueError("column_number values must be between 1 and the number of columns")
+        # check no duplicate column numbers
+        if len(column_numbers) != len(set(column_numbers)):
+            raise ValueError("column_number values must be unique")
+        table.columns = sorted(table.columns, key=lambda _column: _column.column_number)
+
+    return table

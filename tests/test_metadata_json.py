@@ -206,3 +206,9 @@ def test_optional_fields_csvfile_aggr():
         col.title = None
         col.description = None
 
+
+def test_column_order_csvfile_aggr():
+    with open("data/json/csvfile.json", 'r') as f:
+        md = CSVFileMetadataIn(**json.loads(f.read()))
+    for col_number, col in enumerate(md.tableSchema.table.columns, start=1):
+        col.column_number = col_number

@@ -943,28 +943,32 @@ class _CSVColumnSchema(BaseMetadata):
 class _CSVColumnsSchema(BaseMetadata):
     columns: List[_CSVColumnSchema]
 
+    @field_validator("columns")
+    def columns_validator(cls, v: List[_CSVColumnSchema]) -> List[_CSVColumnSchema]:
+        if not v:
+            raise ValueError("list of columns must not be empty")
+
+        # check either all titles are empty or no title is empty
+        for col in v:
+            if col.title == "":
+                col.title = None
+        titles = [col.title for col in v]
+        if not all(title is None for title in titles):
+            if any(title is None for title in titles):
+                raise ValueError("All column titles maybe be empty/null or no column title must be empty/null")
+            if len(titles) != len(set(titles)):
+                raise ValueError("Column titles must be unique")
+        column_numbers = [col.column_number for col in v]
+        if any(cn < 1 or cn > len(v) for cn in column_numbers):
+            raise ValueError("column_number value must be between 1 and number of columns")
+        if len(column_numbers) != len(set(column_numbers)):
+            raise ValueError("column_number values must be unique")
+        # order columns by column_number
+        v.sort(key=lambda _col: _col.column_number)
+        return v
+
 
 class CSVTableSchema(BaseMetadata):
     rows: PositiveInt
     table: _CSVColumnsSchema
 
-    @field_validator("table")
-    def columns_validator(cls, table: _CSVColumnsSchema) -> _CSVColumnsSchema:
-        # check either all titles are empty or no title is empty
-        titles = [col.title for col in table.columns]
-        if all(title == "" for title in titles):
-            return table
-        if any(title == "" for title in titles):
-            raise ValueError("All column titles must be empty or no column title must be empty")
-        # check each column title is unique
-        if len(titles) != len(set(titles)):
-            raise ValueError("Column titles must be unique")
-        # validate column_number values
-        column_numbers = [col.column_number for col in table.columns]
-        if any(c < 1 or c > len(table.columns) for c in column_numbers):
-            raise ValueError("column_number values must be between 1 and number of columns")
-        # check for duplicate column numbers
-        if len(column_numbers) != len(set(column_numbers)):
-            raise ValueError("column_number values must be unique")
-
-        return table

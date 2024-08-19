@@ -933,18 +933,22 @@ class ModelProgramFile(BaseMetadata):
     )
 
 
-class _CSVColumnSchema(BaseMetadata):
+class CSVColumnSchema(BaseMetadata):
+    model_config = ConfigDict(title='CSV column Metadata')
+
     column_number: PositiveInt
     title: Optional[str] = None
     description: Optional[str] = None
     datatype: Literal["string", "number", "datetime", "boolean"]
 
 
-class _CSVColumnsSchema(BaseMetadata):
-    columns: List[_CSVColumnSchema]
+class CSVColumnsSchema(BaseMetadata):
+    model_config = ConfigDict(title='CSV columns Metadata')
+
+    columns: List[CSVColumnSchema]
 
     @field_validator("columns")
-    def columns_validator(cls, v: List[_CSVColumnSchema]) -> List[_CSVColumnSchema]:
+    def columns_validator(cls, v: List[CSVColumnSchema]) -> List[CSVColumnSchema]:
         if not v:
             raise ValueError("list of columns must not be empty")
 
@@ -969,6 +973,7 @@ class _CSVColumnsSchema(BaseMetadata):
 
 
 class CSVTableSchema(BaseMetadata):
-    rows: PositiveInt
-    table: _CSVColumnsSchema
+    model_config = ConfigDict(title='CSV table Metadata')
 
+    rows: PositiveInt
+    table: CSVColumnsSchema

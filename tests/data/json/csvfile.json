@@ -23,6 +23,7 @@
   },
   "tableSchema": {
     "rows": 1000,
+    "delimiter": ",",
     "table": {
       "columns": [
         {

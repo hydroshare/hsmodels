@@ -15,6 +15,7 @@ from hsmodels.namespaces import DCTERMS, HSTERMS, RDF, RDFS, DC
 from hsmodels.schemas.enums import CoverageType, DateType, MultidimensionalSpatialReferenceType, SpatialReferenceType
 from hsmodels.schemas.rdf.root_validators import parse_relation_rdf, rdf_parse_utc_offset, split_user_identifiers
 from hsmodels.schemas.rdf.validators import sort_columns
+from hsmodels.schemas.fields import CSV_Delimiter
 
 
 class _RDFIdentifierTypePydanticAnnotation:
@@ -296,6 +297,7 @@ class CSVColumnsSchemaInRDF(RDFBaseModel):
 
 class CSVTableSchemaInRDF(RDFBaseModel):
     rows: PositiveInt = Field(json_schema_extra={"rdf_predicate": HSTERMS.numberOfDataRows})
+    delimiter: CSV_Delimiter = Field(json_schema_extra={"rdf_predicate": HSTERMS.delimiter})
     table: CSVColumnsSchemaInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.columns})
     _sort_columns = field_validator("table")(sort_columns)
 

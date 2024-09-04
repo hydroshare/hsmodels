@@ -10,6 +10,9 @@ from hsmodels.schemas.root_validators import group_user_identifiers, parse_relat
 from hsmodels.schemas.validators import validate_user_id
 
 
+CSV_Delimiter = Literal[',', ';', '\t']
+
+
 class Relation(BaseMetadata):
     """
     A class used to represent the metadata associated with a resource related to the resource being described
@@ -976,4 +979,5 @@ class CSVTableSchema(BaseMetadata):
     model_config = ConfigDict(title='CSV table Metadata')
 
     rows: PositiveInt
+    delimiter: CSV_Delimiter
     table: CSVColumnsSchema

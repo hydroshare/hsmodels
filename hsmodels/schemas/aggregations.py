@@ -234,7 +234,7 @@ class MultidimensionalMetadataIn(BaseAggregationMetadataIn):
         title="Spatial coverage",
         description="An object containing the geospatial coverage for the aggregation expressed as either a bounding box or point",
     )
-    spatial_reference: Union[MultidimensionalBoxSpatialReference, MultidimensionalPointSpatialReference] = Field(
+    spatial_reference: MultidimensionalBoxSpatialReference = Field(
         default=None,
         title="Spatial reference",
         description="An object containing spatial reference information for the dataset",

@@ -99,18 +99,15 @@ def sort_columns(table):
         # check that column number is in the range of 1 to the length of columns
         if any(c < 1 or c > len(table["columns"]) for c in column_numbers):
             raise ValueError("column_number values must be between 1 and the number of columns")
-        # check no duplicate column numbers
         if len(column_numbers) != len(set(column_numbers)):
             raise ValueError("column_number values must be unique")
         table['columns'] = sorted(table['columns'], key=lambda _column: _column['column_number'])
     else:
         # assign column_order to columns that don't have it
         column_numbers = [c.column_number for c in table.columns]
-        print(column_numbers, flush=True)
         # check that column number is in the range of 1 to the length of columns
         if any(c < 1 or c > len(table.columns) for c in column_numbers):
             raise ValueError("column_number values must be between 1 and the number of columns")
-        # check no duplicate column numbers
         if len(column_numbers) != len(set(column_numbers)):
             raise ValueError("column_number values must be unique")
         table.columns = sorted(table.columns, key=lambda _column: _column.column_number)

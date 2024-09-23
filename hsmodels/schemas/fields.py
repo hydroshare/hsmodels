@@ -883,15 +883,6 @@ class PointSpatialReference(base_models.BaseCoverage):
     )
 
 
-class MultidimensionalPointSpatialReference(PointSpatialReference):
-    """
-    A class used to represent the metadata associated with the spatial reference of a multidimensional
-    aggregation expressed as a point
-    """
-
-    model_config = ConfigDict(title='Multidimensional Point Spatial Reference Metadata')
-
-
 class PeriodCoverage(base_models.BaseCoverage):
     """
     A class used to represent temporal coverage metadata for a resource or aggregation

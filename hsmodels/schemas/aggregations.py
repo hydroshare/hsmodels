@@ -16,7 +16,6 @@ from hsmodels.schemas.fields import (
     GeometryInformation,
     ModelProgramFile,
     MultidimensionalBoxSpatialReference,
-    MultidimensionalPointSpatialReference,
     PeriodCoverage,
     PointCoverage,
     PointSpatialReference,

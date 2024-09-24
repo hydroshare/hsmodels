@@ -1,4 +1,4 @@
-# Multidimensional Aggregation Metadata
+# CSV File Aggregation Metadata
 
 ## Properties
 
@@ -14,15 +14,15 @@
     - **Any of**
         - : Refer to *[#/definitions/PointCoverage](#definitions/PointCoverage)*.
         - : Refer to *[#/definitions/BoxCoverage](#definitions/BoxCoverage)*.
+        - *null*
 - **`period_coverage`**: An object containing the temporal coverage for a aggregation expressed as a date range. Default: `null`.
-    - **All of**
+    - **Any of**
         - : Refer to *[#/definitions/PeriodCoverage](#definitions/PeriodCoverage)*.
-- **`variables`** *(array)*: A list containing information about the variables for which data are stored in the dataset. Default: `[]`.
-    - **Items**: Refer to *[#/definitions/Variable](#definitions/Variable)*.
-- **`spatial_reference`**: An object containing spatial reference information for the dataset. Default: `null`.
+        - *null*
+- **`tableSchema`**: An object containing metadata for the CSV file content type.
     - **All of**
-        - : Refer to *[#/definitions/MultidimensionalBoxSpatialReference](#definitions/MultidimensionalBoxSpatialReference)*.
-- **`type`**: A string expressing the aggregation type from the list of HydroShare aggregation types. Default: `"NetCDF"`.
+        - : Refer to *[#/definitions/CSVTableSchema](#definitions/CSVTableSchema)*.
+- **`type`**: A string expressing the aggregation type from the list of HydroShare aggregation types. Default: `"CSV"`.
     - **All of**
         - : Refer to *[#/definitions/AggregationType](#definitions/AggregationType)*.
 - **`url`** *(string)*: An object containing the URL of the aggregation.
@@ -43,20 +43,26 @@ latitude-longitude bounding box.
     - **`westlimit`** *(number, required)*: A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box. Exclusive minimum: `-180.0`. Exclusive maximum: `180.0`.
     - **`units`** *(string, required)*: A string containing the units applying to the unlabelled numeric values of northlimit, eastlimit, southlimit, and westlimit.
     - **`projection`** *(string)*: A string containing the name of the projection used with any parameters required, such as ellipsoid parameters, datum, standard parallels and meridians, zone, etc. Default: `null`.
-- <a id="definitions/MultidimensionalBoxSpatialReference"></a>**`MultidimensionalBoxSpatialReference`** *(object)*: A class used to represent the metadata associated with the spatial reference of a multidimensional
-aggregation expressed as a bounding box.
-    - **`type`** *(string)*: A string containing the type of spatial reference. Must be one of: `["box"]`. Default: `"box"`.
-    - **`name`** *(string)*: A string containing a name for the place associated with the spatial reference. Default: `null`.
-    - **`northlimit`** *(number, required)*: A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box.
-    - **`eastlimit`** *(number, required)*: A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box.
-    - **`southlimit`** *(number, required)*: A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box.
-    - **`westlimit`** *(number, required)*: A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box.
-    - **`units`** *(string, required)*: A string containing the units applying to the unlabelled numeric values of northlimit, eastlimit, southlimit, and westlimit.
-    - **`projection`** *(string)*: A string containing the name of the coordinate system used by the spatial reference. Default: `null`.
-    - **`projection_string`** *(string, required)*: A string containing an encoding of the coordinate system parameters.
-    - **`projection_string_type`** *(string)*: A string containing a description of the type of encoding for the projection string. Default: `null`.
-    - **`datum`** *(string)*: A string containing the name of the datum used by the coordinate system. Default: `null`.
-    - **`projection_name`** *(string)*: A string containing the name of the coordinate system. Default: `null`.
+- <a id="definitions/CSVColumnSchema"></a>**`CSVColumnSchema`** *(object)*: A class used to represent the metadata associated with a CSV column.
+    - **`column_number`** *(integer, required)*: The column number of a column in the CSV file. Exclusive minimum: `0`.
+    - **`title`**: The title of of a column in the CSV file. Default: `null`.
+        - **Any of**
+            - *string*
+            - *null*
+    - **`description`**: The description of a column in the CSV file. Default: `null`.
+        - **Any of**
+            - *string*
+            - *null*
+    - **`datatype`** *(string, required)*: The datatype of a column in the CSV file. Must be one of: `["string", "number", "datetime", "boolean"]`.
+- <a id="definitions/CSVColumnsSchema"></a>**`CSVColumnsSchema`** *(object)*: A class used to represent the metadata associated with all columns of a CSV file.
+    - **`columns`** *(array, required)*: A list of objects containing metadata for each of the columns in the CSV file.
+        - **Items**: Refer to *[#/definitions/CSVColumnSchema](#definitions/CSVColumnSchema)*.
+- <a id="definitions/CSVTableSchema"></a>**`CSVTableSchema`** *(object)*: A class used to represent the metadata associated with a CSV file.
+    - **`rows`** *(integer, required)*: The number of data rows in the CSV file. Exclusive minimum: `0`.
+    - **`delimiter`** *(string, required)*: The delimiter used in the CSV file. Must be one of: `[",", ";", "\t"]`.
+    - **`table`**: An object containing metadata for all columns in the CSV file.
+        - **All of**
+            - : Refer to *[#/definitions/CSVColumnsSchema](#definitions/CSVColumnsSchema)*.
 - <a id="definitions/PeriodCoverage"></a>**`PeriodCoverage`** *(object)*: A class used to represent temporal coverage metadata for a resource or aggregation.
     - **`name`** *(string)*: A string containing a name for the time interval. Default: `null`.
     - **`start`** *(string, required)*: A datetime object containing the instant corresponding to the commencement of the time interval.
@@ -72,23 +78,3 @@ point location.
 - <a id="definitions/Rights"></a>**`Rights`** *(object)*: A class used to represent the rights statement metadata associated with a resource.
     - **`statement`** *(string, required)*: A string containing the text of the license or rights statement.
     - **`url`** *(string, required)*: An object containing the URL pointing to a description of the license or rights statement.
-- <a id="definitions/Variable"></a>**`Variable`** *(object)*: A class used to represent the metadata associated with a variable contained within a multidimensional aggregation.
-    - **`name`** *(string, required)*: A string containing the name of the variable.
-    - **`unit`** *(string, required)*: A string containing the units in which the values for the variable are expressed.
-    - **`type`**: The data type of the values for the variable.
-        - **All of**
-            - : Refer to *[#/definitions/VariableType](#definitions/VariableType)*.
-    - **`shape`** *(string, required)*: A string containing the shape of the variable expressed as a list of dimensions.
-    - **`descriptive_name`**: A string containing a descriptive name for the variable. Default: `null`.
-        - **Any of**
-            - *string*
-            - *null*
-    - **`method`**: A string containing a description of the method used to create the values for the variable. Default: `null`.
-        - **Any of**
-            - *string*
-            - *null*
-    - **`missing_value`**: A string containing the value used to indicate missing values for the variable. Default: `null`.
-        - **Any of**
-            - *string*
-            - *null*
-- <a id="definitions/VariableType"></a>**`VariableType`** *(string)*: Must be one of: `["Char", "Byte", "Short", "Int", "Float", "Double", "Int64", "Unsigned Byte", "Unsigned Short", "Unsigned Int", "Unsigned Int64", "String", "User Defined Type", "Unknown"]`.

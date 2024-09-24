@@ -3,6 +3,8 @@ import os
 
 import pytest
 
+from pydantic import ValidationError
+
 from hsmodels.schemas.aggregations import (
     FileSetMetadataIn,
     GeographicFeatureMetadataIn,
@@ -211,4 +213,26 @@ def test_column_order_csvfile_aggr():
     with open("data/json/csvfile.json", 'r') as f:
         md = CSVFileMetadataIn(**json.loads(f.read()))
     for col_number, col in enumerate(md.tableSchema.table.columns, start=1):
-        col.column_number = col_number
+        assert col.column_number == col_number
+
+
+def test_column_order_csvfile_aggr_readonly():
+    with open("data/json/csvfile.json", 'r') as f:
+        md = CSVFileMetadataIn(**json.loads(f.read()))
+    for col_number, col in enumerate(md.tableSchema.table.columns, start=1):
+        with pytest.raises(ValidationError):
+            col.column_number = col_number
+
+
+def test_data_rows_csvfile_aggr_readonly():
+    with open("data/json/csvfile.json", 'r') as f:
+        md = CSVFileMetadataIn(**json.loads(f.read()))
+        with pytest.raises(ValidationError):
+            md.tableSchema.rows = 10
+
+
+def test_delimiter_csvfile_aggr_readonly():
+    with open("data/json/csvfile.json", 'r') as f:
+        md = CSVFileMetadataIn(**json.loads(f.read()))
+        with pytest.raises(ValidationError):
+            md.tableSchema.delimiter = ";"

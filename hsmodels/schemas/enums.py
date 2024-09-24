@@ -67,7 +67,7 @@ class RelationType(StringEnum):
     references = 'The content of this resource references'
     replaces = 'This resource replaces'
     source = 'The content of this resource is derived from'
-    isSimilarTo = 'isSimilarTo'
+    isSimilarTo = 'The content of this resource is similar to'
 
 
 class AggregationType(StringEnum):

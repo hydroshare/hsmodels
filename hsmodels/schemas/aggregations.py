@@ -572,7 +572,7 @@ class CSVFileMetadataIn(BaseAggregationMetadataIn):
 
     tableSchema: CSVTableSchema = Field(
         title="CSV File Table Schema",
-        description="An object containing the table schema for the CSV file content type",
+        description="An object containing metadata for the CSV file content type",
     )
 
 

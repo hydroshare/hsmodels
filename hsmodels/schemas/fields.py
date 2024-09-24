@@ -928,18 +928,35 @@ class ModelProgramFile(BaseMetadata):
 
 
 class CSVColumnSchema(BaseMetadata):
-    model_config = ConfigDict(title='CSV column Metadata')
+    """
+    A class used to represent the metadata associated with a CSV column
+    """
+    model_config = ConfigDict(title='CSV Column Metadata')
 
-    column_number: PositiveInt
-    title: Optional[str] = None
-    description: Optional[str] = None
-    datatype: Literal["string", "number", "datetime", "boolean"]
+    column_number: PositiveInt = Field(
+        title="Column number",
+        description="The column number of a column in the CSV file",
+        frozen=True,
+        json_schema_extra={'readOnly': True},
+    )
+    title: Optional[str] = Field(title="Column title", description="The title of of a column in the CSV file",
+                                 default=None)
+    description: Optional[str] = Field(title="Column description",
+                                       description="The description of a column in the CSV file", default=None)
+    datatype: Literal["string", "number", "datetime", "boolean"] = Field(
+        title="Column datatype", description="The datatype of a column in the CSV file")
 
 
 class CSVColumnsSchema(BaseMetadata):
-    model_config = ConfigDict(title='CSV columns Metadata')
+    """
+    A class used to represent the metadata associated with all columns of a CSV file
+    """
+    model_config = ConfigDict(title='CSV Columns Metadata')
 
-    columns: List[CSVColumnSchema]
+    columns: List[CSVColumnSchema] = Field(
+        title="Columns",
+        description="A list of objects containing metadata for each of the columns in the CSV file"
+    )
 
     @field_validator("columns")
     def columns_validator(cls, v: List[CSVColumnSchema]) -> List[CSVColumnSchema]:
@@ -967,8 +984,22 @@ class CSVColumnsSchema(BaseMetadata):
 
 
 class CSVTableSchema(BaseMetadata):
-    model_config = ConfigDict(title='CSV table Metadata')
+    """
+    A class used to represent the metadata associated with a CSV file
+    """
+    model_config = ConfigDict(title='CSV Table Metadata')
 
-    rows: PositiveInt
-    delimiter: CSV_Delimiter
-    table: CSVColumnsSchema
+    rows: PositiveInt = Field(
+        title="Number of data rows",
+        description="The number of data rows in the CSV file",
+        frozen=True,
+        json_schema_extra={'readOnly': True},
+    )
+    delimiter: CSV_Delimiter = Field(
+        title="Delimiter",
+        description="The delimiter used in the CSV file",
+        frozen=True,
+        json_schema_extra={'readOnly': True},
+    )
+    table: CSVColumnsSchema = Field(title="Columns metadata",
+                                    description="An object containing metadata for all columns in the CSV file")

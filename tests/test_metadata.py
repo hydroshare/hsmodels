@@ -55,6 +55,7 @@ metadata_files = [
     'modelprogram_meta.xml',
     'modelinstance_meta.xml',
     'collection_meta.xml',
+    'csvfile_meta.xml',
 ]
 
 
@@ -65,6 +66,10 @@ def test_resource_serialization(metadata_file):
         md = load_rdf(f.read())
     g = rdf_graph(md)
     compare_metadatas(g, metadata_file)
+    # for csvfile_meta.xml check the column order
+    if metadata_file.endswith('csvfile_meta.xml'):
+        for col_number, col in enumerate(md.tableSchema.table.columns, start=1):
+            assert col.column_number == col_number
 
 
 def test_resource_metadata(res_md):

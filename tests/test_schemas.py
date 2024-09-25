@@ -12,6 +12,7 @@ from hsmodels.schemas import (
     ResourceMetadata,
     SingleFileMetadata,
     TimeSeriesMetadata,
+    CSVFileMetadata,
 )
 from hsmodels.schemas.fields import (
     BoxCoverage,
@@ -34,6 +35,7 @@ read_only_fields = [
     (FileSetMetadata, ['type', 'url']),
     (SingleFileMetadata, ['type', 'url']),
     (TimeSeriesMetadata, ['type', 'url']),
+    (CSVFileMetadata, ['type', 'url']),
     (Creator, ['hydroshare_user_id']),
     (Contributor, ['hydroshare_user_id']),
     (BoxCoverage, ['type']),
@@ -66,6 +68,7 @@ additional_metadata_fields = [
     (TimeSeriesMetadata, ['additional_metadata']),
     (ModelProgramMetadata, ['additional_metadata']),
     (ModelInstanceMetadata, ['additional_metadata']),
+    (CSVFileMetadata, ['additional_metadata']),
 ]
 
 

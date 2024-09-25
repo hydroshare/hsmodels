@@ -3,6 +3,8 @@ import os
 
 import pytest
 
+from pydantic import ValidationError
+
 from hsmodels.schemas.aggregations import (
     FileSetMetadataIn,
     GeographicFeatureMetadataIn,
@@ -13,6 +15,7 @@ from hsmodels.schemas.aggregations import (
     ReferencedTimeSeriesMetadataIn,
     SingleFileMetadataIn,
     TimeSeriesMetadataIn,
+    CSVFileMetadataIn,
 )
 from hsmodels.schemas.resource import ResourceMetadataIn
 
@@ -52,6 +55,7 @@ metadata_json_input = [
     (ModelProgramMetadataIn, 'modelprogram.json'),
     (ModelInstanceMetadataIn, 'modelinstance.json'),
     (ResourceMetadataIn, 'collection.json'),
+    (CSVFileMetadataIn, 'csvfile.json'),
 ]
 
 
@@ -190,3 +194,45 @@ def test_optional_fields_modelinstance_aggr():
     md.program_schema_json = None
     # test program_schema_json_values is optional
     md.program_schema_json_values = None
+
+
+def test_optional_fields_csvfile_aggr():
+    with open("data/json/csvfile.json", 'r') as f:
+        md = CSVFileMetadataIn(**json.loads(f.read()))
+    # test spatial_coverage is optional
+    md.spatial_coverage = None
+    # test period_coverage is optional
+    md.period_coverage = None
+    # test table column title amd description are optional
+    for col in md.tableSchema.table.columns:
+        col.title = None
+        col.description = None
+
+
+def test_column_order_csvfile_aggr():
+    with open("data/json/csvfile.json", 'r') as f:
+        md = CSVFileMetadataIn(**json.loads(f.read()))
+    for col_number, col in enumerate(md.tableSchema.table.columns, start=1):
+        assert col.column_number == col_number
+
+
+def test_column_order_csvfile_aggr_readonly():
+    with open("data/json/csvfile.json", 'r') as f:
+        md = CSVFileMetadataIn(**json.loads(f.read()))
+    for col_number, col in enumerate(md.tableSchema.table.columns, start=1):
+        with pytest.raises(ValidationError):
+            col.column_number = col_number
+
+
+def test_data_rows_csvfile_aggr_readonly():
+    with open("data/json/csvfile.json", 'r') as f:
+        md = CSVFileMetadataIn(**json.loads(f.read()))
+        with pytest.raises(ValidationError):
+            md.tableSchema.rows = 10
+
+
+def test_delimiter_csvfile_aggr_readonly():
+    with open("data/json/csvfile.json", 'r') as f:
+        md = CSVFileMetadataIn(**json.loads(f.read()))
+        with pytest.raises(ValidationError):
+            md.tableSchema.delimiter = ";"

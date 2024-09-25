@@ -19,6 +19,7 @@ from hsmodels.schemas.rdf.fields import (
     SpatialReferenceInRDF,
     TimeSeriesResultInRDF,
     VariableInRDF,
+    CSVTableSchemaInRDF,
 )
 from hsmodels.schemas.rdf.root_validators import (
     parse_coverages,
@@ -266,6 +267,26 @@ class ModelInstanceMetadataInRDF(BaseAggregationMetadataInRDF):
     program_schema_json_values: AnyUrl = Field(
         json_schema_extra={"rdf_predicate": HSTERMS.modelProgramSchemaValues}, default=None
     )
+
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)
+
+
+class CSVFileMetadataInRDF(BaseAggregationMetadataInRDF):
+    rdf_type: AnyUrl = Field(
+        json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.CSVFileAggregation
+    )
+
+    _label_literal = Literal["CSV File Content: A CSV file with file specific metadata"]
+    label: _label_literal = Field(
+        frozen=True,
+        default="CSV File Content: A CSV file with file specific metadata"
+    )
+    dc_type: AnyUrl = Field(
+        json_schema_extra={"rdf_predicate": DC.type}, default=HSTERMS.CSVFileAggregation, frozen=True
+    )
+    tableSchema: CSVTableSchemaInRDF = Field(json_schema_extra={"rdf_predicate": HSTERMS.tableSchema})
 
     @field_serializer('dc_type', 'rdf_type')
     def serialize_url(self, _type: URIRef, _info):

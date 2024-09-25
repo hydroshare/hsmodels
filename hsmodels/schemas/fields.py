@@ -1,13 +1,16 @@
 from datetime import datetime
-from typing import Dict, Literal, Optional
+from typing import Dict, Literal, Optional, List
 
-from pydantic import AnyUrl, ConfigDict, EmailStr, Field, HttpUrl, field_validator, model_validator
+from pydantic import AnyUrl, ConfigDict, EmailStr, Field, HttpUrl, field_validator, model_validator, PositiveInt
 
 from hsmodels.schemas import base_models
 from hsmodels.schemas.base_models import BaseMetadata
 from hsmodels.schemas.enums import ModelProgramFileType, RelationType, UserIdentifierType, VariableType
 from hsmodels.schemas.root_validators import group_user_identifiers, parse_relation, parse_utc_offset_value
 from hsmodels.schemas.validators import validate_user_id
+
+
+CSV_Delimiter = Literal[',', ';', '\t']
 
 
 class Relation(BaseMetadata):
@@ -880,15 +883,6 @@ class PointSpatialReference(base_models.BaseCoverage):
     )
 
 
-class MultidimensionalPointSpatialReference(PointSpatialReference):
-    """
-    A class used to represent the metadata associated with the spatial reference of a multidimensional
-    aggregation expressed as a point
-    """
-
-    model_config = ConfigDict(title='Multidimensional Point Spatial Reference Metadata')
-
-
 class PeriodCoverage(base_models.BaseCoverage):
     """
     A class used to represent temporal coverage metadata for a resource or aggregation
@@ -931,3 +925,81 @@ class ModelProgramFile(BaseMetadata):
     url: AnyUrl = Field(
         title="Model program file url", description="The url of the file used by the model program"
     )
+
+
+class CSVColumnSchema(BaseMetadata):
+    """
+    A class used to represent the metadata associated with a CSV column
+    """
+    model_config = ConfigDict(title='CSV Column Metadata')
+
+    column_number: PositiveInt = Field(
+        title="Column number",
+        description="The column number of a column in the CSV file",
+        frozen=True,
+        json_schema_extra={'readOnly': True},
+    )
+    title: Optional[str] = Field(title="Column title", description="The title of of a column in the CSV file",
+                                 default=None)
+    description: Optional[str] = Field(title="Column description",
+                                       description="The description of a column in the CSV file", default=None)
+    datatype: Literal["string", "number", "datetime", "boolean"] = Field(
+        title="Column datatype", description="The datatype of a column in the CSV file")
+
+
+class CSVColumnsSchema(BaseMetadata):
+    """
+    A class used to represent the metadata associated with all columns of a CSV file
+    """
+    model_config = ConfigDict(title='CSV Columns Metadata')
+
+    columns: List[CSVColumnSchema] = Field(
+        title="Columns",
+        description="A list of objects containing metadata for each of the columns in the CSV file"
+    )
+
+    @field_validator("columns")
+    def columns_validator(cls, v: List[CSVColumnSchema]) -> List[CSVColumnSchema]:
+        if not v:
+            raise ValueError("list of columns must not be empty")
+
+        # check either all titles are empty or no title is empty
+        for col in v:
+            if col.title == "":
+                col.title = None
+        titles = [col.title for col in v]
+        if not all(title is None for title in titles):
+            if any(title is None for title in titles):
+                raise ValueError("All column titles maybe be empty/null or no column title must be empty/null")
+            if len(titles) != len(set(titles)):
+                raise ValueError("Column titles must be unique")
+        column_numbers = [col.column_number for col in v]
+        if any(cn < 1 or cn > len(v) for cn in column_numbers):
+            raise ValueError("column_number value must be between 1 and number of columns")
+        if len(column_numbers) != len(set(column_numbers)):
+            raise ValueError("column_number values must be unique")
+        # order columns by column_number
+        v.sort(key=lambda _col: _col.column_number)
+        return v
+
+
+class CSVTableSchema(BaseMetadata):
+    """
+    A class used to represent the metadata associated with a CSV file
+    """
+    model_config = ConfigDict(title='CSV Table Metadata')
+
+    rows: PositiveInt = Field(
+        title="Number of data rows",
+        description="The number of data rows in the CSV file",
+        frozen=True,
+        json_schema_extra={'readOnly': True},
+    )
+    delimiter: CSV_Delimiter = Field(
+        title="Delimiter",
+        description="The delimiter used in the CSV file",
+        frozen=True,
+        json_schema_extra={'readOnly': True},
+    )
+    table: CSVColumnsSchema = Field(title="Columns metadata",
+                                    description="An object containing metadata for all columns in the CSV file")

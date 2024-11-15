@@ -349,7 +349,7 @@ class SingleFileMetadataIn(BaseAggregationMetadataIn):
     metadata have been added.
     """
 
-    model_config = ConfigDict(title="Single File Aggregation Metadata")
+    model_config = ConfigDict(title="Single File Aggregation Metadata", use_attribute_docstrings=True)
 
 
 class SingleFileMetadata(SingleFileMetadataIn):

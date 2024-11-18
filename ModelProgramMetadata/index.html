@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Multidimensional Aggregation Metadata - hsmodels</title>
+    <title>Model Program Aggregation Metadata - hsmodels</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Multidimensional Aggregation Metadata";
-        var mkdocs_page_input_path = "MultidimensionalMetadata.md";
+        var mkdocs_page_name = "Model Program Aggregation Metadata";
+        var mkdocs_page_input_path = "ModelProgramMetadata.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -63,18 +63,18 @@
                 <li class="toctree-l1"><a class="reference internal" href="../ModelInstanceMetadata/">Model Instance Aggregation Metadata</a>
                 </li>
               </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../ModelProgramMetadata/">Model Program Aggregation Metadata</a>
-                </li>
-              </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Multidimensional Aggregation Metadata</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Model Program Aggregation Metadata</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#properties">Properties</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#definitions">Definitions</a>
     </li>
     </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../MultidimensionalMetadata/">Multidimensional Aggregation Metadata</a>
                 </li>
               </ul>
               <ul>
@@ -107,7 +107,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Multidimensional Aggregation Metadata</li>
+      <li class="breadcrumb-item active">Model Program Aggregation Metadata</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -116,7 +116,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="multidimensional-aggregation-metadata">Multidimensional Aggregation Metadata</h1>
+                <h1 id="model-program-aggregation-metadata">Model Program Aggregation Metadata</h1>
 <h2 id="properties">Properties</h2>
 <ul>
 <li><strong><code>title</code></strong> <em>(string)</em>: A string containing a descriptive title for the aggregation. Default: <code>null</code>.</li>
@@ -137,29 +137,72 @@
 <li><strong>Any of</strong><ul>
 <li>: Refer to <em><a href="#definitions/PointCoverage">#/definitions/PointCoverage</a></em>.</li>
 <li>: Refer to <em><a href="#definitions/BoxCoverage">#/definitions/BoxCoverage</a></em>.</li>
+<li><em>null</em></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><strong><code>period_coverage</code></strong>: An object containing the temporal coverage for a aggregation expressed as a date range. Default: <code>null</code>.<ul>
-<li><strong>All of</strong><ul>
+<li><strong>Any of</strong><ul>
 <li>: Refer to <em><a href="#definitions/PeriodCoverage">#/definitions/PeriodCoverage</a></em>.</li>
+<li><em>null</em></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><strong><code>variables</code></strong> <em>(array)</em>: A list containing information about the variables for which data are stored in the dataset. Default: <code>[]</code>.<ul>
-<li><strong>Items</strong>: Refer to <em><a href="#definitions/Variable">#/definitions/Variable</a></em>.</li>
-</ul>
-</li>
-<li><strong><code>spatial_reference</code></strong>: An object containing spatial reference information for the dataset. Default: <code>null</code>.<ul>
-<li><strong>All of</strong><ul>
-<li>: Refer to <em><a href="#definitions/MultidimensionalBoxSpatialReference">#/definitions/MultidimensionalBoxSpatialReference</a></em>.</li>
+<li><strong><code>version</code></strong>: The software version or build number of the model. Default: <code>null</code>.<ul>
+<li><strong>Any of</strong><ul>
+<li><em>string</em></li>
+<li><em>null</em></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><strong><code>type</code></strong>: A string expressing the aggregation type from the list of HydroShare aggregation types. Default: <code>"NetCDF"</code>.<ul>
+<li><strong><code>programming_languages</code></strong> <em>(array)</em>: The programming languages that the model is written in. Length must be at most 100. Default: <code>[]</code>.<ul>
+<li><strong>Items</strong> <em>(string)</em></li>
+</ul>
+</li>
+<li><strong><code>operating_systems</code></strong> <em>(array)</em>: Compatible operating systems to setup and run the model. Length must be at most 100. Default: <code>[]</code>.<ul>
+<li><strong>Items</strong> <em>(string)</em></li>
+</ul>
+</li>
+<li><strong><code>release_date</code></strong>: The date that this version of the model was released. Default: <code>null</code>.<ul>
+<li><strong>Any of</strong><ul>
+<li><em>string</em></li>
+<li><em>null</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>website</code></strong>: A URL to a website describing the model that is maintained by the model developers. Default: <code>null</code>.<ul>
+<li><strong>Any of</strong><ul>
+<li><em>string</em></li>
+<li><em>null</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>code_repository</code></strong>: A URL to the source code repository for the model code (e.g., git, mercurial, svn, etc.). Default: <code>null</code>.<ul>
+<li><strong>Any of</strong><ul>
+<li><em>string</em></li>
+<li><em>null</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>file_types</code></strong> <em>(array)</em>: File types used by the model program. Default: <code>[]</code>.<ul>
+<li><strong>Items</strong>: Refer to <em><a href="#definitions/ModelProgramFile">#/definitions/ModelProgramFile</a></em>.</li>
+</ul>
+</li>
+<li><strong><code>program_schema_json</code></strong>: A url to the JSON metadata schema for the model program. Default: <code>null</code>.<ul>
+<li><strong>Any of</strong><ul>
+<li><em>string</em></li>
+<li><em>null</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>type</code></strong>: A string expressing the aggregation type from the list of HydroShare aggregation types. Default: <code>"ModelProgram"</code>.<ul>
 <li><strong>All of</strong><ul>
 <li>: Refer to <em><a href="#definitions/AggregationType">#/definitions/AggregationType</a></em>.</li>
 </ul>
@@ -191,22 +234,18 @@ latitude-longitude bounding box.<ul>
 <li><strong><code>projection</code></strong> <em>(string)</em>: A string containing the name of the projection used with any parameters required, such as ellipsoid parameters, datum, standard parallels and meridians, zone, etc. Default: <code>null</code>.</li>
 </ul>
 </li>
-<li><a id="definitions/MultidimensionalBoxSpatialReference"></a><strong><code>MultidimensionalBoxSpatialReference</code></strong> <em>(object)</em>: A class used to represent the metadata associated with the spatial reference of a multidimensional
-aggregation expressed as a bounding box.<ul>
-<li><strong><code>type</code></strong> <em>(string)</em>: A string containing the type of spatial reference. Must be one of: <code>["box"]</code>. Default: <code>"box"</code>.</li>
-<li><strong><code>name</code></strong> <em>(string)</em>: A string containing a name for the place associated with the spatial reference. Default: <code>null</code>.</li>
-<li><strong><code>northlimit</code></strong> <em>(number, required)</em>: A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box.</li>
-<li><strong><code>eastlimit</code></strong> <em>(number, required)</em>: A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box.</li>
-<li><strong><code>southlimit</code></strong> <em>(number, required)</em>: A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box.</li>
-<li><strong><code>westlimit</code></strong> <em>(number, required)</em>: A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box.</li>
-<li><strong><code>units</code></strong> <em>(string, required)</em>: A string containing the units applying to the unlabelled numeric values of northlimit, eastlimit, southlimit, and westlimit.</li>
-<li><strong><code>projection</code></strong> <em>(string)</em>: A string containing the name of the coordinate system used by the spatial reference. Default: <code>null</code>.</li>
-<li><strong><code>projection_string</code></strong> <em>(string, required)</em>: A string containing an encoding of the coordinate system parameters.</li>
-<li><strong><code>projection_string_type</code></strong> <em>(string)</em>: A string containing a description of the type of encoding for the projection string. Default: <code>null</code>.</li>
-<li><strong><code>datum</code></strong> <em>(string)</em>: A string containing the name of the datum used by the coordinate system. Default: <code>null</code>.</li>
-<li><strong><code>projection_name</code></strong> <em>(string)</em>: A string containing the name of the coordinate system. Default: <code>null</code>.</li>
+<li><a id="definitions/ModelProgramFile"></a><strong><code>ModelProgramFile</code></strong> <em>(object)</em>: A class used to represent the metadata associated with a file used by a model program aggregation.<ul>
+<li><strong><code>type</code></strong>: The type of the file used by the model program.<ul>
+<li><strong>All of</strong><ul>
+<li>: Refer to <em><a href="#definitions/ModelProgramFileType">#/definitions/ModelProgramFileType</a></em>.</li>
 </ul>
 </li>
+</ul>
+</li>
+<li><strong><code>url</code></strong> <em>(string, required)</em>: The url of the file used by the model program.</li>
+</ul>
+</li>
+<li><a id="definitions/ModelProgramFileType"></a><strong><code>ModelProgramFileType</code></strong> <em>(string)</em>: Must be one of: <code>["https://www.hydroshare.org/terms/modelReleaseNotes", "https://www.hydroshare.org/terms/modelDocumentation", "https://www.hydroshare.org/terms/modelSoftware", "https://www.hydroshare.org/terms/modelEngine"]</code>.</li>
 <li><a id="definitions/PeriodCoverage"></a><strong><code>PeriodCoverage</code></strong> <em>(object)</em>: A class used to represent temporal coverage metadata for a resource or aggregation.<ul>
 <li><strong><code>name</code></strong> <em>(string)</em>: A string containing a name for the time interval. Default: <code>null</code>.</li>
 <li><strong><code>start</code></strong> <em>(string, required)</em>: A datetime object containing the instant corresponding to the commencement of the time interval.</li>
@@ -228,51 +267,13 @@ point location.<ul>
 <li><strong><code>url</code></strong> <em>(string, required)</em>: An object containing the URL pointing to a description of the license or rights statement.</li>
 </ul>
 </li>
-<li><a id="definitions/Variable"></a><strong><code>Variable</code></strong> <em>(object)</em>: A class used to represent the metadata associated with a variable contained within a multidimensional aggregation.<ul>
-<li><strong><code>name</code></strong> <em>(string, required)</em>: A string containing the name of the variable.</li>
-<li><strong><code>unit</code></strong> <em>(string, required)</em>: A string containing the units in which the values for the variable are expressed.</li>
-<li><strong><code>type</code></strong>: The data type of the values for the variable.<ul>
-<li><strong>All of</strong><ul>
-<li>: Refer to <em><a href="#definitions/VariableType">#/definitions/VariableType</a></em>.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong><code>shape</code></strong> <em>(string, required)</em>: A string containing the shape of the variable expressed as a list of dimensions.</li>
-<li><strong><code>descriptive_name</code></strong>: A string containing a descriptive name for the variable. Default: <code>null</code>.<ul>
-<li><strong>Any of</strong><ul>
-<li><em>string</em></li>
-<li><em>null</em></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong><code>method</code></strong>: A string containing a description of the method used to create the values for the variable. Default: <code>null</code>.<ul>
-<li><strong>Any of</strong><ul>
-<li><em>string</em></li>
-<li><em>null</em></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong><code>missing_value</code></strong>: A string containing the value used to indicate missing values for the variable. Default: <code>null</code>.<ul>
-<li><strong>Any of</strong><ul>
-<li><em>string</em></li>
-<li><em>null</em></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a id="definitions/VariableType"></a><strong><code>VariableType</code></strong> <em>(string)</em>: Must be one of: <code>["Char", "Byte", "Short", "Int", "Float", "Double", "Int64", "Unsigned Byte", "Unsigned Short", "Unsigned Int", "Unsigned Int64", "String", "User Defined Type", "Unknown"]</code>.</li>
 </ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../ModelProgramMetadata/" class="btn btn-neutral float-left" title="Model Program Aggregation Metadata"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../ReferencedTimeSeriesMetadata/" class="btn btn-neutral float-right" title="Referenced Time Series Aggregation Metadata">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../ModelInstanceMetadata/" class="btn btn-neutral float-left" title="Model Instance Aggregation Metadata"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../MultidimensionalMetadata/" class="btn btn-neutral float-right" title="Multidimensional Aggregation Metadata">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -295,10 +296,10 @@ point location.<ul>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../ModelProgramMetadata/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../ModelInstanceMetadata/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../ReferencedTimeSeriesMetadata/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../MultidimensionalMetadata/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

@@ -3,7 +3,7 @@ import jsonschema2md
 import json
 
 from hsmodels.schemas.resource import ResourceMetadata
-from hsmodels.schemas.aggregations import (
+from hsmodels.schemas.aggregations import(
     FileSetMetadata,
     GeographicRasterMetadata,
     GeographicFeatureMetadata,

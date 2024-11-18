@@ -3,8 +3,18 @@ import jsonschema2md
 import json
 
 from hsmodels.schemas.resource import ResourceMetadata
-from hsmodels.schemas.aggregations import FileSetMetadata, GeographicRasterMetadata, GeographicFeatureMetadata, \
-    MultidimensionalMetadata, ReferencedTimeSeriesMetadata, SingleFileMetadata, TimeSeriesMetadata, CSVFileMetadata
+from hsmodels.schemas.aggregations import (
+    FileSetMetadata,
+    GeographicRasterMetadata,
+    GeographicFeatureMetadata,
+    MultidimensionalMetadata,
+    ReferencedTimeSeriesMetadata,
+    SingleFileMetadata,
+    TimeSeriesMetadata,
+    ModelProgramMetadata,
+    ModelInstanceMetadata,
+    CSVFileMetadata,
+)
 
 aggregation_models = [
     ResourceMetadata,
@@ -15,6 +25,8 @@ aggregation_models = [
     ReferencedTimeSeriesMetadata,
     SingleFileMetadata,
     TimeSeriesMetadata,
+    ModelProgramMetadata,
+    ModelInstanceMetadata,
     CSVFileMetadata
 ]
 

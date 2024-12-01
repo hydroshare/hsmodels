@@ -1,6 +1,6 @@
-from pydantic_core import Url
 from rdflib import URIRef
 
+from hsmodels import Url
 from hsmodels.schemas.enums import CoverageType, DateType, ModelProgramFileType, RelationType, UserIdentifierType
 from hsmodels.utils import to_coverage_dict
 

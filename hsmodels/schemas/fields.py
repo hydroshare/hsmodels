@@ -67,9 +67,12 @@ class Rights(BaseMetadata):
     model_config = ConfigDict(title='Rights Metadata')
 
     statement: Optional[str] = Field(
-        title="Statement", description="A string containing the text of the license or rights statement",
+        default=None,
+        title="Statement", 
+        description="A string containing the text of the license or rights statement",
     )
     url: Optional[AnyUrl] = Field(
+        default=None,
         title="URL",
         description="An object containing the URL pointing to a description of the license or rights statement",
     )

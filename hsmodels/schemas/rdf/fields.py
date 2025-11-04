@@ -126,8 +126,8 @@ class DateInRDF(RDFBaseModel):
 
 
 class RightsInRDF(RDFBaseModel):
-    statement: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.rightsStatement})
-    url: AnyUrl = Field(json_schema_extra={"rdf_predicate": HSTERMS.URL})
+    statement: Optional[str] = Field(json_schema_extra={"rdf_predicate": HSTERMS.rightsStatement})
+    url: Optional[AnyUrl] = Field(json_schema_extra={"rdf_predicate": HSTERMS.URL})
 
 
 class CreatorInRDF(RDFBaseModel):

@@ -22,7 +22,6 @@ class Relation(BaseMetadata):
 
     type: RelationType = Field(title="Relation type", description="The type of relationship with the related resource")
     value: str = Field(
-        max_length=500,
         title="Value",
         description="String expressing the Full text citation, URL link for, or description of the related resource",
     )
@@ -38,7 +37,7 @@ class CellInformation(BaseMetadata):
     model_config = ConfigDict(title='Raster Cell Metadata')
 
     # TODO: Is there such a thing as "name" for CellInformation?
-    name: str = Field(default=None, max_length=500, title="Name", description="Name of the cell information",)
+    name: str = Field(default=None, title="Name", description="Name of the cell information",)
     rows: int = Field(default=None, title="Rows",
                       description="The integer number of rows in the raster dataset",)
     columns: int = Field(
@@ -274,7 +273,7 @@ class BandInformation(BaseMetadata):
 
     model_config = ConfigDict(title='Raster Band Metadata')
 
-    name: str = Field(max_length=500, title="Name", description="A string containing the name of the raster band",
+    name: str = Field(title="Name", description="A string containing the name of the raster band",
                       )
     variable_name: Optional[str] = Field(
         default=None,

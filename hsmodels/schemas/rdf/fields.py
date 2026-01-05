@@ -127,7 +127,7 @@ class DateInRDF(RDFBaseModel):
 
 class RightsInRDF(RDFBaseModel):
     statement: str = Field(json_schema_extra={"rdf_predicate": HSTERMS.rightsStatement})
-    url: AnyUrl = Field(json_schema_extra={"rdf_predicate": HSTERMS.URL})
+    url: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.URL})
 
 
 class CreatorInRDF(RDFBaseModel):
@@ -153,7 +153,7 @@ class ContributorInRDF(RDFBaseModel):
     phone: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.phone})
     address: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.address})
     organization: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.organization})
-    email: EmailStr = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.email})
+    email: str = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.email})
     homepage: HttpUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.homepage})
     hydroshare_user_id: int = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.hydroshare_user_id})
     ORCID: AnyUrl = Field(default=None, json_schema_extra={"rdf_predicate": HSTERMS.ORCID})

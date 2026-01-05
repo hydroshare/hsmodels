@@ -88,7 +88,7 @@ class DateType(TermEnum):
     created = str(DCTERMS.created)
     valid = str(DCTERMS.valid)
     available = str(DCTERMS.available)
-    review_started = str(HSTERMS.reviewStarted)
+    review_started = str(HSTERMS.review_started)
     published = str(HSTERMS.published)
 
 

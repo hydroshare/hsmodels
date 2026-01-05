@@ -71,6 +71,7 @@ class Rights(BaseMetadata):
     url: AnyUrl = Field(
         title="URL",
         description="An object containing the URL pointing to a description of the license or rights statement",
+        default=None
     )
 
     @classmethod
@@ -204,7 +205,7 @@ class Contributor(BaseMetadata):
         title="Organization",
         description="A string containing the name of the organization with which the contributor is affiliated",
     )
-    email: Optional[EmailStr] = Field(
+    email: Optional[str] = Field(
         default=None, title="Email", description="A string containing an email address for the contributor"
     )
     homepage: Optional[HttpUrl] = Field(
@@ -720,12 +721,6 @@ class BoxCoverage(base_models.BaseCoverage):
         title="Projection",
         description="A string containing the name of the projection used with any parameters required, such as ellipsoid parameters, datum, standard parallels and meridians, zone, etc.",
     )
-
-    @model_validator(mode='after')
-    def compare_north_south(self):
-        if self.northlimit < self.southlimit:
-            raise ValueError(f"North latitude [{self.northlimit}] must be greater than or equal to South latitude [{self.southlimit}]")
-        return self
 
 
 class BoxSpatialReference(base_models.BaseCoverage):

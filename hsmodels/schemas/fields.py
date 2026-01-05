@@ -689,26 +689,26 @@ class BoxCoverage(base_models.BaseCoverage):
         description="A string containing a name for the place associated with the geographic coverage",
     )
     northlimit: float = Field(
-        gt=-90,
-        lt=90,
+        gte=-90,
+        lt3=90,
         title="North limit",
         description="A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box",
     )
     eastlimit: float = Field(
-        gt=-180,
-        lt=180,
+        gte=-180,
+        lte=180,
         title="East limit",
         description="A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box",
     )
     southlimit: float = Field(
-        gt=-90,
-        lt=90,
+        gte=-90,
+        lte=90,
         title="South limit",
         description="A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box",
     )
     westlimit: float = Field(
-        gt=-180,
-        lt=180,
+        gte=-180,
+        lte=180,
         title="West limit",
         description="A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box",
     )
@@ -824,10 +824,10 @@ class PointCoverage(base_models.BaseCoverage):
         description="A string containing a name for the place associated with the geographic coverage",
     )
     east: float = Field(
-        gt=-180, lt=180, title="East", description="The coordinate of the point location measured in the east direction"
+        gte=-180, lte=180, title="East", description="The coordinate of the point location measured in the east direction"
     )
     north: float = Field(
-        gt=-90, lt=90, title="North", description="The coordinate of the point location measured in the north direction"
+        gte=-90, lte=90, title="North", description="The coordinate of the point location measured in the north direction"
     )
     units: str = Field(
         title="Units", description="The units applying to the unlabelled numeric values of north and east"

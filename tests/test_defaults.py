@@ -24,12 +24,13 @@ from hsmodels.schemas.rdf.aggregations import (
     SingleFileMetadataInRDF,
     TimeSeriesMetadataInRDF,
 )
-from hsmodels.schemas.rdf.resource import CollectionMetadataInRDF, ResourceMetadataInRDF
-from hsmodels.schemas.resource import CollectionMetadata, ResourceMetadata
+from hsmodels.schemas.rdf.resource import CollectionMetadataInRDF, ResourceMetadataInRDF, WebAppMetadataInRDF
+from hsmodels.schemas.resource import CollectionMetadata, ResourceMetadata, WebAppMetadata
 
 schema_list_count = [
     (ResourceMetadata, 5),
     (CollectionMetadata, 5),
+    (WebAppMetadata, 5),
     (GeographicRasterMetadata, 1),
     (GeographicFeatureMetadata, 2),
     (MultidimensionalMetadata, 2),
@@ -41,6 +42,7 @@ schema_list_count = [
     (ModelInstanceMetadata, 1),
     (ResourceMetadataInRDF, 8),
     (CollectionMetadataInRDF, 8),
+    (WebAppMetadataInRDF, 8),
     (GeographicRasterMetadataInRDF, 3),
     (GeographicFeatureMetadataInRDF, 4),
     (MultidimensionalMetadataInRDF, 4),

@@ -1,0 +1,33 @@
+{
+  "title": "GeoTrust",
+  "abstract": "This app is used to execute the scuint package for the MODFLOW-NWT model. During testing of the work, this app is linked to a deployed EC2 machine on AWS. Full instruction is provided at https://github.com/uva-hydroinformatics/Sciunit_HydroShare_Implementation for how a user could deploy this on AWS to reproduce this work.",
+  "language": "eng",
+  "subjects": [
+    "MODFLOW-NWT-scuint"
+  ],
+  "creators": [
+    {
+      "name": "Bakinam Essawy",
+      "phone": "8034634471",
+      "organization": "University of Virginia",
+      "email": "btaessawy@gmail.com",
+      "creator_order": 1,
+      "hydroshare_user_id": 878,
+      "identifiers": {}
+    }
+  ],
+  "contributors": [],
+  "relations": [
+    {
+      "type": "The content of this resource is part of",
+      "value": "Essawy, B. (2018). ModflowNwtCollection, HydroShare, http://www.hydroshare.org/resource/bf598099ed384540aaa9284b7343a717"
+    }
+  ],
+  "additional_metadata": {},
+  "rights": {
+    "statement": "This resource is shared under the Creative Commons Attribution CC BY.",
+    "url": "http://creativecommons.org/licenses/by/4.0/"
+  },
+  "awards": [],
+  "citation": "Essawy, B. (2018). GeoTrust, HydroShare, http://www.hydroshare.org/resource/126701df868e4da9872d9b533db34ae6"
+}

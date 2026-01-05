@@ -130,3 +130,18 @@ class CollectionMetadataInRDF(BaseResource):
     @field_serializer('dc_type', 'rdf_type')
     def serialize_url(self, _type: URIRef, _info):
         return AnyUrl(_type)
+
+
+class WebAppMetadataInRDF(BaseResource):
+    dc_type: AnyUrl = Field(
+        json_schema_extra={"rdf_predicate": DC.type}, default=HSTERMS.ToolResource, frozen=True
+    )
+    rdf_type: AnyUrl = Field(
+        json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.ToolResource
+    )
+    _label_literal = Literal["Web App Resource"]
+    label: _label_literal = Field(default="Web App Resource", frozen=True, alias='label')
+
+    @field_serializer('dc_type', 'rdf_type')
+    def serialize_url(self, _type: URIRef, _info):
+        return AnyUrl(_type)

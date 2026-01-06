@@ -85,7 +85,7 @@ class BaseResource(BaseModel):
     awards: List[AwardInfoInRDF] = Field(json_schema_extra={"rdf_predicate": HSTERMS.awardInfo}, default=[])
     coverages: List[CoverageInRDF] = Field(json_schema_extra={"rdf_predicate": DC.coverage}, default=[])
     publisher: PublisherInRDF = Field(json_schema_extra={"rdf_predicate": DC.publisher}, default=None)
-    citation: str = Field(json_schema_extra={"rdf_predicate": DCTERMS.bibliographicCitation})
+    citation: str = Field(default= None, json_schema_extra={"rdf_predicate": DCTERMS.bibliographicCitation})
 
     _parse_rdf_subject = model_validator(mode='before')(rdf_parse_rdf_subject)
     _parse_coverages = model_validator(mode='before')(parse_coverages)

@@ -722,6 +722,15 @@ class BoxCoverage(base_models.BaseCoverage):
         description="A string containing the name of the projection used with any parameters required, such as ellipsoid parameters, datum, standard parallels and meridians, zone, etc.",
     )
 
+    @model_validator(mode='after')
+    def compare_north_south(self):
+        if self.northlimit < self.southlimit:
+            if self.southlimit == 90 and self.northlimit == -90:
+                # special case for global coverage
+                return self
+            raise ValueError(f"North latitude [{self.northlimit}] must be greater than or equal to South latitude [{self.southlimit}]")
+        return self
+
 
 class BoxSpatialReference(base_models.BaseCoverage):
     """

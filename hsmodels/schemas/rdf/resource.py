@@ -98,7 +98,7 @@ class BaseResource(BaseModel):
     _dates_constraint = field_validator('dates')(dates_constraint)
     _coverages_constraint = field_validator('coverages')(coverages_constraint)
     _coverages_spatial_constraint = field_validator('coverages')(coverages_spatial_constraint)
-    # _sort_creators = field_validator("creators")(sort_creators)
+    _sort_creators = field_validator("creators")(sort_creators)
 
 
 class ResourceMetadataInRDF(BaseResource):

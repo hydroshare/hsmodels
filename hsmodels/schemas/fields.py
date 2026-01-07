@@ -205,7 +205,7 @@ class Contributor(BaseMetadata):
         title="Organization",
         description="A string containing the name of the organization with which the contributor is affiliated",
     )
-    email: Optional[str] = Field(
+    email: Optional[EmailStr] = Field(
         default=None, title="Email", description="A string containing an email address for the contributor"
     )
     homepage: Optional[HttpUrl] = Field(
@@ -690,7 +690,7 @@ class BoxCoverage(base_models.BaseCoverage):
     )
     northlimit: float = Field(
         gte=-90,
-        lt3=90,
+        lte=90,
         title="North limit",
         description="A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box",
     )

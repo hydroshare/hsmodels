@@ -196,3 +196,13 @@ class CollectionMetadata(BaseResourceMetadata):
         description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
         json_schema_extra={"readOnly": True},
     )
+
+
+class WebAppMetadata(BaseResourceMetadata):
+    type: Literal['ToolResource'] = Field(
+        frozen=True,
+        default="ToolResource",
+        title="Resource Type",
+        description="An object containing a URL that points to the HydroShare resource type selected from the hsterms namespace",
+        json_schema_extra={"readOnly": True},
+    )

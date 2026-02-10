@@ -31,13 +31,14 @@ from hsmodels.schemas.rdf.aggregations import (
     TimeSeriesMetadataInRDF,
     CSVFileMetadataInRDF,
 )
-from hsmodels.schemas.rdf.resource import CollectionMetadataInRDF, ResourceMap, ResourceMetadataInRDF
-from hsmodels.schemas.resource import CollectionMetadata, ResourceMetadata
+from hsmodels.schemas.rdf.resource import CollectionMetadataInRDF, ResourceMap, ResourceMetadataInRDF, WebAppMetadataInRDF
+from hsmodels.schemas.resource import CollectionMetadata, ResourceMetadata, WebAppMetadata
 
 rdf_schemas = {
     ORE.ResourceMap: ResourceMap,
     HSTERMS.CompositeResource: ResourceMetadataInRDF,
     HSTERMS.CollectionResource: CollectionMetadataInRDF,
+    HSTERMS.ToolResource: WebAppMetadataInRDF,
     HSTERMS.GeographicRasterAggregation: GeographicRasterMetadataInRDF,
     HSTERMS.GeographicFeatureAggregation: GeographicFeatureMetadataInRDF,
     HSTERMS.MultidimensionalAggregation: MultidimensionalMetadataInRDF,
@@ -53,6 +54,7 @@ rdf_schemas = {
 user_schemas = {
     ResourceMetadataInRDF: ResourceMetadata,
     CollectionMetadataInRDF: CollectionMetadata,
+    WebAppMetadataInRDF: WebAppMetadata,
     GeographicRasterMetadataInRDF: GeographicRasterMetadata,
     GeographicFeatureMetadataInRDF: GeographicFeatureMetadata,
     MultidimensionalMetadataInRDF: MultidimensionalMetadata,

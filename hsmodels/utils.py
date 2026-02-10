@@ -3,9 +3,10 @@ from datetime import datetime
 
 def to_coverage_dict(value):
     value_dict = {}
-    for key_value in value.split("; "):
-        k, v = key_value.split("=")
-        value_dict[k] = v
+    for key_value in value.split(";"):
+        if "=" in key_value:
+            k, v = key_value.split("=")
+            value_dict[k.strip()] = v.strip()
     return value_dict
 
 

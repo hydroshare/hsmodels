@@ -22,7 +22,6 @@ class Relation(BaseMetadata):
 
     type: RelationType = Field(title="Relation type", description="The type of relationship with the related resource")
     value: str = Field(
-        max_length=500,
         title="Value",
         description="String expressing the Full text citation, URL link for, or description of the related resource",
     )
@@ -38,7 +37,7 @@ class CellInformation(BaseMetadata):
     model_config = ConfigDict(title='Raster Cell Metadata')
 
     # TODO: Is there such a thing as "name" for CellInformation?
-    name: str = Field(default=None, max_length=500, title="Name", description="Name of the cell information",)
+    name: str = Field(default=None, title="Name", description="Name of the cell information",)
     rows: int = Field(default=None, title="Rows",
                       description="The integer number of rows in the raster dataset",)
     columns: int = Field(
@@ -75,6 +74,7 @@ class Rights(BaseMetadata):
         default=None,
         title="URL",
         description="An object containing the URL pointing to a description of the license or rights statement",
+        default=None
     )
 
     @classmethod
@@ -277,7 +277,7 @@ class BandInformation(BaseMetadata):
 
     model_config = ConfigDict(title='Raster Band Metadata')
 
-    name: str = Field(max_length=500, title="Name", description="A string containing the name of the raster band",
+    name: str = Field(title="Name", description="A string containing the name of the raster band",
                       )
     variable_name: Optional[str] = Field(
         default=None,
@@ -692,26 +692,26 @@ class BoxCoverage(base_models.BaseCoverage):
         description="A string containing a name for the place associated with the geographic coverage",
     )
     northlimit: float = Field(
-        gt=-90,
-        lt=90,
+        gte=-90,
+        lte=90,
         title="North limit",
         description="A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box",
     )
     eastlimit: float = Field(
-        gt=-180,
-        lt=180,
+        gte=-180,
+        lte=180,
         title="East limit",
         description="A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box",
     )
     southlimit: float = Field(
-        gt=-90,
-        lt=90,
+        gte=-90,
+        lte=90,
         title="South limit",
         description="A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box",
     )
     westlimit: float = Field(
-        gt=-180,
-        lt=180,
+        gte=-180,
+        lte=180,
         title="West limit",
         description="A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box",
     )
@@ -728,6 +728,9 @@ class BoxCoverage(base_models.BaseCoverage):
     @model_validator(mode='after')
     def compare_north_south(self):
         if self.northlimit < self.southlimit:
+            if self.southlimit == 90 and self.northlimit == -90:
+                # special case for global coverage
+                return self
             raise ValueError(f"North latitude [{self.northlimit}] must be greater than or equal to South latitude [{self.southlimit}]")
         return self
 
@@ -827,10 +830,10 @@ class PointCoverage(base_models.BaseCoverage):
         description="A string containing a name for the place associated with the geographic coverage",
     )
     east: float = Field(
-        gt=-180, lt=180, title="East", description="The coordinate of the point location measured in the east direction"
+        gte=-180, lte=180, title="East", description="The coordinate of the point location measured in the east direction"
     )
     north: float = Field(
-        gt=-90, lt=90, title="North", description="The coordinate of the point location measured in the north direction"
+        gte=-90, lte=90, title="North", description="The coordinate of the point location measured in the north direction"
     )
     units: str = Field(
         title="Units", description="The units applying to the unlabelled numeric values of north and east"

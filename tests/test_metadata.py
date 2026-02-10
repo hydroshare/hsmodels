@@ -55,6 +55,7 @@ metadata_files = [
     'modelprogram_meta.xml',
     'modelinstance_meta.xml',
     'collection_meta.xml',
+    'webapp_meta.xml',
     'csvfile_meta.xml',
 ]
 

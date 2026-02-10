@@ -55,6 +55,7 @@ metadata_json_input = [
     (ModelProgramMetadataIn, 'modelprogram.json'),
     (ModelInstanceMetadataIn, 'modelinstance.json'),
     (ResourceMetadataIn, 'collection.json'),
+    (ResourceMetadataIn, 'webapp.json'),
     (CSVFileMetadataIn, 'csvfile.json'),
 ]
 
@@ -69,6 +70,8 @@ def test_metadata_json_serialization(metadata_json_input):
     from_schema = sorting(json.loads(md.model_dump_json()))
     from_file = sorting(json.loads(json_file_str))
     for i in range(1, len(from_file)):
+        if i >= len(from_schema):
+            assert False, f"Missing field {from_file[i]} in from_schema"
         assert from_file[i] == from_schema[i]
 
 

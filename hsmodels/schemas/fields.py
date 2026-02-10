@@ -74,7 +74,6 @@ class Rights(BaseMetadata):
         default=None,
         title="URL",
         description="An object containing the URL pointing to a description of the license or rights statement",
-        default=None
     )
 
     @classmethod

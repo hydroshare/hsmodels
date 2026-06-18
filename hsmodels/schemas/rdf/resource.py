@@ -109,8 +109,7 @@ class ResourceMetadataInRDF(BaseResource):
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.CompositeResource
     )
 
-    _label_literal = Literal["Composite Resource"]
-    label: _label_literal = Field(default="Composite Resource", frozen=True, alias='label')
+    label: Literal["Composite Resource"] = Field(default="Composite Resource", frozen=True, alias='label')
 
     @field_serializer('dc_type', 'rdf_type')
     def serialize_url(self, _type: URIRef, _info):
@@ -124,8 +123,7 @@ class CollectionMetadataInRDF(BaseResource):
     rdf_type: AnyUrl = Field(
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.CollectionResource
     )
-    _label_literal = Literal["Collection Resource"]
-    label: _label_literal = Field(default="Collection Resource", frozen=True, alias='label')
+    label: Literal["Collection Resource"] = Field(default="Collection Resource", frozen=True, alias='label')
 
     @field_serializer('dc_type', 'rdf_type')
     def serialize_url(self, _type: URIRef, _info):
@@ -139,8 +137,7 @@ class WebAppMetadataInRDF(BaseResource):
     rdf_type: AnyUrl = Field(
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.ToolResource
     )
-    _label_literal = Literal["Web App Resource"]
-    label: _label_literal = Field(default="Web App Resource", frozen=True, alias='label')
+    label: Literal["Web App Resource"] = Field(default="Web App Resource", frozen=True, alias='label')
 
     @field_serializer('dc_type', 'rdf_type')
     def serialize_url(self, _type: URIRef, _info):

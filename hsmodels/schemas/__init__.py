@@ -1,7 +1,7 @@
 import inspect
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import AnyUrl, BaseModel
 from pydantic_core import Url
 from rdflib import Graph, Literal, URIRef
 
@@ -127,7 +127,7 @@ def _rdf_graph(schema, graph=None):
                     graph = _rdf_graph(value, graph)
                 else:
                     # primitive value
-                    if isinstance(value, Url):
+                    if isinstance(value, (Url, AnyUrl)):
                         value = URIRef(str(value))
                     elif isinstance(value, TermEnum):
                         value = URIRef(value.value)

@@ -51,8 +51,7 @@ class BaseAggregationMetadataInRDF(RDFBaseModel):
 
 class GeographicRasterMetadataInRDF(BaseAggregationMetadataInRDF):
     rdf_type: AnyUrl = Field(json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.GeographicRasterAggregation)
-    _label_literal = Literal["Geographic Raster Content: A geographic grid represented by a virtual raster tile (.vrt) file and one or more geotiff (.tif) files"]
-    label: _label_literal = Field(
+    label: Literal["Geographic Raster Content: A geographic grid represented by a virtual raster tile (.vrt) file and one or more geotiff (.tif) files"] = Field(
         frozen=True,
         default="Geographic Raster Content: A geographic grid represented by a virtual "
         "raster tile (.vrt) file and one or more geotiff (.tif) files",
@@ -79,8 +78,7 @@ class GeographicFeatureMetadataInRDF(BaseAggregationMetadataInRDF):
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.GeographicFeatureAggregation
     )
 
-    _label_literal = Literal["Geographic Feature Content: The multiple files that are part of a geographic shapefile"]
-    label: _label_literal = Field(
+    label: Literal["Geographic Feature Content: The multiple files that are part of a geographic shapefile"] = Field(
         frozen=True, default="Geographic Feature Content: The multiple files that are part of a " "geographic shapefile"
     )
     dc_type: AnyUrl = Field(
@@ -108,8 +106,7 @@ class MultidimensionalMetadataInRDF(BaseAggregationMetadataInRDF):
     rdf_type: AnyUrl = Field(
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.MultidimensionalAggregation
     )
-    _label_literal = Literal['Multidimensional Content: A multidimensional dataset represented by a NetCDF file (.nc) and text file giving its NetCDF header content']
-    label: _label_literal = Field(
+    label: Literal['Multidimensional Content: A multidimensional dataset represented by a NetCDF file (.nc) and text file giving its NetCDF header content'] = Field(
         frozen=True,
         default="Multidimensional Content: A multidimensional dataset represented by a "
         "NetCDF file (.nc) and text file giving its NetCDF header content",
@@ -135,8 +132,7 @@ class TimeSeriesMetadataInRDF(BaseAggregationMetadataInRDF):
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.TimeSeriesAggregation
     )
 
-    _label_literal = Literal["Time Series Content: One or more time series held in an ODM2 format SQLite file and optional source comma separated (.csv) files"]
-    label: _label_literal = Field(
+    label: Literal["Time Series Content: One or more time series held in an ODM2 format SQLite file and optional source comma separated (.csv) files"] = Field(
         frozen=True,
         default="Time Series Content: One or more time series held in an ODM2 format "
         "SQLite file and optional source comma separated (.csv) files",
@@ -164,8 +160,7 @@ class ReferencedTimeSeriesMetadataInRDF(BaseAggregationMetadataInRDF):
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.ReferencedTimeSeriesAggregation
     )
 
-    _label_literal = Literal["Referenced Time Series Content: A reference to one or more time series served from HydroServers outside of HydroShare in WaterML format"]
-    label: _label_literal = Field(
+    label: Literal["Referenced Time Series Content: A reference to one or more time series served from HydroServers outside of HydroShare in WaterML format"] = Field(
         frozen=True,
         default="Referenced Time Series Content: A reference to one or more time series "
         "served from HydroServers outside of HydroShare in WaterML format",
@@ -183,8 +178,7 @@ class FileSetMetadataInRDF(BaseAggregationMetadataInRDF):
     rdf_type: AnyUrl = Field(
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.FileSetAggregation
     )
-    _label_literal = Literal["File Set Content: One or more files with specific metadata"]
-    label: _label_literal = Field(frozen=True, default="File Set Content: One or more files with specific metadata")
+    label: Literal["File Set Content: One or more files with specific metadata"] = Field(frozen=True, default="File Set Content: One or more files with specific metadata")
     dc_type: AnyUrl = Field(
         json_schema_extra={"rdf_predicate": DC.type}, default=HSTERMS.FileSetAggregation, frozen=True
     )
@@ -199,8 +193,7 @@ class SingleFileMetadataInRDF(BaseAggregationMetadataInRDF):
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.SingleFileAggregation
     )
 
-    _label_literal = Literal["Single File Content: A single file with file specific metadata"]
-    label: _label_literal = Field(frozen=True, default="Single File Content: A single file with file specific metadata")
+    label: Literal["Single File Content: A single file with file specific metadata"] = Field(frozen=True, default="Single File Content: A single file with file specific metadata")
     dc_type: AnyUrl = Field(
         json_schema_extra={"rdf_predicate": DC.type}, default=HSTERMS.SingleFileAggregation, frozen=True
     )
@@ -215,8 +208,7 @@ class ModelProgramMetadataInRDF(BaseAggregationMetadataInRDF):
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.ModelProgramAggregation
     )
 
-    _label_literal = Literal["Model Program Content: One or more files with specific metadata"]
-    label: _label_literal = Field(frozen=True, default="Model Program Content: One or more files with specific metadata")
+    label: Literal["Model Program Content: One or more files with specific metadata"] = Field(frozen=True, default="Model Program Content: One or more files with specific metadata")
     dc_type: AnyUrl = Field(
         json_schema_extra={"rdf_predicate": DC.type}, default=HSTERMS.ModelProgramAggregation, frozen=True
     )
@@ -255,8 +247,7 @@ class ModelInstanceMetadataInRDF(BaseAggregationMetadataInRDF):
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.ModelInstanceAggregation
     )
 
-    _label_literal = Literal["Model Instance Content: One or more files with specific metadata"]
-    label: _label_literal = Field(frozen=True, default="Model Instance Content: One or more files with specific metadata")
+    label: Literal["Model Instance Content: One or more files with specific metadata"] = Field(frozen=True, default="Model Instance Content: One or more files with specific metadata")
     dc_type: AnyUrl = Field(
         json_schema_extra={"rdf_predicate": DC.type}, default=HSTERMS.ModelInstanceAggregation, frozen=True
     )
@@ -278,8 +269,7 @@ class CSVFileMetadataInRDF(BaseAggregationMetadataInRDF):
         json_schema_extra={"rdf_predicate": RDF.type}, frozen=True, default=HSTERMS.CSVFileAggregation
     )
 
-    _label_literal = Literal["CSV File Content: A CSV file with file specific metadata"]
-    label: _label_literal = Field(
+    label: Literal["CSV File Content: A CSV file with file specific metadata"] = Field(
         frozen=True,
         default="CSV File Content: A CSV file with file specific metadata"
     )
